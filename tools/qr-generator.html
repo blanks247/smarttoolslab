@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free QR Code Generator Online — Download PNG | SmartToolsLab</title>
+    <meta name="description"
+        content="Generate QR codes for any URL, text, email, or contact info online for free. Download as PNG. No signup required. Instant generation." />
+    <meta name="keywords"
+        content="qr code generator online free, create qr code, qr code maker, generate qr code for url, free qr code download" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+    <!-- QR Code library via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+
+    <div class="header-ad">📢 Advertisement · Google AdSense Banner</div>
+
+    <header class="site-header">
+        <nav class="nav-inner">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">⚡</div>
+                Smart<span>Tools</span>Lab
+            </a>
+            <div class="nav-links">
+                <a href="../index.html#tools">All Tools</a>
+                <a href="../index.html#tools" class="nav-cta">🚀 More Tools</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="tool-page-wrapper">
+
+        <main class="tool-main">
+            <div class="tool-page-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> <span>›</span>
+                    <span>QR Code Generator</span>
+                </div>
+                <h1>Free QR Code Generator Online</h1>
+                <p>Create QR codes for any URL, text, email, or phone number instantly. Download as high-quality PNG —
+                    perfect for business cards, restaurant menus, event posters, and more.</p>
+            </div>
+
+            <div class="ad-zone banner"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin-bottom:28px;">
+                <span>📢 Advertisement · 728×90 AdSense Banner</span>
+            </div>
+
+            <!-- INPUT BOX -->
+            <div class="tool-box">
+                <h2>Create Your QR Code</h2>
+
+                <!-- Type Selector -->
+                <div class="form-group">
+                    <label class="form-label">QR Code Type</label>
+                    <div class="flex gap-2 flex-wrap" id="typeSelector">
+                        <button class="btn btn-primary type-btn active" data-type="url" id="btn-url">🔗 URL</button>
+                        <button class="btn btn-secondary type-btn" data-type="text" id="btn-text">✏️ Text</button>
+                        <button class="btn btn-secondary type-btn" data-type="email" id="btn-email">📧 Email</button>
+                        <button class="btn btn-secondary type-btn" data-type="phone" id="btn-phone">📞 Phone</button>
+                        <button class="btn btn-secondary type-btn" data-type="wifi" id="btn-wifi">📶 WiFi</button>
+                    </div>
+                </div>
+
+                <!-- Dynamic input area -->
+                <div id="inputArea">
+                    <div class="form-group">
+                        <label class="form-label" id="mainLabel">Website URL</label>
+                        <input type="text" class="form-input" id="mainInput" placeholder="https://example.com" />
+                    </div>
+                </div>
+
+                <!-- Style Options -->
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;" class="form-group">
+                    <div>
+                        <label class="form-label">Size</label>
+                        <select class="form-input" id="qrSize">
+                            <option value="128">128×128</option>
+                            <option value="200">200×200</option>
+                            <option value="256" selected>256×256</option>
+                            <option value="512">512×512</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Dark Color</label>
+                        <input type="color" id="colorDark" value="#000000"
+                            style="height:44px;width:100%;border-radius:var(--radius-md);border:1px solid var(--border);background:transparent;cursor:pointer;" />
+                    </div>
+                    <div>
+                        <label class="form-label">Light Color</label>
+                        <input type="color" id="colorLight" value="#ffffff"
+                            style="height:44px;width:100%;border-radius:var(--radius-md);border:1px solid var(--border);background:transparent;cursor:pointer;" />
+                    </div>
+                </div>
+
+                <div class="flex gap-3 flex-wrap">
+                    <button class="btn btn-primary" id="generateBtn">🔲 Generate QR Code</button>
+                    <button class="btn btn-secondary" id="clearQrBtn">🗑️ Clear</button>
+                </div>
+            </div>
+
+            <!-- OUTPUT -->
+            <div class="tool-box" id="qrResult" style="display:none;">
+                <h2>Your QR Code</h2>
+                <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start;">
+                    <div class="qr-output" id="qrCanvas"></div>
+                    <div style="flex:1;min-width:200px;">
+                        <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:20px;">Your QR code is
+                            ready! Download it as PNG and use it anywhere.</p>
+                        <div class="flex gap-3 flex-wrap">
+                            <button class="btn btn-success" id="downloadQrBtn">⬇️ Download PNG</button>
+                            <button class="btn btn-secondary" id="copyQrLinkBtn">📋 Copy Link</button>
+                        </div>
+                        <div
+                            style="margin-top:20px;padding:14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--radius-md);">
+                            <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:4px;">Encoded Content
+                            </div>
+                            <div style="font-size:0.85rem;color:var(--accent-light);word-break:break-all;"
+                                id="qrContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Use Cases -->
+            <div class="tool-box">
+                <h2>Popular Use Cases for QR Codes</h2>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+                    <div
+                        style="padding:14px;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid var(--border);">
+                        <div style="font-size:1.4rem;margin-bottom:8px;">🍽️</div>
+                        <div style="font-weight:600;font-size:0.9rem;margin-bottom:4px;">Restaurant Menus</div>
+                        <div style="font-size:0.8rem;color:var(--text-muted);">Link to digital menu for contactless
+                            ordering</div>
+                    </div>
+                    <div
+                        style="padding:14px;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid var(--border);">
+                        <div style="font-size:1.4rem;margin-bottom:8px;">💼</div>
+                        <div style="font-weight:600;font-size:0.9rem;margin-bottom:4px;">Business Cards</div>
+                        <div style="font-size:0.8rem;color:var(--text-muted);">Share contact, portfolio, or LinkedIn
+                            instantly</div>
+                    </div>
+                    <div
+                        style="padding:14px;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid var(--border);">
+                        <div style="font-size:1.4rem;margin-bottom:8px;">📢</div>
+                        <div style="font-weight:600;font-size:0.9rem;margin-bottom:4px;">Event Posters</div>
+                        <div style="font-size:0.8rem;color:var(--text-muted);">Direct attendees to registration or event
+                            info</div>
+                    </div>
+                    <div
+                        style="padding:14px;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid var(--border);">
+                        <div style="font-size:1.4rem;margin-bottom:8px;">📶</div>
+                        <div style="font-weight:600;font-size:0.9rem;margin-bottom:4px;">WiFi Sharing</div>
+                        <div style="font-size:0.8rem;color:var(--text-muted);">Let guests connect without typing
+                            passwords</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside class="tool-sidebar">
+            <div class="ad-zone rect"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;">
+                <span>📢 Advert</span><span>300×250</span>
+            </div>
+            <div class="sidebar-widget">
+                <h3>Related Tools</h3>
+                <a href="image-compressor.html" class="related-tool-item"><span class="icon">🖼️</span><span
+                        class="name">Image Compressor</span></a>
+                <a href="json-formatter.html" class="related-tool-item"><span class="icon">📋</span><span
+                        class="name">JSON Formatter</span></a>
+                <a href="word-counter.html" class="related-tool-item"><span class="icon">📝</span><span
+                        class="name">Word Counter</span></a>
+                <a href="pdf-merge.html" class="related-tool-item"><span class="icon">📄</span><span class="name">PDF
+                        Merge</span></a>
+            </div>
+            <div class="sidebar-widget" style="background:rgba(255,183,3,0.06);border-color:rgba(255,183,3,0.2);">
+                <h3 style="color:var(--warning);">💡 Pro Tip</h3>
+                <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;">Download the largest size
+                    (512×512) for print materials — it scales better and stays scannable at any print size.</p>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo" style="margin-bottom:12px;">
+                        <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
+                    </a>
+                    <p>Free, fast, and private online tools for everyone.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Tools</h4>
+                    <a href="image-compressor.html">Image Compressor</a>
+                    <a href="json-formatter.html">JSON Formatter</a>
+                    <a href="word-counter.html">Word Counter</a>
+                    <a href="qr-generator.html">QR Generator</a>
+                    <a href="pdf-merge.html">PDF Merge</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2024 SmartToolsLab</span>
+                <span>Free QR code generator — no signup, instant download</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        let currentType = 'url';
+        let qrInstance = null;
+        let lastContent = '';
+
+        const typeConfigs = {
+            url: { label: 'Website URL', placeholder: 'https://example.com', prefix: '' },
+            text: { label: 'Text Content', placeholder: 'Type any text here…', prefix: '' },
+            email: { label: 'Email Address', placeholder: 'example@gmail.com', prefix: 'mailto:' },
+            phone: { label: 'Phone Number', placeholder: '+91 98765 43210', prefix: 'tel:' },
+            wifi: { label: 'WiFi Network Name', placeholder: 'MyWiFiNetwork', prefix: '' },
+        };
+
+        document.querySelectorAll('.type-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentType = btn.dataset.type;
+                document.querySelectorAll('.type-btn').forEach(b => {
+                    b.className = 'btn btn-secondary type-btn';
+                });
+                btn.className = 'btn btn-primary type-btn active';
+                const cfg = typeConfigs[currentType];
+                document.getElementById('mainLabel').textContent = cfg.label;
+                document.getElementById('mainInput').placeholder = cfg.placeholder;
+                document.getElementById('mainInput').value = '';
+
+                const inputArea = document.getElementById('inputArea');
+                if (currentType === 'wifi') {
+                    inputArea.innerHTML = `
+          <div class="form-group">
+            <label class="form-label">WiFi Network Name (SSID)</label>
+            <input type="text" class="form-input" id="wifiSSID" placeholder="MyNetwork" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">WiFi Password</label>
+            <input type="password" class="form-input" id="wifiPass" placeholder="Password123" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Security Type</label>
+            <select class="form-input" id="wifiSec">
+              <option value="WPA">WPA/WPA2</option>
+              <option value="WEP">WEP</option>
+              <option value="">None</option>
+            </select>
+          </div>
+        `;
+                } else {
+                    inputArea.innerHTML = `
+          <div class="form-group">
+            <label class="form-label" id="mainLabel">${cfg.label}</label>
+            <input type="text" class="form-input" id="mainInput" placeholder="${cfg.placeholder}" />
+          </div>
+        `;
+                }
+            });
+        });
+
+        document.getElementById('generateBtn').addEventListener('click', generate);
+        document.getElementById('mainInput')?.addEventListener('keypress', e => { if (e.key === 'Enter') generate(); });
+
+        function getContent() {
+            if (currentType === 'wifi') {
+                const ssid = document.getElementById('wifiSSID')?.value || '';
+                const pass = document.getElementById('wifiPass')?.value || '';
+                const sec = document.getElementById('wifiSec')?.value || '';
+                return `WIFI:T:${sec};S:${ssid};P:${pass};;`;
+            }
+            const raw = document.getElementById('mainInput')?.value.trim() || '';
+            if (!raw) return '';
+            const cfg = typeConfigs[currentType];
+            if (currentType === 'url' && raw && !raw.startsWith('http')) return 'https://' + raw;
+            return cfg.prefix + raw;
+        }
+
+        function generate() {
+            const content = getContent();
+            if (!content) { showToast('Please enter some content first', 'error'); return; }
+
+            const size = parseInt(document.getElementById('qrSize').value);
+            const dark = document.getElementById('colorDark').value;
+            const light = document.getElementById('colorLight').value;
+
+            const container = document.getElementById('qrCanvas');
+            container.innerHTML = '';
+            qrInstance = new QRCode(container, {
+                text: content,
+                width: size, height: size,
+                colorDark: dark, colorLight: light,
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            lastContent = content;
+            document.getElementById('qrContent').textContent = content;
+            document.getElementById('qrResult').style.display = '';
+            showToast('QR Code generated!', 'success');
+            document.getElementById('qrResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        document.getElementById('downloadQrBtn').addEventListener('click', () => {
+            const canvas = document.getElementById('qrCanvas').querySelector('canvas');
+            const img = document.getElementById('qrCanvas').querySelector('img');
+            if (canvas) {
+                const a = document.createElement('a');
+                a.href = canvas.toDataURL('image/png');
+                a.download = 'qrcode-smarttoolslab.png';
+                a.click();
+            } else if (img) {
+                const a = document.createElement('a');
+                a.href = img.src;
+                a.download = 'qrcode-smarttoolslab.png';
+                a.click();
+            }
+        });
+
+        document.getElementById('copyQrLinkBtn').addEventListener('click', () => {
+            copyToClipboard(lastContent, document.getElementById('copyQrLinkBtn'));
+        });
+
+        document.getElementById('clearQrBtn').addEventListener('click', () => {
+            document.getElementById('qrCanvas').innerHTML = '';
+            document.getElementById('qrResult').style.display = 'none';
+            const mainInput = document.getElementById('mainInput');
+            if (mainInput) mainInput.value = '';
+        });
+    </script>
+</body>
+
+</html>

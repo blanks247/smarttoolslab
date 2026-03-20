@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free JSON Formatter & Validator Online | SmartToolsLab</title>
+    <meta name="description"
+        content="Format, validate, and beautify JSON online for free. Supports pretty print, minify, and syntax error detection. No signup needed." />
+    <meta name="keywords"
+        content="json formatter online, json validator, json beautifier, format json online, json pretty print, minify json" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+</head>
+
+<body>
+
+    <div class="header-ad">📢 Advertisement · Google AdSense Banner</div>
+
+    <header class="site-header">
+        <nav class="nav-inner">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">⚡</div>
+                Smart<span>Tools</span>Lab
+            </a>
+            <div class="nav-links">
+                <a href="../index.html#tools">All Tools</a>
+                <a href="../index.html#tools" class="nav-cta">🚀 More Tools</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="tool-page-wrapper">
+
+        <main class="tool-main">
+            <div class="tool-page-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> <span>›</span>
+                    <span>JSON Formatter</span>
+                </div>
+                <h1>Free JSON Formatter & Validator Online</h1>
+                <p>Instantly format, validate, and beautify your JSON data. Paste raw JSON and get a clean, readable
+                    output with syntax highlighting and error detection.</p>
+            </div>
+
+            <div class="ad-zone banner"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin-bottom:28px;">
+                <span>📢 Advertisement · 728×90 AdSense Banner</span>
+            </div>
+
+            <!-- INPUT -->
+            <div class="tool-box">
+                <h2>Input — Paste Your JSON</h2>
+                <textarea class="form-textarea" id="jsonInput" rows="12"
+                    placeholder='Paste your JSON here… e.g. {"name":"Abhishek","age":22}'></textarea>
+                <div class="flex gap-3 flex-wrap mt-4">
+                    <button class="btn btn-primary" id="formatBtn">✨ Format / Beautify</button>
+                    <button class="btn btn-secondary" id="minifyBtn">🗜️ Minify</button>
+                    <button class="btn btn-secondary" id="clearBtn">🗑️ Clear</button>
+                    <button class="btn btn-secondary" id="sampleBtn">📋 Load Sample</button>
+                </div>
+            </div>
+
+            <!-- STATUS -->
+            <div id="statusBox" style="display:none;margin-bottom:16px;"></div>
+
+            <!-- OUTPUT -->
+            <div class="tool-box" id="outputBox" style="display:none;">
+                <div class="flex justify-between items-center" style="margin-bottom:16px;">
+                    <h2 style="margin:0;">Output</h2>
+                    <button class="btn btn-secondary" id="copyBtn" style="padding:8px 16px;font-size:0.8rem;">📋
+                        Copy</button>
+                </div>
+                <div class="code-output" id="jsonOutput"></div>
+                <div class="stats-bar mt-4">
+                    <div class="stat-item"><span class="val" id="charCount">0</span><span class="lbl">Characters</span>
+                    </div>
+                    <div class="stat-item"><span class="val" id="lineCount">0</span><span class="lbl">Lines</span></div>
+                    <div class="stat-item"><span class="val" id="keyCount">0</span><span class="lbl">Keys</span></div>
+                    <div class="stat-item"><span class="val" id="sizeCount">0 B</span><span class="lbl">Size</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEO Content -->
+            <div class="tool-box">
+                <h2>What is a JSON Formatter?</h2>
+                <p style="color:var(--text-secondary);line-height:1.8;font-size:0.9rem;">
+                    A JSON formatter (also called a JSON beautifier) takes minified or unformatted JSON text and adds
+                    proper indentation and line breaks, making it human-readable. It also validates whether the JSON is
+                    syntactically correct. Use it when debugging APIs, reading config files, or preparing data.
+                </p>
+            </div>
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside class="tool-sidebar">
+            <div class="ad-zone rect"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;">
+                <span>📢 Advert</span><span>300×250</span>
+            </div>
+            <div class="sidebar-widget">
+                <h3>Related Tools</h3>
+                <a href="image-compressor.html" class="related-tool-item"><span class="icon">🖼️</span><span
+                        class="name">Image Compressor</span></a>
+                <a href="qr-generator.html" class="related-tool-item"><span class="icon">🔲</span><span class="name">QR
+                        Code Generator</span></a>
+                <a href="word-counter.html" class="related-tool-item"><span class="icon">📝</span><span
+                        class="name">Word Counter</span></a>
+            </div>
+            <div class="sidebar-widget" style="background:rgba(0,212,255,0.06);border-color:rgba(0,212,255,0.2);">
+                <h3 style="color:var(--accent2);">💡 Did You Know?</h3>
+                <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;">JSON (JavaScript Object
+                    Notation) is used by over 80% of REST APIs today. Pretty-printing makes debugging 10x faster.</p>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo" style="margin-bottom:12px;">
+                        <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
+                    </a>
+                    <p>Free, fast, private online tools for everyone.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Tools</h4>
+                    <a href="image-compressor.html">Image Compressor</a>
+                    <a href="json-formatter.html">JSON Formatter</a>
+                    <a href="word-counter.html">Word Counter</a>
+                    <a href="qr-generator.html">QR Generator</a>
+                    <a href="pdf-merge.html">PDF Merge</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2024 SmartToolsLab</span>
+                <span>Free JSON formatter & validator online</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        const SAMPLE = `{
+  "name": "Abhishek Gajula",
+  "role": "developer",
+  "skills": ["JavaScript", "Flutter", "Python"],
+  "contact": {
+    "email": "abhishek@example.com",
+    "city": "Hyderabad"
+  },
+  "available": true,
+  "projects": 12
+}`;
+
+        function countKeys(obj, count = 0) {
+            if (typeof obj !== 'object' || obj === null) return count;
+            for (const k in obj) { count++; count = countKeys(obj[k], count); }
+            return count;
+        }
+
+        function syntaxHighlight(json) {
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, match => {
+                let cls = 'json-number';
+                if (/^"/.test(match)) {
+                    cls = /:$/.test(match) ? 'json-key' : 'json-string';
+                } else if (/true|false/.test(match)) {
+                    cls = 'json-bool';
+                } else if (/null/.test(match)) {
+                    cls = 'json-null';
+                }
+                return `<span class="${cls}">${match}</span>`;
+            });
+        }
+
+        function process(mode) {
+            const raw = document.getElementById('jsonInput').value.trim();
+            const statusBox = document.getElementById('statusBox');
+            const outputBox = document.getElementById('outputBox');
+            const output = document.getElementById('jsonOutput');
+
+            if (!raw) { showToast('Please paste some JSON first', 'error'); return; }
+
+            try {
+                const parsed = JSON.parse(raw);
+                let result;
+                if (mode === 'format') result = JSON.stringify(parsed, null, 2);
+                else result = JSON.stringify(parsed);
+
+                output.innerHTML = syntaxHighlight(escapeHtml(result));
+                document.getElementById('charCount').textContent = result.length.toLocaleString();
+                document.getElementById('lineCount').textContent = result.split('\n').length.toLocaleString();
+                document.getElementById('keyCount').textContent = countKeys(parsed).toLocaleString();
+                document.getElementById('sizeCount').textContent = formatSize(new Blob([result]).size);
+
+                statusBox.className = 'alert alert-success'; statusBox.style.display = '';
+                statusBox.textContent = '✅ Valid JSON! ' + (mode === 'format' ? 'Formatted successfully.' : 'Minified successfully.');
+                outputBox.style.display = '';
+
+                document.getElementById('copyBtn').onclick = () => copyToClipboard(result, document.getElementById('copyBtn'));
+            } catch (e) {
+                statusBox.className = 'alert alert-error'; statusBox.style.display = '';
+                statusBox.textContent = '❌ Invalid JSON: ' + e.message;
+                outputBox.style.display = 'none';
+            }
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        document.getElementById('formatBtn').addEventListener('click', () => process('format'));
+        document.getElementById('minifyBtn').addEventListener('click', () => process('minify'));
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            document.getElementById('jsonInput').value = '';
+            document.getElementById('statusBox').style.display = 'none';
+            document.getElementById('outputBox').style.display = 'none';
+        });
+        document.getElementById('sampleBtn').addEventListener('click', () => {
+            document.getElementById('jsonInput').value = SAMPLE;
+            showToast('Sample JSON loaded!', 'success');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free Image Compressor Online — Compress JPG, PNG, WebP | SmartToolsLab</title>
+    <meta name="description"
+        content="Compress images online for free. Reduce JPG, PNG, and WebP file size without losing quality. Perfect for SSC forms, websites, WhatsApp. No signup required." />
+    <meta name="keywords"
+        content="compress image online free, image compressor, reduce image size, compress jpg, compress png, compress image to 50kb" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+</head>
+
+<body>
+
+    <div class="header-ad">📢 Advertisement · Google AdSense Banner</div>
+
+    <header class="site-header">
+        <nav class="nav-inner">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">⚡</div>
+                Smart<span>Tools</span>Lab
+            </a>
+            <div class="nav-links">
+                <a href="../index.html#tools">All Tools</a>
+                <a href="../index.html#tools" class="nav-cta">🚀 More Tools</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="tool-page-wrapper">
+
+        <!-- MAIN -->
+        <main class="tool-main">
+
+            <!-- Header -->
+            <div class="tool-page-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> <span>›</span>
+                    <span>Image Compressor</span>
+                </div>
+                <h1>Free Image Compressor Online</h1>
+                <p>Compress JPG, PNG, and WebP images in seconds — no upload to servers, 100% private, 100% free. Great
+                    for SSC forms, websites, and social media posts.</p>
+            </div>
+
+            <!-- Ad banner -->
+            <div class="ad-zone banner"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin-bottom:28px;">
+                <span>📢 Advertisement · 728×90 AdSense Banner</span>
+            </div>
+
+            <!-- TOOL BOX -->
+            <div class="tool-box">
+                <h2>Step 1 — Upload Image</h2>
+
+                <div class="upload-zone" id="uploadZone">
+                    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" />
+                    <div class="upload-zone-icon">🖼️</div>
+                    <h3>Drop your image here</h3>
+                    <p>Supports JPG, PNG, WebP · Click to browse or drag & drop</p>
+                    <button class="btn btn-primary" style="margin-top:16px;"
+                        onclick="document.getElementById('fileInput').click()">
+                        📁 Choose Image
+                    </button>
+                </div>
+            </div>
+
+            <!-- Settings (hidden until file selected) -->
+            <div class="tool-box" id="settingsBox" style="display:none;">
+                <h2>Step 2 — Adjust Settings</h2>
+
+                <div class="form-group">
+                    <label class="form-label">Compression Quality: <span id="qualityVal">75</span>%</label>
+                    <input type="range" class="form-range" id="qualitySlider" min="10" max="99" value="75" />
+                    <div class="flex justify-between mt-1" style="font-size:0.75rem;color:var(--text-muted);">
+                        <span>Smallest file</span>
+                        <span>Best quality</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Max Width (optional)</label>
+                    <div class="flex gap-3 items-center">
+                        <input type="number" class="form-input" id="maxWidth"
+                            placeholder="e.g. 1920 (leave blank to keep original)" style="max-width:340px;" />
+                    </div>
+                </div>
+
+                <div class="flex gap-3 flex-wrap">
+                    <button class="btn btn-primary" id="compressBtn">⚡ Compress Image</button>
+                    <button class="btn btn-secondary" id="resetBtn">🔄 Reset</button>
+                </div>
+            </div>
+
+            <!-- Result -->
+            <div id="resultSection" style="display:none;">
+                <div class="tool-box">
+                    <h2>Step 3 — Result</h2>
+
+                    <div id="alertBox" class="alert alert-success" style="margin-bottom:16px;"></div>
+
+                    <div class="image-compare">
+                        <div class="image-panel">
+                            <h4>Original</h4>
+                            <img id="originalPreview" src="" alt="Original image" />
+                            <span class="size-badge original" id="originalSize">—</span>
+                        </div>
+                        <div class="image-panel">
+                            <h4>Compressed</h4>
+                            <img id="compressedPreview" src="" alt="Compressed image" />
+                            <span class="size-badge compressed" id="compressedSize">—</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-bar-wrap" style="margin-top:16px;">
+                        <div class="progress-bar-fill" id="savingBar"></div>
+                    </div>
+                    <p style="font-size:0.8rem;color:var(--text-muted);margin-top:6px;" id="savingText"></p>
+
+                    <button class="btn btn-success" id="downloadBtn" style="margin-top:20px;">
+                        ⬇️ Download Compressed Image
+                    </button>
+                </div>
+            </div>
+
+            <!-- HOW TO USE -->
+            <div class="tool-box">
+                <h2>How to Compress an Image Online (3 Easy Steps)</h2>
+                <ol style="padding-left:20px;color:var(--text-secondary);line-height:2;">
+                    <li>Upload your JPG, PNG, or WebP image using the file picker or drag & drop.</li>
+                    <li>Adjust the quality slider (lower = smaller file size, higher = better quality).</li>
+                    <li>Click "Compress Image" and download your reduced image instantly.</li>
+                </ol>
+            </div>
+
+            <!-- FAQ / SEO Content -->
+            <div class="tool-box">
+                <h2>Frequently Asked Questions</h2>
+                <div style="display:flex;flex-direction:column;gap:20px;">
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">How to compress image to
+                            50KB for SSC form?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Upload your photo, drag the quality
+                            slider to around 30–50%, and keep compressing until the file size badge shows below 50KB.
+                        </p>
+                    </div>
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Is this image compressor
+                            free?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Yes, 100% free with no signup, no
+                            watermarks, and no file limits. All processing happens in your browser.</p>
+                    </div>
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Are my images safe?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Absolutely. Your images never leave
+                            your device — everything is processed locally using the Canvas API.</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside class="tool-sidebar">
+            <div class="ad-zone rect"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;">
+                <span>📢 Advert</span>
+                <span>300×250</span>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>Related Tools</h3>
+                <a href="json-formatter.html" class="related-tool-item">
+                    <span class="icon">📋</span>
+                    <span class="name">JSON Formatter</span>
+                </a>
+                <a href="qr-generator.html" class="related-tool-item">
+                    <span class="icon">🔲</span>
+                    <span class="name">QR Code Generator</span>
+                </a>
+                <a href="word-counter.html" class="related-tool-item">
+                    <span class="icon">📝</span>
+                    <span class="name">Word Counter</span>
+                </a>
+                <a href="pdf-merge.html" class="related-tool-item">
+                    <span class="icon">📄</span>
+                    <span class="name">PDF Merge</span>
+                </a>
+            </div>
+
+            <div class="sidebar-widget" style="background:rgba(108,99,255,0.08);border-color:rgba(108,99,255,0.2);">
+                <h3 style="color:var(--accent-light);">💡 Pro Tip</h3>
+                <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;">
+                    For government forms like SSC, UPSC, use quality 30–50% and set max width to 800px to stay under the
+                    50KB limit.
+                </p>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo" style="margin-bottom:12px;">
+                        <div class="logo-icon">⚡</div>
+                        Smart<span>Tools</span>Lab
+                    </a>
+                    <p>Free, fast, and private online tools for everyone.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Tools</h4>
+                    <a href="image-compressor.html">Image Compressor</a>
+                    <a href="json-formatter.html">JSON Formatter</a>
+                    <a href="word-counter.html">Word Counter</a>
+                    <a href="qr-generator.html">QR Generator</a>
+                    <a href="pdf-merge.html">PDF Merge</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2024 SmartToolsLab</span>
+                <span>Free image compressor online — no signup, no limits</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        let originalFile = null;
+        let compressedBlob = null;
+
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+        const settingsBox = document.getElementById('settingsBox');
+        const resultSection = document.getElementById('resultSection');
+        const qualitySlider = document.getElementById('qualitySlider');
+        const qualityVal = document.getElementById('qualityVal');
+        const compressBtn = document.getElementById('compressBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        // Drag & drop
+        uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+        uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+        uploadZone.addEventListener('drop', e => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) handleFile(file);
+            else showToast('Please drop an image file', 'error');
+        });
+        uploadZone.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files[0]) handleFile(fileInput.files[0]);
+        });
+
+        function handleFile(file) {
+            originalFile = file;
+            settingsBox.style.display = '';
+            resultSection.style.display = 'none';
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('originalPreview').src = e.target.result;
+                document.getElementById('originalSize').textContent = formatSize(file.size);
+            };
+            reader.readAsDataURL(file);
+            uploadZone.innerHTML = `<div class="upload-zone-icon">✅</div><h3>${file.name}</h3><p>${formatSize(file.size)} · Click to change</p>`;
+        }
+
+        qualitySlider.addEventListener('input', () => { qualityVal.textContent = qualitySlider.value; });
+
+        compressBtn.addEventListener('click', async () => {
+            if (!originalFile) return;
+            compressBtn.disabled = true;
+            compressBtn.textContent = '⏳ Compressing…';
+
+            const quality = parseInt(qualitySlider.value) / 100;
+            const maxW = parseInt(document.getElementById('maxWidth').value) || 99999;
+
+            const img = new Image();
+            const url = URL.createObjectURL(originalFile);
+            img.onload = () => {
+                let w = img.width, h = img.height;
+                if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+
+                const canvas = document.createElement('canvas');
+                canvas.width = w; canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, w, h);
+
+                const mimeType = originalFile.type === 'image/png' ? 'image/png' : 'image/jpeg';
+                canvas.toBlob(blob => {
+                    compressedBlob = blob;
+                    const compressedUrl = URL.createObjectURL(blob);
+
+                    document.getElementById('compressedPreview').src = compressedUrl;
+                    document.getElementById('compressedSize').textContent = formatSize(blob.size);
+
+                    const saving = Math.round((1 - blob.size / originalFile.size) * 100);
+                    document.getElementById('savingBar').style.width = Math.max(0, saving) + '%';
+                    document.getElementById('savingText').textContent = saving > 0
+                        ? `✅ Reduced by ${saving}% (saved ${formatSize(originalFile.size - blob.size)})`
+                        : `ℹ️ Compressed image is similar size — try lowering quality`;
+
+                    document.getElementById('alertBox').textContent = `🎉 Compression complete! ${formatSize(originalFile.size)} → ${formatSize(blob.size)}`;
+                    resultSection.style.display = '';
+                    URL.revokeObjectURL(url);
+
+                    compressBtn.disabled = false;
+                    compressBtn.textContent = '⚡ Compress Image';
+
+                    downloadBtn.onclick = () => {
+                        const a = document.createElement('a');
+                        a.href = compressedUrl;
+                        a.download = 'compressed_' + originalFile.name.replace(/\.[^.]+$/, '') + (mimeType === 'image/png' ? '.png' : '.jpg');
+                        a.click();
+                    };
+                }, mimeType, quality);
+            };
+            img.src = url;
+        });
+
+        resetBtn.addEventListener('click', () => {
+            originalFile = null; compressedBlob = null;
+            settingsBox.style.display = 'none';
+            resultSection.style.display = 'none';
+            fileInput.value = '';
+            uploadZone.innerHTML = `
+      <div class="upload-zone-icon">🖼️</div>
+      <h3>Drop your image here</h3>
+      <p>Supports JPG, PNG, WebP · Click to browse or drag & drop</p>
+      <button class="btn btn-primary" style="margin-top:16px;" onclick="document.getElementById('fileInput').click()">📁 Choose Image</button>`;
+        });
+    </script>
+</body>
+
+</html>

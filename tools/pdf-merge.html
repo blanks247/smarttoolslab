@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free PDF Merge Online — Combine PDF Files | SmartToolsLab</title>
+    <meta name="description"
+        content="Merge multiple PDF files into one document online for free. No signup, no watermarks. Upload, arrange, and combine PDF files in seconds." />
+    <meta name="keywords"
+        content="merge pdf online free, combine pdf files, pdf merger, join pdf files, pdf combiner free" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+    <!-- PDF-lib for client-side merging -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+</head>
+
+<body>
+
+    <div class="header-ad">📢 Advertisement · Google AdSense Banner</div>
+
+    <header class="site-header">
+        <nav class="nav-inner">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">⚡</div>
+                Smart<span>Tools</span>Lab
+            </a>
+            <div class="nav-links">
+                <a href="../index.html#tools">All Tools</a>
+                <a href="../index.html#tools" class="nav-cta">🚀 More Tools</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="tool-page-wrapper">
+
+        <main class="tool-main">
+            <div class="tool-page-header">
+                <div class="breadcrumb">
+                    <a href="../index.html">Home</a> <span>›</span>
+                    <span>PDF Merge</span>
+                </div>
+                <h1>Free PDF Merge Online</h1>
+                <p>Combine multiple PDF files into one document in seconds. No signup, no watermarks, no file limits.
+                    Upload, reorder, and merge — download your combined PDF instantly.</p>
+            </div>
+
+            <div class="ad-zone banner"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin-bottom:28px;">
+                <span>📢 Advertisement · 728×90 AdSense Banner</span>
+            </div>
+
+            <!-- Upload Box -->
+            <div class="tool-box">
+                <h2>Step 1 — Upload PDF Files</h2>
+                <div class="upload-zone" id="pdfUploadZone">
+                    <input type="file" id="pdfInput" accept="application/pdf" multiple />
+                    <div class="upload-zone-icon">📄</div>
+                    <h3>Drop your PDF files here</h3>
+                    <p>Select 2 or more PDF files · Click to browse</p>
+                    <button class="btn btn-primary" style="margin-top:16px;"
+                        onclick="document.getElementById('pdfInput').click()">
+                        📁 Choose PDFs
+                    </button>
+                </div>
+            </div>
+
+            <!-- File List -->
+            <div class="tool-box" id="fileListBox" style="display:none;">
+                <div class="flex justify-between items-center" style="margin-bottom:16px;">
+                    <h2 style="margin:0;">Step 2 — Arrange Order</h2>
+                    <button class="btn btn-secondary" style="padding:8px 14px;font-size:0.8rem;"
+                        onclick="document.getElementById('pdfInput').click()">+ Add More</button>
+                </div>
+                <div id="fileList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px;"></div>
+                <div class="flex gap-3 flex-wrap">
+                    <button class="btn btn-primary" id="mergeBtn">🔗 Merge PDFs</button>
+                    <button class="btn btn-secondary" id="clearAllBtn">🗑️ Clear All</button>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div id="mergeProgress" style="display:none;" class="tool-box">
+                <h2>Merging…</h2>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill" id="mergeBar" style="width:0%"></div>
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-top:8px;" id="mergeStatus">Processing files…
+                </p>
+            </div>
+
+            <!-- Download Result -->
+            <div id="mergeResult" style="display:none;" class="tool-box">
+                <div class="alert alert-success" id="mergeAlert" style="margin-bottom:20px;"></div>
+                <div style="display:flex;gap:16px;flex-wrap:wrap;">
+                    <button class="btn btn-success" id="downloadMergedBtn">⬇️ Download Merged PDF</button>
+                    <button class="btn btn-secondary" id="mergeAgainBtn">🔄 Merge More</button>
+                </div>
+            </div>
+
+            <!-- How To -->
+            <div class="tool-box">
+                <h2>How to Merge PDF Files (3 Easy Steps)</h2>
+                <ol style="padding-left:20px;color:var(--text-secondary);line-height:2.2;">
+                    <li>Upload two or more PDF files using the file picker or drag & drop.</li>
+                    <li>Drag to reorder the files in the order you want them merged.</li>
+                    <li>Click "Merge PDFs" and download your combined PDF instantly.</li>
+                </ol>
+            </div>
+
+            <!-- FAQ -->
+            <div class="tool-box">
+                <h2>Frequently Asked Questions</h2>
+                <div style="display:flex;flex-direction:column;gap:20px;">
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Is this PDF merge tool
+                            free?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Yes! 100% free, no signup, no
+                            watermarks, and no file size limits (within your browser's memory).</p>
+                    </div>
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Are my PDF files safe?
+                        </p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Absolutely. All processing happens in
+                            your browser using PDF-lib. Your files never leave your device.</p>
+                    </div>
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">How many PDFs can I
+                            merge at once?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">There's no set limit — you can merge as
+                            many PDFs as your browser memory allows.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- SIDEBAR -->
+        <aside class="tool-sidebar">
+            <div class="ad-zone rect"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;">
+                <span>📢 Advert</span><span>300×250</span>
+            </div>
+            <div class="sidebar-widget">
+                <h3>Related Tools</h3>
+                <a href="image-compressor.html" class="related-tool-item"><span class="icon">🖼️</span><span
+                        class="name">Image Compressor</span></a>
+                <a href="json-formatter.html" class="related-tool-item"><span class="icon">📋</span><span
+                        class="name">JSON Formatter</span></a>
+                <a href="word-counter.html" class="related-tool-item"><span class="icon">📝</span><span
+                        class="name">Word Counter</span></a>
+                <a href="qr-generator.html" class="related-tool-item"><span class="icon">🔲</span><span class="name">QR
+                        Code Generator</span></a>
+            </div>
+            <div class="sidebar-widget" style="background:rgba(255,77,109,0.06);border-color:rgba(255,77,109,0.2);">
+                <h3 style="color:var(--error);">🔒 Privacy First</h3>
+                <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6;">Your PDFs are processed
+                    entirely in your browser using <strong style="color:var(--text-primary);">PDF-lib</strong>. Nothing
+                    is uploaded to any server.</p>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo" style="margin-bottom:12px;">
+                        <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
+                    </a>
+                    <p>Free, fast, private online tools for everyone.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Tools</h4>
+                    <a href="image-compressor.html">Image Compressor</a>
+                    <a href="json-formatter.html">JSON Formatter</a>
+                    <a href="word-counter.html">Word Counter</a>
+                    <a href="qr-generator.html">QR Generator</a>
+                    <a href="pdf-merge.html">PDF Merge</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2024 SmartToolsLab</span>
+                <span>Free PDF merge online — no signup, no watermarks</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        const { PDFDocument } = PDFLib;
+
+        let uploadedFiles = [];
+        let mergedBytes = null;
+
+        const pdfInput = document.getElementById('pdfInput');
+        const uploadZone = document.getElementById('pdfUploadZone');
+        const fileListBox = document.getElementById('fileListBox');
+        const mergeBtn = document.getElementById('mergeBtn');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        const mergeProgress = document.getElementById('mergeProgress');
+        const mergeResult = document.getElementById('mergeResult');
+        const mergeBar = document.getElementById('mergeBar');
+        const mergeStatus = document.getElementById('mergeStatus');
+
+        uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+        uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+        uploadZone.addEventListener('drop', e => {
+            e.preventDefault(); uploadZone.classList.remove('dragover');
+            const files = Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf');
+            if (!files.length) { showToast('Please drop PDF files only', 'error'); return; }
+            addFiles(files);
+        });
+        uploadZone.addEventListener('click', () => pdfInput.click());
+
+        pdfInput.addEventListener('change', () => {
+            if (pdfInput.files.length) addFiles(Array.from(pdfInput.files));
+            pdfInput.value = '';
+        });
+
+        function addFiles(files) {
+            uploadedFiles.push(...files);
+            renderFileList();
+            fileListBox.style.display = '';
+            mergeResult.style.display = 'none';
+        }
+
+        function renderFileList() {
+            const list = document.getElementById('fileList');
+            if (!uploadedFiles.length) { fileListBox.style.display = 'none'; return; }
+            list.innerHTML = uploadedFiles.map((f, i) => `
+      <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;">
+        <span style="font-size:1.4rem;">📄</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:0.9rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${f.name}</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);">${formatSize(f.size)}</div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          ${i > 0 ? `<button class="btn btn-secondary" style="padding:6px 10px;font-size:0.75rem;" onclick="moveFile(${i}, -1)">↑</button>` : ''}
+          ${i < uploadedFiles.length - 1 ? `<button class="btn btn-secondary" style="padding:6px 10px;font-size:0.75rem;" onclick="moveFile(${i}, 1)">↓</button>` : ''}
+          <button class="btn btn-danger" style="padding:6px 10px;font-size:0.75rem;" onclick="removeFile(${i})">✕</button>
+        </div>
+      </div>
+    `).join('');
+        }
+
+        window.moveFile = (i, dir) => {
+            const j = i + dir;
+            [uploadedFiles[i], uploadedFiles[j]] = [uploadedFiles[j], uploadedFiles[i]];
+            renderFileList();
+        };
+
+        window.removeFile = (i) => {
+            uploadedFiles.splice(i, 1);
+            renderFileList();
+            if (!uploadedFiles.length) fileListBox.style.display = 'none';
+        };
+
+        clearAllBtn.addEventListener('click', () => {
+            uploadedFiles = [];
+            mergeResult.style.display = 'none';
+            fileListBox.style.display = 'none';
+        });
+
+        mergeBtn.addEventListener('click', async () => {
+            if (uploadedFiles.length < 2) { showToast('Please add at least 2 PDF files', 'error'); return; }
+            mergeProgress.style.display = '';
+            mergeBtn.disabled = true;
+
+            try {
+                const merged = await PDFDocument.create();
+                for (let i = 0; i < uploadedFiles.length; i++) {
+                    mergeStatus.textContent = `Processing file ${i + 1} of ${uploadedFiles.length}: ${uploadedFiles[i].name}`;
+                    mergeBar.style.width = Math.round(((i) / uploadedFiles.length) * 90) + '%';
+
+                    const ab = await uploadedFiles[i].arrayBuffer();
+                    const pdf = await PDFDocument.load(ab);
+                    const pages = await merged.copyPages(pdf, pdf.getPageIndices());
+                    pages.forEach(p => merged.addPage(p));
+                }
+
+                mergeStatus.textContent = 'Finalizing…';
+                mergeBar.style.width = '95%';
+                mergedBytes = await merged.save();
+                mergeBar.style.width = '100%';
+
+                const totalPages = (await PDFDocument.load(mergedBytes)).getPageCount();
+                document.getElementById('mergeAlert').textContent = `✅ Merged ${uploadedFiles.length} files into 1 PDF with ${totalPages} pages (${formatSize(mergedBytes.byteLength)})`;
+
+                mergeProgress.style.display = 'none';
+                mergeResult.style.display = '';
+                mergeBtn.disabled = false;
+                showToast('PDFs merged successfully!', 'success');
+            } catch (e) {
+                mergeProgress.style.display = 'none';
+                mergeBtn.disabled = false;
+                showToast('Error merging PDFs: ' + e.message, 'error');
+            }
+        });
+
+        document.getElementById('downloadMergedBtn').addEventListener('click', () => {
+            if (!mergedBytes) return;
+            const blob = new Blob([mergedBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'merged-smarttoolslab.pdf'; a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        document.getElementById('mergeAgainBtn').addEventListener('click', () => {
+            uploadedFiles = []; mergedBytes = null;
+            mergeResult.style.display = 'none';
+            fileListBox.style.display = 'none';
+        });
+    </script>
+</body>
+
+</html>
