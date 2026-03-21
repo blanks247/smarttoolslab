@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Flexbox Layout Generator | SmartToolsLab</title>
+    <meta name="description"
+        content="Visually build CSS Flexbox layouts. Adjust gaps, alignment, and direction, then copy the generated CSS instantly.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972"
+        crossorigin="anonymous"></script>
+    <style>
+        .layout-builder {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 24px;
+            margin-top: 24px;
+            align-items: start;
+        }
+
+        .builder-controls {
+            background: var(--bg-1);
+            border: 1px solid var(--border);
+            border-radius: var(--r-xl);
+            padding: 24px;
+            position: sticky;
+            top: 80px;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--fg-4);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .radio-btn {
+            display: inline-flex;
+        }
+
+        .radio-btn input {
+            display: none;
+        }
+
+        .radio-btn label {
+            padding: 6px 12px;
+            background: var(--bg-3);
+            border: 1px solid var(--border);
+            border-radius: var(--r-sm);
+            font-size: 13px;
+            color: var(--fg-3);
+            cursor: pointer;
+            transition: all var(--dur) var(--ease);
+        }
+
+        .radio-btn input:checked+label {
+            background: var(--accent-dim);
+            color: var(--accent);
+            border-color: rgba(14, 165, 233, 0.3);
+        }
+
+        .preview-canvas {
+            background: var(--bg-1);
+            border: 1px solid var(--border);
+            border-radius: var(--r-xl);
+            padding: 24px;
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .canvas-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .canvas-header h3 {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .item-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* The actual flex container we manipulate */
+        .flex-container {
+            flex: 1;
+            border: 2px dashed var(--border-2);
+            border-radius: var(--r-md);
+            background: rgba(255, 255, 255, 0.01);
+            display: flex;
+            /* core functionality */
+            transition: all 0.3s var(--ease);
+        }
+
+        .flex-item {
+            background: var(--accent);
+            color: #000;
+            font-weight: 700;
+            font-size: 1.5rem;
+            border-radius: var(--r-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+            min-height: 60px;
+            padding: 20px;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        #css-output {
+            background: var(--bg-2);
+            border: 1px solid var(--border);
+            border-radius: var(--r-md);
+            padding: 16px;
+            margin-top: 24px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            color: var(--green);
+            position: relative;
+        }
+
+        #css-output::before {
+            content: '.container {';
+            display: block;
+            color: var(--fg-2);
+            margin-bottom: 4px;
+        }
+
+        #css-output::after {
+            content: '}';
+            display: block;
+            color: var(--fg-2);
+            margin-top: 4px;
+        }
+
+        @media (max-width: 900px) {
+            .layout-builder {
+                grid-template-columns: 1fr;
+            }
+
+            .builder-controls {
+                position: static;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-ad">📢 Advertisement · Google AdSense Code Goes Here</div>
+
+    <header class="site-header">
+        <nav class="nav-inner">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
+            </a>
+            <div class="nav-center"><a href="../index.html#tools">All Tools</a><a
+                    href="../index.html#features">Features</a></div>
+            <div class="nav-right"><a href="../index.html#tools" class="nav-cta">🚀 Try Free</a></div>
+        </nav>
+    </header>
+
+    <div class="tool-page-wrapper" style="max-width:1400px;grid-template-columns:1fr;">
+        <div class="breadcrumb"><a href="../index.html">Home</a> <span>›</span> <a href="../index.html#tools">Tools</a>
+            <span>›</span> <span>CSS Layout Generator</span></div>
+
+        <div class="tool-page-header">
+            <h1>CSS Layout Generator</h1>
+            <p>Visually build Flexbox layouts, adjust alignments and gaps, and instantly copy the CSS code for your
+                project. Free frontend developer tool.</p>
+        </div>
+
+        <div class="layout-builder">
+            <!-- CONTROLS -->
+            <div class="builder-controls">
+                <div class="control-group">
+                    <label class="control-label">Flex Direction</label>
+                    <div class="radio-group">
+                        <div class="radio-btn"><input type="radio" name="direction" id="dir1" value="row" checked><label
+                                for="dir1">row</label></div>
+                        <div class="radio-btn"><input type="radio" name="direction" id="dir2" value="column"><label
+                                for="dir2">column</label></div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Justify Content (Primary Axis)</label>
+                    <div class="radio-group">
+                        <div class="radio-btn"><input type="radio" name="justify" id="jc1" value="flex-start"
+                                checked><label for="jc1">flex-start</label></div>
+                        <div class="radio-btn"><input type="radio" name="justify" id="jc2" value="center"><label
+                                for="jc2">center</label></div>
+                        <div class="radio-btn"><input type="radio" name="justify" id="jc3" value="flex-end"><label
+                                for="jc3">flex-end</label></div>
+                        <div class="radio-btn"><input type="radio" name="justify" id="jc4" value="space-between"><label
+                                for="jc4">space-between</label></div>
+                        <div class="radio-btn"><input type="radio" name="justify" id="jc5" value="space-around"><label
+                                for="jc5">space-around</label></div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Align Items (Cross Axis)</label>
+                    <div class="radio-group">
+                        <div class="radio-btn"><input type="radio" name="align" id="ai1" value="stretch" checked><label
+                                for="ai1">stretch</label></div>
+                        <div class="radio-btn"><input type="radio" name="align" id="ai2" value="flex-start"><label
+                                for="ai2">flex-start</label></div>
+                        <div class="radio-btn"><input type="radio" name="align" id="ai3" value="center"><label
+                                for="ai3">center</label></div>
+                        <div class="radio-btn"><input type="radio" name="align" id="ai4" value="flex-end"><label
+                                for="ai4">flex-end</label></div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Flex Wrap</label>
+                    <div class="radio-group">
+                        <div class="radio-btn"><input type="radio" name="wrap" id="wr1" value="nowrap" checked><label
+                                for="wr1">nowrap</label></div>
+                        <div class="radio-btn"><input type="radio" name="wrap" id="wr2" value="wrap"><label
+                                for="wr2">wrap</label></div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Gap (px) <span id="gap-val"
+                            style="color:var(--fg);float:right;">16px</span></label>
+                    <input type="range" id="gapRange" class="form-range" min="0" max="64" value="16">
+                </div>
+            </div>
+
+            <!-- CANVAS & OUTPUT -->
+            <div>
+                <div class="preview-canvas">
+                    <div class="canvas-header">
+                        <h3>Visual Preview</h3>
+                        <div class="item-controls">
+                            <button class="btn btn-secondary" onclick="addBox()">+ Add Item</button>
+                            <button class="btn btn-secondary" onclick="remBox()">- Remove Item</button>
+                        </div>
+                    </div>
+
+                    <div class="flex-container" id="container">
+                        <!-- JS will populate standard boxes here -->
+                    </div>
+                </div>
+
+                <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:24px;">
+                    <h3 style="font-size:14px;font-weight:600;">Generated CSS</h3>
+                    <button class="btn btn-primary" onclick="copyCSS()">📋 Copy code</button>
+                </div>
+                <div id="css-output"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-bottom"><span>© 2024 SmartToolsLab</span></div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        const container = document.getElementById('container');
+        const cssOutput = document.getElementById('css-output');
+        const gapRange = document.getElementById('gapRange');
+        const gapVal = document.getElementById('gap-val');
+
+        let boxCount = 3;
+
+        function renderBoxes() {
+            container.innerHTML = '';
+            for (let i = 1; i <= boxCount; i++) {
+                const box = document.createElement('div');
+                box.className = 'flex-item';
+                box.textContent = i;
+                container.appendChild(box);
+            }
+        }
+
+        function addBox() { if (boxCount < 12) { boxCount++; renderBoxes(); } }
+        function remBox() { if (boxCount > 1) { boxCount--; renderBoxes(); } }
+
+        function getRadioValue(name) {
+            const el = document.querySelector(`input[name="${name}"]:checked`);
+            return el ? el.value : '';
+        }
+
+        function updateLayout() {
+            const direction = getRadioValue('direction');
+            const justify = getRadioValue('justify');
+            const align = getRadioValue('align');
+            const wrap = getRadioValue('wrap');
+            const gap = gapRange.value + 'px';
+
+            gapVal.textContent = gap;
+
+            // Update container DOM
+            container.style.flexDirection = direction;
+            container.style.justifyContent = justify;
+            container.style.alignItems = align;
+            container.style.flexWrap = wrap;
+            container.style.gap = gap;
+
+            // Generate output code
+            let code = `  display: flex;\n`;
+            if (direction !== 'row') code += `  flex-direction: ${direction};\n`;
+            if (justify !== 'flex-start') code += `  justify-content: ${justify};\n`;
+            if (align !== 'stretch') code += `  align-items: ${align};\n`;
+            if (wrap !== 'nowrap') code += `  flex-wrap: ${wrap};\n`;
+            if (gap !== '0px') code += `  gap: ${gap};\n`;
+
+            cssOutput.innerHTML = code.trim().replace(/\n/g, '<br>');
+            cssOutput.dataset.raw = code; // store for copying easily
+        }
+
+        // Bind events
+        document.querySelectorAll('input[type=radio]').forEach(btn => {
+            btn.addEventListener('change', updateLayout);
+        });
+        gapRange.addEventListener('input', updateLayout);
+
+        function copyCSS() {
+            const raw = '.container {\n' + cssOutput.dataset.raw + '}';
+            navigator.clipboard.writeText(raw).then(() => {
+                showToast('CSS Copied completely!');
+            });
+        }
+
+        // Init
+        renderBoxes();
+        updateLayout();
+    </script>
+</body>
+
+</html>
