@@ -122,6 +122,7 @@
             color: var(--text-muted);
         }
     </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -355,7 +356,8 @@
 
         // Download HTML
         document.getElementById('dlHtmlBtn').addEventListener('click', () => {
-            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Document</title><style>body{font-family:Inter,sans-serif;max-width:800px;margin:40px auto;padding:0 24px;line-height:1.7;color:#111;}h1,h2{margin:24px 0 8px;}p{margin:0 0 12px;}</style></head><body>${body.innerHTML}</body></html>`;
+            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Document</title><style>body{font-family:Inter,sans-serif;max-width:800px;margin:40px auto;padding:0 24px;line-height:1.7;color:#111;}h1,h2{margin:24px 0 8px;}p{margin:0 0 12px;}</style>  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972" crossorigin="anonymous"></script>
+</head><body>${body.innerHTML}</body></html>`;
             const a = document.createElement('a');
             a.href = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
             a.download = 'document-smarttoolslab.html'; a.click();
