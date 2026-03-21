@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live HTML/CSS/JS Editor | SmartToolsLab</title>
+    <meta name="description"
+        content="A free online HTML, CSS, and JavaScript editor with instant live preview. Perfect for testing frontend code snippets.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972"
+        crossorigin="anonymous"></script>
+    <style>
+        /* Tool-specific overrides for a full-width editor experience */
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .site-header,
+        .header-ad {
+            flex-shrink: 0;
+        }
+
+        .editor-layout {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 0;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+        }
+
+        .editor-panels {
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border);
+            background: var(--bg-1);
+            min-width: 0;
+        }
+
+        .editor-tabs {
+            display: flex;
+            background: var(--bg-2);
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .editor-tab {
+            padding: 12px 24px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--fg-4);
+            border-right: 1px solid var(--border);
+            cursor: pointer;
+            transition: all var(--dur);
+        }
+
+        .editor-tab:hover {
+            color: var(--fg-2);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .editor-tab.active {
+            color: var(--accent);
+            background: var(--bg-1);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .code-area-wrap {
+            flex: 1;
+            position: relative;
+            display: none;
+            min-height: 0;
+        }
+
+        .code-area-wrap.active {
+            display: block;
+        }
+
+        .code-area {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            color: var(--fg);
+            padding: 16px;
+            font-family: 'Fira Code', ui-monospace, SFMono-Regular, monospace;
+            font-size: 13.5px;
+            line-height: 1.6;
+            border: none;
+            outline: none;
+            resize: none;
+        }
+
+        .preview-panel {
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .preview-header {
+            background: var(--bg-2);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .preview-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--fg-4);
+        }
+
+        .iframe-wrap {
+            flex: 1;
+            position: relative;
+        }
+
+        #preview-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .editor-layout {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+
+            .editor-panels {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-ad">📢 Advertisement · Google AdSense Code Goes Here</div>
+
+    <header class="site-header">
+        <nav class="nav-inner">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
+            </a>
+            <div class="nav-center">
+                <a href="../index.html#tools">All Tools</a>
+                <a href="../index.html#features">Features</a>
+            </div>
+            <div class="nav-right">
+                <div style="font-size:12px;color:var(--fg-4);margin-right:12px;">Live HTML Editor</div>
+                <a href="../index.html#tools" class="nav-cta border-btn"
+                    style="background:var(--bg-3);color:var(--fg)">Back to Lab</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="editor-layout">
+        <!-- LEFT PANE: CODE -->
+        <div class="editor-panels">
+            <div class="editor-tabs">
+                <div class="editor-tab active" data-target="html">index.html</div>
+                <div class="editor-tab" data-target="css">style.css</div>
+                <div class="editor-tab" data-target="js">script.js</div>
+            </div>
+
+            <div class="code-area-wrap active" id="wrap-html">
+                <textarea id="code-html" class="code-area" spellcheck="false" placeholder="<!-- Write HTML here -->
+<h1>Hello World</h1>
+<p>Start typing to see live updates!</p>"></textarea>
+            </div>
+
+            <div class="code-area-wrap" id="wrap-css">
+                <textarea id="code-css" class="code-area" spellcheck="false" placeholder="/* Write CSS here */
+h1 {
+  color: #0ea5e9;
+  font-family: sans-serif;
+}
+p {
+  color: #333;
+  font-family: sans-serif;
+}"></textarea>
+            </div>
+
+            <div class="code-area-wrap" id="wrap-js">
+                <textarea id="code-js" class="code-area" spellcheck="false" placeholder="// Write JavaScript here
+console.log('App started');"></textarea>
+            </div>
+        </div>
+
+        <!-- RIGHT PANE: PREVIEW -->
+        <div class="preview-panel">
+            <div class="preview-header">
+                <div class="preview-title">Live Preview</div>
+                <div style="display:flex;gap:8px;">
+                    <button id="btn-clear"
+                        style="background:transparent;border:none;color:var(--fg-4);font-size:12px;cursor:pointer;">Clear
+                        All</button>
+                </div>
+            </div>
+            <div class="iframe-wrap">
+                <iframe id="preview-iframe" sandbox="allow-scripts allow-modals"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script>
+        const htmlInput = document.getElementById('code-html');
+        const cssInput = document.getElementById('code-css');
+        const jsInput = document.getElementById('code-js');
+        const iframe = document.getElementById('preview-iframe');
+
+        // Set default content immediately
+        htmlInput.value = `<h1>Hello World</h1>\n<p>Start typing to see live updates!</p>`;
+        cssInput.value = `body {\n  font-family: system-ui, sans-serif;\n  padding: 2rem;\n  margin: 0;\n}\ndiv {\n  padding: 1rem;\n  border-radius: 8px;\n  background: #f1f5f9;\n}\nh1 {\n  color: #0ea5e9;\n  margin-top: 0;\n}`;
+        jsInput.value = `// document.querySelector('h1').textContent = 'Changed by JS!';`;
+
+        function updatePreview() {
+            const html = htmlInput.value;
+            const css = cssInput.value;
+            const js = jsInput.value;
+
+            const source = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>${css}</style>
+        </head>
+        <body>
+          ${html}
+          <script>${js}<\/script>
+        </body>
+      </html>
+    `;
+
+            iframe.srcdoc = source;
+        }
+
+        // Update on input
+        htmlInput.addEventListener('input', updatePreview);
+        cssInput.addEventListener('input', updatePreview);
+        jsInput.addEventListener('input', updatePreview);
+
+        // Initial render
+        updatePreview();
+
+        // Tab switching logic
+        const tabs = document.querySelectorAll('.editor-tab');
+        const wraps = document.querySelectorAll('.code-area-wrap');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active from all
+                tabs.forEach(t => t.classList.remove('active'));
+                wraps.forEach(w => w.classList.remove('active'));
+
+                // Add active to clicked
+                tab.classList.add('active');
+                const target = tab.getAttribute('data-target');
+                document.getElementById('wrap-' + target).classList.add('active');
+                document.getElementById('code-' + target).focus();
+            });
+        });
+
+        // Clear button
+        document.getElementById('btn-clear').addEventListener('click', () => {
+            if (confirm('Clear all code?')) {
+                htmlInput.value = ''; cssInput.value = ''; jsInput.value = '';
+                updatePreview();
+            }
+        });
+
+        // Allow tab key to indent in textareas
+        document.querySelectorAll('.code-area').forEach(el => {
+            el.addEventListener('keydown', function (e) {
+                if (e.key === 'Tab') {
+                    e.preventDefault();
+                    const start = this.selectionStart;
+                    const end = this.selectionEnd;
+                    this.value = this.value.substring(0, start) + "  " + this.value.substring(end);
+                    this.selectionStart = this.selectionEnd = start + 2;
+                    updatePreview();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
