@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free Diff Checker Online — Compare Two Texts | SmartToolsLab</title>
+    <meta name="description"
+        content="Compare two texts and highlight the differences instantly. Free online diff checker for code, documents, and text. No signup required." />
+    <meta name="keywords"
+        content="diff checker online, text compare tool, compare two texts, code diff tool, find differences in text" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+    <style>
+        .diff-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .diff-output-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .diff-panel {
+            background: #0b1120;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: auto;
+            max-height: 500px;
+        }
+
+        .diff-panel-header {
+            padding: 10px 16px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .diff-line {
+            display: flex;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .diff-line-num {
+            width: 44px;
+            flex-shrink: 0;
+            padding: 0 10px;
+            color: var(--text-muted);
+            text-align: right;
+            user-select: none;
+            border-right: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .diff-line-content {
+            padding: 0 12px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            flex: 1;
+        }
+
+        .diff-added {
+            background: rgba(0, 200, 150, 0.12);
+        }
+
+        .diff-removed {
+            background: rgba(255, 77, 109, 0.12);
+        }
+
+        .diff-added .diff-line-content {
+            color: #00c896;
+        }
+
+        .diff-removed .diff-line-content {
+            color: #ff4d6d;
+        }
+
+        .diff-added .diff-line-num {
+            background: rgba(0, 200, 150, 0.08);
+        }
+
+        .diff-removed .diff-line-num {
+            background: rgba(255, 77, 109, 0.08);
+        }
+
+        .diff-summary {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .diff-badge {
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .diff-badge.added {
+            background: rgba(0, 200, 150, 0.12);
+            color: #00c896;
+            border: 1px solid rgba(0, 200, 150, 0.3);
+        }
+
+        .diff-badge.removed {
+            background: rgba(255, 77, 109, 0.12);
+            color: #ff4d6d;
+            border: 1px solid rgba(255, 77, 109, 0.3);
+        }
+
+        .diff-badge.unchanged {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+
+        @media(max-width:768px) {
+
+            .diff-grid,
+            .diff-output-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-ad">📢 Advertisement · Google AdSense Banner</div>
+
+    <header class="site-header">
+        <nav class="nav-inner">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
+            </a>
+            <div class="nav-links">
+                <a href="../index.html#tools">All Tools</a>
+                <a href="../index.html#tools" class="nav-cta">🚀 More Tools</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="tool-page-wrapper">
+        <main class="tool-main">
+            <div class="tool-page-header">
+                <div class="breadcrumb"><a href="../index.html">Home</a> <span>›</span> <span>Diff Checker</span></div>
+                <h1>Free Diff Checker Online</h1>
+                <p>Paste two texts and instantly see what changed — additions in green, deletions in red. Works for
+                    code, documents, essays, configs and more.</p>
+            </div>
+
+            <div class="ad-zone banner"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin-bottom:28px;">
+                <span>📢 Advertisement · 728×90 AdSense Banner</span>
+            </div>
+
+            <div class="tool-box">
+                <h2>Paste Your Texts</h2>
+                <div class="diff-grid">
+                    <div>
+                        <label class="form-label">Original Text</label>
+                        <textarea class="form-textarea" id="textA" rows="14"
+                            placeholder="Paste original text here…"></textarea>
+                    </div>
+                    <div>
+                        <label class="form-label">Modified Text</label>
+                        <textarea class="form-textarea" id="textB" rows="14"
+                            placeholder="Paste modified text here…"></textarea>
+                    </div>
+                </div>
+                <div class="flex gap-3 flex-wrap mt-4">
+                    <button class="btn btn-primary" id="compareBtn">🔍 Compare</button>
+                    <button class="btn btn-secondary" id="loadSampleBtn">📋 Load Sample</button>
+                    <button class="btn btn-secondary" id="swapBtn">🔄 Swap</button>
+                    <button class="btn btn-secondary" id="clearBtn">🗑️ Clear</button>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div id="resultSection" style="display:none;">
+                <div class="diff-summary" id="diffSummary"></div>
+                <div class="diff-output-grid">
+                    <div>
+                        <div class="diff-panel-header" style="background:rgba(255,77,109,0.08);color:#ff4d6d;">−
+                            Original</div>
+                        <div class="diff-panel" id="panelA"></div>
+                    </div>
+                    <div>
+                        <div class="diff-panel-header" style="background:rgba(0,200,150,0.08);color:#00c896;">+ Modified
+                        </div>
+                        <div class="diff-panel" id="panelB"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-box" style="margin-top:20px;">
+                <h2>What is a Diff Checker?</h2>
+                <p style="color:var(--text-secondary);line-height:1.8;font-size:0.9rem;">A diff checker compares two
+                    versions of a text and highlights exactly what changed — which lines were added, removed, or
+                    modified. Developers use it to review code changes, writers use it to track document edits, and
+                    students use it to compare essay versions.</p>
+            </div>
+        </main>
+
+        <aside class="tool-sidebar">
+            <div class="ad-zone rect"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;"><span>📢
+                    Advert</span><span>300×250</span></div>
+            <div class="sidebar-widget">
+                <h3>Related Tools</h3>
+                <a href="json-formatter.html" class="related-tool-item"><span class="icon">📋</span><span
+                        class="name">JSON Formatter</span></a>
+                <a href="word-counter.html" class="related-tool-item"><span class="icon">📝</span><span
+                        class="name">Word Counter</span></a>
+                <a href="word-editor.html" class="related-tool-item"><span class="icon">✍️</span><span class="name">Word
+                        Editor</span></a>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand"><a href="../index.html" class="logo" style="margin-bottom:12px;">
+                        <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
+                    </a>
+                    <p>Free, fast, private online tools for everyone.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Tools</h4><a href="diff-checker.html">Diff Checker</a><a href="image-to-pdf.html">Image to
+                        PDF</a><a href="word-editor.html">Word Editor</a><a href="resume-builder.html">Resume
+                        Builder</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms</a>
+                </div>
+            </div>
+            <div class="footer-bottom"><span>© 2024 SmartToolsLab</span><span>Free diff checker online — compare text
+                    instantly</span></div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        const SAMPLE_A = `function greet(name) {
+  console.log("Hello " + name);
+  return name;
+}
+
+const user = "Abhishek";
+greet(user);`;
+
+        const SAMPLE_B = `function greet(name, greeting = "Hello") {
+  console.log(greeting + ", " + name + "!");
+  return name.toUpperCase();
+}
+
+const user = "Abhishek Gajula";
+greet(user, "Welcome");`;
+
+        // Simple line-based diff
+        function computeDiff(a, b) {
+            const linesA = a.split('\n');
+            const linesB = b.split('\n');
+            const m = linesA.length, n = linesB.length;
+            // LCS
+            const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+            for (let i = 1; i <= m; i++)
+                for (let j = 1; j <= n; j++)
+                    dp[i][j] = linesA[i - 1] === linesB[j - 1] ? dp[i - 1][j - 1] + 1 : Math.max(dp[i - 1][j], dp[i][j - 1]);
+
+            const resultA = [], resultB = [];
+            let i = m, j = n;
+            while (i > 0 || j > 0) {
+                if (i > 0 && j > 0 && linesA[i - 1] === linesB[j - 1]) {
+                    resultA.unshift({ type: 'same', text: linesA[i - 1] });
+                    resultB.unshift({ type: 'same', text: linesB[j - 1] });
+                    i--; j--;
+                } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
+                    resultA.unshift({ type: 'empty', text: '' });
+                    resultB.unshift({ type: 'added', text: linesB[j - 1] });
+                    j--;
+                } else {
+                    resultA.unshift({ type: 'removed', text: linesA[i - 1] });
+                    resultB.unshift({ type: 'empty', text: '' });
+                    i--;
+                }
+            }
+            return { resultA, resultB };
+        }
+
+        function renderPanel(el, lines) {
+            let lineNum = 0;
+            el.innerHTML = lines.map(line => {
+                if (line.type !== 'empty') lineNum++;
+                const cls = line.type === 'added' ? 'diff-added' : line.type === 'removed' ? 'diff-removed' : '';
+                const numStr = line.type === 'empty' ? '' : lineNum;
+                return `<div class="diff-line ${cls}"><span class="diff-line-num">${numStr}</span><span class="diff-line-content">${escHtml(line.text)}</span></div>`;
+            }).join('');
+        }
+
+        function escHtml(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+        document.getElementById('compareBtn').addEventListener('click', () => {
+            const a = document.getElementById('textA').value;
+            const b = document.getElementById('textB').value;
+            if (!a.trim() && !b.trim()) { showToast('Please enter text in both fields', 'error'); return; }
+
+            const { resultA, resultB } = computeDiff(a, b);
+            renderPanel(document.getElementById('panelA'), resultA);
+            renderPanel(document.getElementById('panelB'), resultB);
+
+            const added = resultB.filter(l => l.type === 'added').length;
+            const removed = resultA.filter(l => l.type === 'removed').length;
+            const same = resultA.filter(l => l.type === 'same').length;
+
+            document.getElementById('diffSummary').innerHTML = `
+      <span class="diff-badge added">+ ${added} added</span>
+      <span class="diff-badge removed">− ${removed} removed</span>
+      <span class="diff-badge unchanged">= ${same} unchanged</span>
+    `;
+            document.getElementById('resultSection').style.display = '';
+            showToast('Diff complete!', 'success');
+        });
+
+        document.getElementById('loadSampleBtn').addEventListener('click', () => {
+            document.getElementById('textA').value = SAMPLE_A;
+            document.getElementById('textB').value = SAMPLE_B;
+            showToast('Sample loaded!', 'success');
+        });
+
+        document.getElementById('swapBtn').addEventListener('click', () => {
+            const a = document.getElementById('textA').value;
+            document.getElementById('textA').value = document.getElementById('textB').value;
+            document.getElementById('textB').value = a;
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            document.getElementById('textA').value = '';
+            document.getElementById('textB').value = '';
+            document.getElementById('resultSection').style.display = 'none';
+        });
+    </script>
+</body>
+
+</html>

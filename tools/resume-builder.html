@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free Resume Builder Online — Download PDF Resume | SmartToolsLab</title>
+    <meta name="description"
+        content="Build a professional resume online for free. Fill in your details, preview instantly, and download as PDF. No signup, no templates to buy." />
+    <meta name="keywords"
+        content="free resume builder online, resume maker, create resume pdf, cv builder free, resume generator" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        .resume-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .resume-preview {
+            background: #fff;
+            color: #111;
+            border-radius: var(--radius-lg);
+            padding: 36px 32px;
+            font-family: Georgia, serif;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            min-height: 600px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 80px;
+        }
+
+        .preview-name {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #111;
+            margin-bottom: 2px;
+        }
+
+        .preview-title {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .preview-contact {
+            font-size: 0.78rem;
+            color: #666;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .preview-contact span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .preview-section {
+            margin-bottom: 16px;
+        }
+
+        .preview-section-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #6C63FF;
+            border-bottom: 2px solid #6C63FF;
+            padding-bottom: 3px;
+            margin-bottom: 10px;
+        }
+
+        .preview-item {
+            margin-bottom: 10px;
+        }
+
+        .preview-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-item-title {
+            font-weight: 700;
+            font-size: 0.875rem;
+            color: #111;
+        }
+
+        .preview-item-date {
+            font-size: 0.78rem;
+            color: #888;
+        }
+
+        .preview-item-sub {
+            font-size: 0.82rem;
+            color: #444;
+            margin-top: 1px;
+        }
+
+        .preview-item-desc {
+            font-size: 0.8rem;
+            color: #555;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        .preview-skill-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .preview-skill-pill {
+            padding: 3px 10px;
+            background: rgba(108, 99, 255, 0.1);
+            border: 1px solid rgba(108, 99, 255, 0.3);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            color: #6C63FF;
+            font-weight: 600;
+        }
+
+        .section-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 14px;
+        }
+
+        .section-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .section-card-header h3 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .exp-entry {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            margin-bottom: 10px;
+        }
+
+        .exp-entry-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        @media(max-width:900px) {
+            .resume-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .resume-preview {
+                position: static;
+            }
+
+            .exp-entry-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-ad">📢 Advertisement · Google AdSense Banner</div>
+
+    <header class="site-header">
+        <nav class="nav-inner">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
+            </a>
+            <div class="nav-links">
+                <a href="../index.html#tools">All Tools</a>
+                <a href="../index.html#tools" class="nav-cta">🚀 More Tools</a>
+            </div>
+        </nav>
+    </header>
+
+    <div style="max-width:1280px;margin:0 auto;padding:40px 24px;">
+
+        <div class="tool-page-header">
+            <div class="breadcrumb"><a href="../index.html">Home</a> <span>›</span> <span>Resume Builder</span></div>
+            <h1>Free Resume Builder Online</h1>
+            <p>Fill in your details, see a live preview on the right, and download your professional resume as PDF —
+                instantly and for free.</p>
+        </div>
+
+        <div class="ad-zone banner"
+            style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin-bottom:32px;max-width:728px;">
+            <span>📢 Advertisement · 728×90 AdSense Banner</span>
+        </div>
+
+        <!-- Download buttons at top -->
+        <div class="flex gap-3 flex-wrap" style="margin-bottom:24px;">
+            <button class="btn btn-primary" id="downloadPdfBtn">⬇️ Download PDF Resume</button>
+            <button class="btn btn-secondary" id="clearResumeBtn">🗑️ Clear All</button>
+        </div>
+
+        <div class="resume-layout">
+
+            <!-- FORM -->
+            <div>
+                <!-- Personal -->
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h3>👤 Personal Info</h3>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" id="rName" placeholder="Abhishek Gajula" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Job Title</label>
+                        <input type="text" class="form-input" id="rTitle" placeholder="Full Stack Developer" />
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="rEmail" placeholder="you@example.com" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone</label>
+                            <input type="text" class="form-input" id="rPhone" placeholder="+91 98765 43210" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Location</label>
+                            <input type="text" class="form-input" id="rLocation" placeholder="Hyderabad, India" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">LinkedIn / Website</label>
+                            <input type="text" class="form-input" id="rLink" placeholder="linkedin.com/in/you" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Summary</label>
+                        <textarea class="form-textarea" id="rSummary" rows="3"
+                            placeholder="Brief professional summary…"></textarea>
+                    </div>
+                </div>
+
+                <!-- Experience -->
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h3>💼 Experience</h3>
+                        <button class="btn btn-secondary" style="padding:6px 14px;font-size:0.8rem;"
+                            onclick="addEntry('exp')">+ Add</button>
+                    </div>
+                    <div id="expEntries"></div>
+                </div>
+
+                <!-- Education -->
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h3>🎓 Education</h3>
+                        <button class="btn btn-secondary" style="padding:6px 14px;font-size:0.8rem;"
+                            onclick="addEntry('edu')">+ Add</button>
+                    </div>
+                    <div id="eduEntries"></div>
+                </div>
+
+                <!-- Skills -->
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h3>⚡ Skills</h3>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Skills (comma separated)</label>
+                        <textarea class="form-textarea" id="rSkills" rows="3"
+                            placeholder="JavaScript, React, Node.js, Python, Flutter, Firebase…"></textarea>
+                    </div>
+                </div>
+
+                <!-- Projects -->
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h3>🚀 Projects</h3>
+                        <button class="btn btn-secondary" style="padding:6px 14px;font-size:0.8rem;"
+                            onclick="addEntry('proj')">+ Add</button>
+                    </div>
+                    <div id="projEntries"></div>
+                </div>
+            </div>
+
+            <!-- PREVIEW -->
+            <div>
+                <div class="resume-preview" id="resumePreview">
+                    <div class="preview-name" id="pvName">Your Name</div>
+                    <div class="preview-title" id="pvTitle">Job Title</div>
+                    <div class="preview-contact" id="pvContact"></div>
+
+                    <div class="preview-section" id="pvSummarySection" style="display:none;">
+                        <div class="preview-section-title">Summary</div>
+                        <div class="preview-item-desc" id="pvSummary"></div>
+                    </div>
+
+                    <div class="preview-section" id="pvExpSection" style="display:none;">
+                        <div class="preview-section-title">Experience</div>
+                        <div id="pvExp"></div>
+                    </div>
+
+                    <div class="preview-section" id="pvEduSection" style="display:none;">
+                        <div class="preview-section-title">Education</div>
+                        <div id="pvEdu"></div>
+                    </div>
+
+                    <div class="preview-section" id="pvSkillsSection" style="display:none;">
+                        <div class="preview-section-title">Skills</div>
+                        <div class="preview-skill-pills" id="pvSkills"></div>
+                    </div>
+
+                    <div class="preview-section" id="pvProjSection" style="display:none;">
+                        <div class="preview-section-title">Projects</div>
+                        <div id="pvProj"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer" style="margin-top:40px;">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand"><a href="../index.html" class="logo" style="margin-bottom:12px;">
+                        <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
+                    </a>
+                    <p>Free, fast, private online tools.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Tools</h4><a href="resume-builder.html">Resume Builder</a><a href="word-editor.html">Word
+                        Editor</a><a href="word-counter.html">Word Counter</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms</a>
+                </div>
+            </div>
+            <div class="footer-bottom"><span>© 2024 SmartToolsLab</span><span>Free resume builder online — download
+                    PDF</span></div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        // Entry counters
+        const entries = { exp: [], edu: [], proj: [] };
+
+        // Live update on any input change
+        document.addEventListener('input', updatePreview);
+
+        function val(id) { return (document.getElementById(id)?.value || '').trim(); }
+
+        function updatePreview() {
+            const name = val('rName') || 'Your Name';
+            const title = val('rTitle') || 'Job Title';
+            document.getElementById('pvName').textContent = name;
+            document.getElementById('pvTitle').textContent = title;
+
+            // Contact
+            const contacts = [];
+            if (val('rEmail')) contacts.push(`📧 ${val('rEmail')}`);
+            if (val('rPhone')) contacts.push(`📞 ${val('rPhone')}`);
+            if (val('rLocation')) contacts.push(`📍 ${val('rLocation')}`);
+            if (val('rLink')) contacts.push(`🔗 ${val('rLink')}`);
+            document.getElementById('pvContact').innerHTML = contacts.map(c => `<span>${c}</span>`).join('');
+
+            // Summary
+            const sumEl = document.getElementById('pvSummarySection');
+            const sum = val('rSummary');
+            if (sum) { document.getElementById('pvSummary').textContent = sum; sumEl.style.display = ''; }
+            else sumEl.style.display = 'none';
+
+            // Experience
+            renderSection('exp', 'pvExpSection', 'pvExp', e => `
+      <div class="preview-item">
+        <div class="preview-item-header">
+          <div class="preview-item-title">${e.title || ''}</div>
+          <div class="preview-item-date">${e.date || ''}</div>
+        </div>
+        <div class="preview-item-sub">${e.company || ''}</div>
+        <div class="preview-item-desc">${e.desc || ''}</div>
+      </div>`);
+
+            // Education
+            renderSection('edu', 'pvEduSection', 'pvEdu', e => `
+      <div class="preview-item">
+        <div class="preview-item-header">
+          <div class="preview-item-title">${e.title || ''}</div>
+          <div class="preview-item-date">${e.date || ''}</div>
+        </div>
+        <div class="preview-item-sub">${e.company || ''}</div>
+      </div>`);
+
+            // Skills
+            const skillsEl = document.getElementById('pvSkillsSection');
+            const skills = val('rSkills').split(',').map(s => s.trim()).filter(Boolean);
+            if (skills.length) {
+                document.getElementById('pvSkills').innerHTML = skills.map(s => `<span class="preview-skill-pill">${s}</span>`).join('');
+                skillsEl.style.display = '';
+            } else skillsEl.style.display = 'none';
+
+            // Projects
+            renderSection('proj', 'pvProjSection', 'pvProj', e => `
+      <div class="preview-item">
+        <div class="preview-item-title">${e.title || ''} ${e.date ? `<span style="font-weight:400;color:#888;font-size:0.78rem;">${e.date}</span>` : ''}</div>
+        <div class="preview-item-desc">${e.desc || ''}</div>
+      </div>`);
+        }
+
+        function renderSection(type, sectionId, contentId, tplFn) {
+            const el = document.getElementById(sectionId);
+            const items = entries[type].map((id, i) => {
+                return { title: val(`${type}_title_${id}`), company: val(`${type}_company_${id}`), date: val(`${type}_date_${id}`), desc: val(`${type}_desc_${id}`) };
+            }).filter(e => e.title || e.company);
+            if (items.length) { document.getElementById(contentId).innerHTML = items.map(tplFn).join(''); el.style.display = ''; }
+            else el.style.display = 'none';
+        }
+
+        let entryCounter = 0;
+        window.addEntry = function (type) {
+            const id = ++entryCounter;
+            entries[type].push(id);
+            const companyLabel = type === 'edu' ? 'School/University' : type === 'proj' ? 'Tech Stack' : 'Company';
+            const hasCompany = type !== 'proj';
+            const html = `
+      <div class="exp-entry" id="entry_${id}">
+        <div class="exp-entry-grid">
+          <div class="form-group" style="margin-bottom:8px;">
+            <label class="form-label">${type === 'edu' ? 'Degree' : type === 'proj' ? 'Project Name' : 'Job Title'}</label>
+            <input type="text" class="form-input" id="${type}_title_${id}" placeholder="${type === 'edu' ? 'B.Tech CSE' : type === 'proj' ? 'SmartToolsLab' : 'Software Engineer'}" />
+          </div>
+          <div class="form-group" style="margin-bottom:8px;">
+            <label class="form-label">Duration</label>
+            <input type="text" class="form-input" id="${type}_date_${id}" placeholder="2022 – Present" />
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:8px;">
+          <label class="form-label">${companyLabel}</label>
+          <input type="text" class="form-input" id="${type}_company_${id}" placeholder="${type === 'edu' ? 'JNTUH, Hyderabad' : type === 'proj' ? 'HTML, CSS, JS' : 'Google, Hyderabad'}" />
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">Description</label>
+          <textarea class="form-textarea" id="${type}_desc_${id}" rows="2" placeholder="Brief description…"></textarea>
+        </div>
+        <button onclick="removeEntry('${type}',${id})" style="margin-top:8px;background:none;border:none;color:var(--error);cursor:pointer;font-size:0.8rem;">✕ Remove</button>
+      </div>`;
+            document.getElementById(`${type}Entries`).insertAdjacentHTML('beforeend', html);
+        };
+
+        window.removeEntry = function (type, id) {
+            document.getElementById(`entry_${id}`)?.remove();
+            entries[type] = entries[type].filter(x => x !== id);
+            updatePreview();
+        };
+
+        // Download PDF
+        document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+            const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+            const margin = 18, pageW = 210 - margin * 2;
+            let y = 20;
+
+            const name = val('rName') || 'Resume';
+            const title = val('rTitle');
+
+            // Header
+            doc.setFont('helvetica', 'bold'); doc.setFontSize(20); doc.setTextColor(30, 30, 30);
+            doc.text(name, margin, y); y += 8;
+            if (title) { doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor(100, 100, 100); doc.text(title, margin, y); y += 6; }
+
+            // Contact line
+            const contacts = [val('rEmail'), val('rPhone'), val('rLocation'), val('rLink')].filter(Boolean).join('  |  ');
+            if (contacts) { doc.setFontSize(9); doc.setTextColor(120, 120, 120); doc.text(contacts, margin, y); y += 5; }
+
+            // Divider
+            doc.setDrawColor(108, 99, 255); doc.setLineWidth(0.7); doc.line(margin, y, 210 - margin, y); y += 6;
+
+            function addSection(title, content) {
+                if (!content) return;
+                if (y > 260) { doc.addPage(); y = 20; }
+                doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(108, 99, 255);
+                doc.text(title.toUpperCase(), margin, y); y += 1;
+                doc.setDrawColor(108, 99, 255); doc.setLineWidth(0.3); doc.line(margin, y, 210 - margin, y); y += 5;
+                doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(50, 50, 50);
+                const lines = doc.splitTextToSize(content, pageW);
+                doc.text(lines, margin, y); y += lines.length * 4.5 + 5;
+            }
+
+            if (val('rSummary')) addSection('Summary', val('rSummary'));
+
+            // Experience
+            const expItems = entries.exp.map(id => {
+                const t = val(`exp_title_${id}`), c = val(`exp_company_${id}`), d = val(`exp_date_${id}`), desc = val(`exp_desc_${id}`);
+                return [t, c, d, desc].some(Boolean) ? `${t}${c ? ' — ' + c : ''}${d ? ' (' + d + ')' : ''}\n${desc}` : null;
+            }).filter(Boolean);
+            if (expItems.length) addSection('Experience', expItems.join('\n\n'));
+
+            const eduItems = entries.edu.map(id => {
+                const t = val(`edu_title_${id}`), c = val(`edu_company_${id}`), d = val(`edu_date_${id}`);
+                return t || c ? `${t}${c ? ' — ' + c : ''}${d ? ' (' + d + ')' : ''}` : null;
+            }).filter(Boolean);
+            if (eduItems.length) addSection('Education', eduItems.join('\n'));
+
+            const skills = val('rSkills');
+            if (skills) addSection('Skills', skills);
+
+            const projItems = entries.proj.map(id => {
+                const t = val(`proj_title_${id}`), d = val(`proj_date_${id}`), desc = val(`proj_desc_${id}`);
+                return t ? `${t}${d ? ' (' + d + ')' : ''}\n${desc}` : null;
+            }).filter(Boolean);
+            if (projItems.length) addSection('Projects', projItems.join('\n\n'));
+
+            doc.save(`${name.replace(/\s+/g, '-')}-resume.pdf`);
+            showToast('Resume downloaded!', 'success');
+        });
+
+        document.getElementById('clearResumeBtn').addEventListener('click', () => {
+            if (!confirm('Clear all resume data?')) return;
+            ['rName', 'rTitle', 'rEmail', 'rPhone', 'rLocation', 'rLink', 'rSummary', 'rSkills'].forEach(id => {
+                const el = document.getElementById(id); if (el) el.value = '';
+            });
+            entries.exp = []; entries.edu = []; entries.proj = [];
+            ['expEntries', 'eduEntries', 'projEntries'].forEach(id => { document.getElementById(id).innerHTML = ''; });
+            updatePreview();
+        });
+
+        // Default entries
+        addEntry('exp'); addEntry('edu'); addEntry('proj');
+    </script>
+</body>
+
+</html>

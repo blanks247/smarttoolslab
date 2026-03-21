@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free Online Word Editor — Rich Text Editor | SmartToolsLab</title>
+    <meta name="description"
+        content="Free online word editor with rich text formatting. Bold, italic, underline, font sizes, colors, alignment and more. Download as HTML or TXT. No signup needed." />
+    <meta name="keywords"
+        content="online word editor free, rich text editor online, document editor, text formatting tool, write document online" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+    <style>
+        .editor-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            border-bottom: none;
+        }
+
+        .tb-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 6px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-family: var(--font);
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .tb-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+        }
+
+        .tb-btn.active {
+            background: rgba(108, 99, 255, 0.2);
+            color: var(--accent-light);
+        }
+
+        .tb-sep {
+            width: 1px;
+            height: 24px;
+            background: var(--border);
+            margin: 0 4px;
+            align-self: center;
+        }
+
+        .tb-select {
+            height: 34px;
+            padding: 0 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-secondary);
+            font-family: var(--font);
+            font-size: 0.8rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .tb-select:focus {
+            border-color: var(--accent);
+        }
+
+        .tb-color {
+            width: 34px;
+            height: 34px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            padding: 2px;
+            background: transparent;
+        }
+
+        .editor-body {
+            min-height: 480px;
+            padding: 32px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            color: var(--text-primary);
+            font-family: var(--font);
+            font-size: 1rem;
+            line-height: 1.8;
+            caret-color: var(--accent);
+        }
+
+        .editor-body:focus {
+            border-color: var(--accent);
+        }
+
+        .editor-body p,
+        .editor-body div {
+            margin: 0;
+            min-height: 1.8em;
+        }
+
+        .editor-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-ad">📢 Advertisement · Google AdSense Banner</div>
+
+    <header class="site-header">
+        <nav class="nav-inner">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
+            </a>
+            <div class="nav-links">
+                <a href="../index.html#tools">All Tools</a>
+                <a href="../index.html#tools" class="nav-cta">🚀 More Tools</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="tool-page-wrapper">
+        <main class="tool-main">
+            <div class="tool-page-header">
+                <div class="breadcrumb"><a href="../index.html">Home</a> <span>›</span> <span>Word Editor</span></div>
+                <h1>Free Online Word Editor</h1>
+                <p>A powerful, distraction-free rich text editor in your browser. Format text, add headings, lists,
+                    colors — then download as HTML or plain text. No signup, no cloud.</p>
+            </div>
+
+            <div class="ad-zone banner"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin-bottom:28px;">
+                <span>📢 Advertisement · 728×90 AdSense Banner</span>
+            </div>
+
+            <!-- Toolbar + Editor -->
+            <div style="margin-bottom:20px;">
+                <div class="editor-toolbar" id="toolbar">
+                    <!-- Font family -->
+                    <select class="tb-select" id="fontFamily" title="Font">
+                        <option value="Inter, sans-serif">Inter</option>
+                        <option value="Georgia, serif">Georgia</option>
+                        <option value="'Courier New', monospace">Courier New</option>
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="'Times New Roman', serif">Times New Roman</option>
+                    </select>
+                    <!-- Font size -->
+                    <select class="tb-select" id="fontSize" title="Font size">
+                        <option value="1">Small</option>
+                        <option value="2">Normal</option>
+                        <option value="3" selected>Medium</option>
+                        <option value="4">Large</option>
+                        <option value="5">XLarge</option>
+                        <option value="6">Huge</option>
+                    </select>
+                    <div class="tb-sep"></div>
+                    <!-- Format -->
+                    <button class="tb-btn" title="Bold" data-cmd="bold"><strong>B</strong></button>
+                    <button class="tb-btn" title="Italic" data-cmd="italic"><em>I</em></button>
+                    <button class="tb-btn" title="Underline" data-cmd="underline"><u>U</u></button>
+                    <button class="tb-btn" title="Strikethrough" data-cmd="strikeThrough"><s>S</s></button>
+                    <div class="tb-sep"></div>
+                    <!-- Headings -->
+                    <button class="tb-btn" title="Heading 1" data-cmd="heading1"
+                        style="width:auto;padding:0 8px;font-size:0.8rem;font-weight:700;">H1</button>
+                    <button class="tb-btn" title="Heading 2" data-cmd="heading2"
+                        style="width:auto;padding:0 8px;font-size:0.8rem;font-weight:700;">H2</button>
+                    <div class="tb-sep"></div>
+                    <!-- Align -->
+                    <button class="tb-btn" title="Align Left" data-cmd="justifyLeft">⬅</button>
+                    <button class="tb-btn" title="Align Center" data-cmd="justifyCenter">⬛</button>
+                    <button class="tb-btn" title="Align Right" data-cmd="justifyRight">➡</button>
+                    <div class="tb-sep"></div>
+                    <!-- Lists -->
+                    <button class="tb-btn" title="Bullet List" data-cmd="insertUnorderedList">• ≡</button>
+                    <button class="tb-btn" title="Numbered List" data-cmd="insertOrderedList">1. ≡</button>
+                    <div class="tb-sep"></div>
+                    <!-- Color -->
+                    <input type="color" class="tb-color" id="textColor" title="Text color" value="#f0f0ff" />
+                    <input type="color" class="tb-color" id="bgColor" title="Highlight" value="#6C63FF" />
+                    <div class="tb-sep"></div>
+                    <!-- Link -->
+                    <button class="tb-btn" title="Insert Link" data-cmd="createLink"
+                        style="width:auto;padding:0 8px;font-size:0.8rem;">🔗 Link</button>
+                    <button class="tb-btn" title="Remove Link" data-cmd="unlink"
+                        style="width:auto;padding:0 8px;font-size:0.8rem;">🔗✕</button>
+                    <div class="tb-sep"></div>
+                    <button class="tb-btn" title="Clear Formatting" data-cmd="removeFormat"
+                        style="width:auto;padding:0 8px;font-size:0.75rem;">✕ Format</button>
+                </div>
+
+                <div class="editor-body" id="editorBody" contenteditable="true" spellcheck="true">
+                    <p><strong>Welcome to SmartToolsLab Word Editor!</strong></p>
+                    <p>Start typing here… Use the toolbar above to format your text.</p>
+                </div>
+
+                <div class="editor-footer">
+                    <span id="editorStats">0 words · 0 chars</span>
+                    <span>Auto-saves to browser</span>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="tool-box">
+                <h2>Download & Actions</h2>
+                <div class="flex gap-3 flex-wrap">
+                    <button class="btn btn-primary" id="dlHtmlBtn">⬇️ Download as HTML</button>
+                    <button class="btn btn-secondary" id="dlTxtBtn">⬇️ Download as TXT</button>
+                    <button class="btn btn-secondary" id="printBtn">🖨️ Print</button>
+                    <button class="btn btn-secondary" id="copyAllBtn">📋 Copy All</button>
+                    <button class="btn btn-danger" id="clearEditorBtn">🗑️ Clear</button>
+                </div>
+            </div>
+
+            <div class="tool-box">
+                <h2>Keyboard Shortcuts</h2>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">
+                    <div style="font-size:0.85rem;color:var(--text-secondary);"><kbd
+                            style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+B</kbd>
+                        Bold</div>
+                    <div style="font-size:0.85rem;color:var(--text-secondary);"><kbd
+                            style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+I</kbd>
+                        Italic</div>
+                    <div style="font-size:0.85rem;color:var(--text-secondary);"><kbd
+                            style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+U</kbd>
+                        Underline</div>
+                    <div style="font-size:0.85rem;color:var(--text-secondary);"><kbd
+                            style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+Z</kbd>
+                        Undo</div>
+                    <div style="font-size:0.85rem;color:var(--text-secondary);"><kbd
+                            style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+Y</kbd>
+                        Redo</div>
+                    <div style="font-size:0.85rem;color:var(--text-secondary);"><kbd
+                            style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+A</kbd>
+                        Select All</div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="tool-sidebar">
+            <div class="ad-zone rect"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;"><span>📢
+                    Advert</span><span>300×250</span></div>
+            <div class="sidebar-widget">
+                <h3>Related Tools</h3>
+                <a href="word-counter.html" class="related-tool-item"><span class="icon">📝</span><span
+                        class="name">Word Counter</span></a>
+                <a href="diff-checker.html" class="related-tool-item"><span class="icon">🔀</span><span
+                        class="name">Diff Checker</span></a>
+                <a href="resume-builder.html" class="related-tool-item"><span class="icon">📄</span><span
+                        class="name">Resume Builder</span></a>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand"><a href="../index.html" class="logo" style="margin-bottom:12px;">
+                        <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
+                    </a>
+                    <p>Free, fast, private online tools.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Tools</h4><a href="word-editor.html">Word Editor</a><a href="word-counter.html">Word
+                        Counter</a><a href="resume-builder.html">Resume Builder</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms</a>
+                </div>
+            </div>
+            <div class="footer-bottom"><span>© 2024 SmartToolsLab</span><span>Free online word editor — no signup</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        const body = document.getElementById('editorBody');
+
+        // Exec command helper
+        function exec(cmd, value = null) {
+            body.focus();
+            if (cmd === 'heading1') { document.execCommand('formatBlock', false, 'H1'); return; }
+            if (cmd === 'heading2') { document.execCommand('formatBlock', false, 'H2'); return; }
+            if (cmd === 'createLink') {
+                const url = prompt('Enter URL:'); if (url) document.execCommand('createLink', false, url); return;
+            }
+            document.execCommand(cmd, false, value);
+        }
+
+        // Toolbar buttons
+        document.querySelectorAll('.tb-btn[data-cmd]').forEach(btn => {
+            btn.addEventListener('click', () => exec(btn.dataset.cmd));
+        });
+
+        // Font family
+        document.getElementById('fontFamily').addEventListener('change', function () {
+            exec('fontName', this.value);
+        });
+
+        // Font size
+        document.getElementById('fontSize').addEventListener('change', function () {
+            exec('fontSize', this.value);
+        });
+
+        // Colors
+        document.getElementById('textColor').addEventListener('input', function () {
+            exec('foreColor', this.value);
+        });
+        document.getElementById('bgColor').addEventListener('input', function () {
+            exec('hiliteColor', this.value);
+        });
+
+        // Word count
+        function updateStats() {
+            const text = body.innerText || '';
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            document.getElementById('editorStats').textContent = `${words} words · ${text.length} chars`;
+        }
+        body.addEventListener('input', updateStats);
+
+        // Auto-save
+        body.addEventListener('input', () => {
+            try { localStorage.setItem('stl-word-editor', body.innerHTML); } catch (e) { }
+        });
+
+        // Restore
+        const saved = localStorage.getItem('stl-word-editor');
+        if (saved) body.innerHTML = saved;
+
+        // Download HTML
+        document.getElementById('dlHtmlBtn').addEventListener('click', () => {
+            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Document</title><style>body{font-family:Inter,sans-serif;max-width:800px;margin:40px auto;padding:0 24px;line-height:1.7;color:#111;}h1,h2{margin:24px 0 8px;}p{margin:0 0 12px;}</style></head><body>${body.innerHTML}</body></html>`;
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+            a.download = 'document-smarttoolslab.html'; a.click();
+        });
+
+        // Download TXT
+        document.getElementById('dlTxtBtn').addEventListener('click', () => {
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([body.innerText], { type: 'text/plain' }));
+            a.download = 'document-smarttoolslab.txt'; a.click();
+        });
+
+        // Print
+        document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+        // Copy All
+        document.getElementById('copyAllBtn').addEventListener('click', () => {
+            copyToClipboard(body.innerText, document.getElementById('copyAllBtn'));
+        });
+
+        // Clear
+        document.getElementById('clearEditorBtn').addEventListener('click', () => {
+            if (confirm('Clear all content?')) { body.innerHTML = '<p><br></p>'; updateStats(); }
+        });
+    </script>
+</body>
+
+</html>

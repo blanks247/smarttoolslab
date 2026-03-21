@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free Image to PDF Converter Online | SmartToolsLab</title>
+    <meta name="description"
+        content="Convert JPG, PNG, and WebP images to PDF online for free. Upload multiple images, arrange them, and download as a single PDF. No signup needed." />
+    <meta name="keywords"
+        content="image to pdf converter, jpg to pdf online free, png to pdf, convert image to pdf, multiple images to pdf" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .image-thumb {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 3/4;
+        }
+
+        .image-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-thumb .thumb-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: opacity 0.2s;
+        }
+
+        .image-thumb:hover .thumb-overlay {
+            opacity: 1;
+        }
+
+        .thumb-num {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 999px;
+        }
+
+        .page-size-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .page-size-btn {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            font-family: var(--font);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .page-size-btn:hover,
+        .page-size-btn.active {
+            background: rgba(108, 99, 255, 0.12);
+            border-color: var(--accent);
+            color: var(--accent-light);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-ad">📢 Advertisement · Google AdSense Banner</div>
+
+    <header class="site-header">
+        <nav class="nav-inner">
+            <a href="../index.html" class="logo">
+                <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
+            </a>
+            <div class="nav-links">
+                <a href="../index.html#tools">All Tools</a>
+                <a href="../index.html#tools" class="nav-cta">🚀 More Tools</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="tool-page-wrapper">
+        <main class="tool-main">
+            <div class="tool-page-header">
+                <div class="breadcrumb"><a href="../index.html">Home</a> <span>›</span> <span>Image to PDF</span></div>
+                <h1>Free Image to PDF Converter Online</h1>
+                <p>Convert JPG, PNG, and WebP images to a PDF file in seconds. Upload multiple images, arrange the
+                    order, choose page size, and download — 100% free, no signup.</p>
+            </div>
+
+            <div class="ad-zone banner"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin-bottom:28px;">
+                <span>📢 Advertisement · 728×90 AdSense Banner</span>
+            </div>
+
+            <!-- Upload -->
+            <div class="tool-box">
+                <h2>Step 1 — Upload Images</h2>
+                <div class="upload-zone" id="imgUploadZone">
+                    <input type="file" id="imgInput" accept="image/jpeg,image/png,image/webp" multiple />
+                    <div class="upload-zone-icon">🖼️</div>
+                    <h3>Drop images here</h3>
+                    <p>JPG, PNG, WebP supported · Multiple files allowed</p>
+                    <button class="btn btn-primary" style="margin-top:16px;"
+                        onclick="document.getElementById('imgInput').click()">📁 Choose Images</button>
+                </div>
+            </div>
+
+            <!-- Arrange -->
+            <div class="tool-box" id="arrangeBox" style="display:none;">
+                <div class="flex justify-between items-center" style="margin-bottom:16px;">
+                    <h2 style="margin:0;">Step 2 — Arrange Order</h2>
+                    <button class="btn btn-secondary" style="padding:8px 14px;font-size:0.8rem;"
+                        onclick="document.getElementById('imgInput').click()">+ Add More</button>
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;">Images will appear in the PDF
+                    in this order. Click ✕ to remove any.</p>
+                <div class="image-grid" id="imageGrid"></div>
+            </div>
+
+            <!-- Settings -->
+            <div class="tool-box" id="settingsBox" style="display:none;">
+                <h2>Step 3 — PDF Settings</h2>
+                <div class="form-group">
+                    <label class="form-label">Page Size</label>
+                    <div class="page-size-grid" id="pageSizeGrid">
+                        <div class="page-size-btn active" data-size="a4">📄 A4<br><small>210×297mm</small></div>
+                        <div class="page-size-btn" data-size="a3">📄 A3<br><small>297×420mm</small></div>
+                        <div class="page-size-btn" data-size="letter">📄 Letter<br><small>216×279mm</small></div>
+                        <div class="page-size-btn" data-size="fit">🎯 Fit Image<br><small>Auto-size</small></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Orientation</label>
+                    <div class="flex gap-3">
+                        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;"><input type="radio"
+                                name="orient" value="portrait" checked /> Portrait</label>
+                        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;"><input type="radio"
+                                name="orient" value="landscape" /> Landscape</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Image Fit</label>
+                    <div class="flex gap-3">
+                        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;"><input type="radio"
+                                name="fit" value="fill" checked /> Fill page</label>
+                        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;"><input type="radio"
+                                name="fit" value="contain" /> Fit with margins</label>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="convertBtn">📄 Convert to PDF</button>
+            </div>
+
+            <!-- Progress -->
+            <div class="tool-box" id="progressBox" style="display:none;">
+                <h2>Converting…</h2>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill" id="convertBar" style="width:0%"></div>
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-top:8px;" id="convertStatus">Processing
+                    images…</p>
+            </div>
+
+            <!-- Result -->
+            <div class="tool-box" id="resultBox" style="display:none;">
+                <div class="alert alert-success" id="resultAlert" style="margin-bottom:20px;"></div>
+                <div class="flex gap-3">
+                    <button class="btn btn-success" id="downloadPdfBtn">⬇️ Download PDF</button>
+                    <button class="btn btn-secondary" id="convertAgainBtn">🔄 Convert More</button>
+                </div>
+            </div>
+
+            <div class="tool-box">
+                <h2>How to Convert Images to PDF (3 Easy Steps)</h2>
+                <ol style="padding-left:20px;color:var(--text-secondary);line-height:2.2;">
+                    <li>Upload one or more JPG, PNG, or WebP image files.</li>
+                    <li>Arrange the images in the order you want them in the PDF.</li>
+                    <li>Choose page size, click Convert, and download your PDF instantly.</li>
+                </ol>
+            </div>
+        </main>
+
+        <aside class="tool-sidebar">
+            <div class="ad-zone rect"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;"><span>📢
+                    Advert</span><span>300×250</span></div>
+            <div class="sidebar-widget">
+                <h3>Related Tools</h3>
+                <a href="image-compressor.html" class="related-tool-item"><span class="icon">🖼️</span><span
+                        class="name">Image Compressor</span></a>
+                <a href="pdf-merge.html" class="related-tool-item"><span class="icon">📄</span><span class="name">PDF
+                        Merge</span></a>
+                <a href="qr-generator.html" class="related-tool-item"><span class="icon">🔲</span><span class="name">QR
+                        Generator</span></a>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand"><a href="../index.html" class="logo" style="margin-bottom:12px;">
+                        <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
+                    </a>
+                    <p>Free, fast, private online tools for everyone.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Tools</h4><a href="image-compressor.html">Image Compressor</a><a href="pdf-merge.html">PDF
+                        Merge</a><a href="image-to-pdf.html">Image to PDF</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms</a>
+                </div>
+            </div>
+            <div class="footer-bottom"><span>© 2024 SmartToolsLab</span><span>Free image to PDF converter online</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        const { jsPDF } = window.jspdf;
+        let images = [];
+        let pdfBlob = null;
+        let selectedSize = 'a4';
+
+        const imgInput = document.getElementById('imgInput');
+        const uploadZone = document.getElementById('imgUploadZone');
+        const arrangeBox = document.getElementById('arrangeBox');
+        const settingsBox = document.getElementById('settingsBox');
+        const progressBox = document.getElementById('progressBox');
+        const resultBox = document.getElementById('resultBox');
+        const imageGrid = document.getElementById('imageGrid');
+
+        uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+        uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+        uploadZone.addEventListener('drop', e => {
+            e.preventDefault(); uploadZone.classList.remove('dragover');
+            const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+            if (files.length) addImages(files);
+        });
+        uploadZone.addEventListener('click', () => imgInput.click());
+        imgInput.addEventListener('change', () => { if (imgInput.files.length) addImages(Array.from(imgInput.files)); imgInput.value = ''; });
+
+        function addImages(files) {
+            files.forEach(f => {
+                const reader = new FileReader();
+                reader.onload = e => { images.push({ dataUrl: e.target.result, name: f.name, size: f.size }); renderGrid(); };
+                reader.readAsDataURL(f);
+            });
+            arrangeBox.style.display = '';
+            settingsBox.style.display = '';
+            resultBox.style.display = 'none';
+        }
+
+        function renderGrid() {
+            imageGrid.innerHTML = images.map((img, i) => `
+      <div class="image-thumb">
+        <img src="${img.dataUrl}" alt="${img.name}" />
+        <span class="thumb-num">${i + 1}</span>
+        <div class="thumb-overlay">
+          ${i > 0 ? `<button class="btn btn-secondary" style="padding:5px 8px;font-size:0.75rem;" onclick="moveImg(${i},-1)">←</button>` : ''}
+          <button class="btn btn-danger" style="padding:5px 8px;font-size:0.75rem;" onclick="removeImg(${i})">✕</button>
+          ${i < images.length - 1 ? `<button class="btn btn-secondary" style="padding:5px 8px;font-size:0.75rem;" onclick="moveImg(${i},1)">→</button>` : ''}
+        </div>
+      </div>`).join('');
+        }
+
+        window.moveImg = (i, d) => { [images[i], images[i + d]] = [images[i + d], images[i]]; renderGrid(); };
+        window.removeImg = (i) => { images.splice(i, 1); renderGrid(); if (!images.length) { arrangeBox.style.display = 'none'; settingsBox.style.display = 'none'; } };
+
+        // Page size buttons
+        document.querySelectorAll('.page-size-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.page-size-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedSize = btn.dataset.size;
+            });
+        });
+
+        document.getElementById('convertBtn').addEventListener('click', async () => {
+            if (!images.length) { showToast('Please add at least one image', 'error'); return; }
+            progressBox.style.display = '';
+            resultBox.style.display = 'none';
+            document.getElementById('convertBtn').disabled = true;
+
+            const orient = document.querySelector('input[name="orient"]:checked').value;
+            const fitMode = document.querySelector('input[name="fit"]:checked').value;
+            const bar = document.getElementById('convertBar');
+            const status = document.getElementById('convertStatus');
+
+            await new Promise(r => setTimeout(r, 50));
+
+            let pdf;
+            if (selectedSize === 'fit') {
+                const img0 = new Image(); img0.src = images[0].dataUrl;
+                await new Promise(r => img0.onload = r);
+                pdf = new jsPDF({ unit: 'px', format: [img0.width, img0.height], orientation: orient });
+            } else {
+                pdf = new jsPDF({ unit: 'mm', format: selectedSize, orientation: orient });
+            }
+
+            for (let i = 0; i < images.length; i++) {
+                status.textContent = `Processing image ${i + 1} of ${images.length}…`;
+                bar.style.width = Math.round(((i) / images.length) * 90) + '%';
+                if (i > 0) pdf.addPage(selectedSize === 'fit' ? undefined : selectedSize, orient);
+
+                const imgEl = new Image();
+                imgEl.src = images[i].dataUrl;
+                await new Promise(r => imgEl.onload = r);
+
+                const pW = pdf.internal.pageSize.getWidth();
+                const pH = pdf.internal.pageSize.getHeight();
+
+                let x = 0, y = 0, w = pW, h = pH;
+                if (fitMode === 'contain') {
+                    const ratio = Math.min((pW - 20) / imgEl.width, (pH - 20) / imgEl.height);
+                    w = imgEl.width * ratio; h = imgEl.height * ratio;
+                    x = (pW - w) / 2; y = (pH - h) / 2;
+                }
+                pdf.addImage(images[i].dataUrl, 'JPEG', x, y, w, h);
+                await new Promise(r => setTimeout(r, 10));
+            }
+
+            bar.style.width = '100%';
+            status.textContent = 'Done!';
+            pdfBlob = pdf.output('blob');
+            const pages = images.length;
+            document.getElementById('resultAlert').textContent = `✅ PDF created! ${pages} page${pages > 1 ? 's' : ''} · ${formatSize(pdfBlob.size)}`;
+            progressBox.style.display = 'none';
+            resultBox.style.display = '';
+            document.getElementById('convertBtn').disabled = false;
+            showToast('PDF created!', 'success');
+        });
+
+        document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+            if (!pdfBlob) return;
+            const url = URL.createObjectURL(pdfBlob);
+            const a = document.createElement('a'); a.href = url; a.download = 'images-smarttoolslab.pdf'; a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        document.getElementById('convertAgainBtn').addEventListener('click', () => {
+            images = []; pdfBlob = null;
+            arrangeBox.style.display = settingsBox.style.display = resultBox.style.display = 'none';
+            document.getElementById('imageGrid').innerHTML = '';
+        });
+    </script>
+</body>
+
+</html>
