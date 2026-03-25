@@ -4,172 +4,480 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS Flexbox Layout Generator | SmartToolsLab</title>
+    <title>CSS Grid & Flexbox Layout Generator | SmartToolsLab</title>
     <meta name="description"
-        content="Visually build CSS Flexbox layouts. Adjust gaps, alignment, and direction, then copy the generated CSS instantly.">
+        content="Visually build CSS Grid and Flexbox layouts. Adjust gaps, alignment, and areas, then copy the generated CSS instantly.">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972"
         crossorigin="anonymous"></script>
     <style>
-        .layout-builder {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 24px;
-            margin-top: 24px;
-            align-items: start;
+        .layout-app {
+            background: var(--bg-1, #fff);
+            min-height: calc(100vh - 160px);
+            display: flex;
+            flex-direction: column;
+            color: var(--fg-1, #333);
         }
 
-        .builder-controls {
-            background: var(--bg-1);
-            border: 1px solid var(--border);
-            border-radius: var(--r-xl);
+        /* --- View: Templates Setup --- */
+        .template-view {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .template-view h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .category-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--fg-3, #666);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-title::before {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border, #eee);
+            margin-right: 16px;
+        }
+
+        .category-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border, #eee);
+            margin-left: 16px;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .template-card {
+            background: var(--bg-2, #fafafa);
+            border: 1px solid var(--border, #e5e5e5);
+            border-radius: var(--r-lg, 12px);
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .template-card:hover {
+            border-color: var(--accent, #0ea5e9);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            transform: translateY(-2px);
+        }
+
+        .template-icon {
+            width: 120px;
+            height: 80px;
+            background: #fff;
+            border: 1px solid var(--border, #eee);
+            border-radius: 4px;
+            margin-bottom: 16px;
+            padding: 8px;
+            box-sizing: border-box;
+            display: flex;
+        }
+
+        .template-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--fg-2, #444);
+        }
+
+        /* Template Miniatures */
+        .icon-grid-12 {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 2px;
+        }
+
+        .icon-grid-12>div {
+            background: #333;
+            height: 12px;
+        }
+
+        .icon-grid-12 .r1 {
+            grid-column: span 12;
+        }
+
+        .icon-grid-12 .r2 {
+            grid-column: span 8;
+        }
+
+        .icon-grid-12 .r3 {
+            grid-column: span 4;
+        }
+
+        .icon-grid-3x3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 4px;
+            width: 100%;
+        }
+
+        .icon-grid-3x3>div {
+            background: #333;
+        }
+
+        .icon-hg {
+            display: grid;
+            width: 100%;
+            gap: 4px;
+            grid-template-columns: 20px 1fr 20px;
+            grid-template-rows: 15px 1fr 15px;
+        }
+
+        .icon-hg>div {
+            background: #333;
+        }
+
+        .icon-hg .h {
+            grid-column: 1 / -1;
+        }
+
+        .icon-hg .f {
+            grid-column: 1 / -1;
+        }
+
+        .icon-sidebar {
+            display: grid;
+            width: 100%;
+            gap: 4px;
+            grid-template-columns: 30px 1fr;
+        }
+
+        .icon-sidebar>div {
+            background: #333;
+        }
+
+        .icon-hmf {
+            display: grid;
+            width: 100%;
+            gap: 4px;
+            grid-template-columns: 1fr;
+            grid-template-rows: 15px 1fr 15px;
+        }
+
+        .icon-hmf>div {
+            background: #333;
+        }
+
+        .icon-inf {
+            display: grid;
+            width: 100%;
+            gap: 4px;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 15px;
+        }
+
+        .icon-inf>div {
+            background: #333;
+        }
+
+        .icon-flex-row {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .icon-flex-row>div {
+            width: 20px;
+            height: 20px;
+            background: #333;
+        }
+
+        .icon-flex-wrap {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            align-content: center;
+            width: 100%;
+        }
+
+        .icon-flex-wrap>div {
+            width: 25px;
+            height: 20px;
+            background: #333;
+        }
+
+        .icon-fill {
+            display: flex;
+            gap: 4px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .icon-fill>div {
+            flex: 1;
+            height: 20px;
+            background: #333;
+        }
+
+        .icon-separate {
+            display: flex;
+            gap: 4px;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .icon-separate>div {
+            width: 25px;
+            height: 20px;
+            background: #333;
+        }
+
+
+        /* --- View: Editor --- */
+        .editor-view {
+            display: none;
+            flex-direction: column;
+            height: calc(100vh - 120px);
+            min-height: 600px;
+        }
+
+        .editor-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border, #eee);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-1, #fff);
+        }
+
+        .btn-back {
+            background: transparent;
+            border: none;
+            color: var(--fg-3, #666);
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .btn-back:hover {
+            color: var(--fg-1, #111);
+        }
+
+        .editor-main {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar Control Panel */
+        .editor-sidebar {
+            width: 320px;
+            background: var(--bg-2, #fafafa);
+            border-right: 1px solid var(--border, #eee);
             padding: 24px;
-            position: sticky;
-            top: 80px;
+            overflow-y: auto;
         }
 
         .control-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .control-label {
             display: block;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--fg-4);
+            font-size: 12px;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            color: var(--fg-3, #666);
             margin-bottom: 8px;
+            letter-spacing: 0.05em;
         }
 
-        .radio-group {
+        .number-input {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            border: 1px solid var(--border, #ccc);
+            border-radius: 6px;
+            padding: 4px 8px;
+        }
+
+        .number-input input {
+            border: none;
+            outline: none;
+            width: 40px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .number-input span {
+            font-size: 12px;
+            color: var(--fg-4, #999);
+        }
+
+        .radio-chips {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
         }
 
-        .radio-btn {
-            display: inline-flex;
+        .radio-chips label {
+            background: #fff;
+            border: 1px solid var(--border, #ccc);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 13px;
+            cursor: pointer;
+            user-select: none;
+            color: var(--fg-2, #444);
+            transition: 0.1s;
         }
 
-        .radio-btn input {
+        .radio-chips input[type="radio"] {
             display: none;
         }
 
-        .radio-btn label {
-            padding: 6px 12px;
-            background: var(--bg-3);
-            border: 1px solid var(--border);
-            border-radius: var(--r-sm);
-            font-size: 13px;
-            color: var(--fg-3);
-            cursor: pointer;
-            transition: all var(--dur) var(--ease);
+        .radio-chips input[type="radio"]:checked+label {
+            background: var(--accent, #0ea5e9);
+            color: #fff;
+            border-color: var(--accent, #0ea5e9);
         }
 
-        .radio-btn input:checked+label {
-            background: var(--accent-dim);
-            color: var(--accent);
-            border-color: rgba(14, 165, 233, 0.3);
+        /* Canvas Panel */
+        .editor-canvas-container {
+            flex: 1;
+            background: var(--bg-3, #f5f5f5);
+            padding: 40px;
+            overflow: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .preview-canvas {
-            background: var(--bg-1);
-            border: 1px solid var(--border);
-            border-radius: var(--r-xl);
-            padding: 24px;
-            min-height: 480px;
+        .canvas {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border: 1px dashed var(--border, #ccc);
+            position: relative;
+            /* Layout properties will be injected here inline */
+        }
+
+        .canvas-item {
+            background: repeating-linear-gradient(45deg,
+                    rgba(14, 165, 233, 0.1),
+                    rgba(14, 165, 233, 0.1) 10px,
+                    rgba(14, 165, 233, 0.2) 10px,
+                    rgba(14, 165, 233, 0.2) 20px);
+            border: 1px solid rgba(14, 165, 233, 0.5);
+            color: var(--accent, #0ea5e9);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            min-height: 40px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .canvas-item-label {
+            background: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            opacity: 0.9;
+            pointer-events: none;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+        }
+
+        /* Code Panel */
+        .editor-code {
+            width: 320px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-left: 1px solid var(--border, #eee);
             display: flex;
             flex-direction: column;
         }
 
-        .canvas-header {
+        .code-header {
+            padding: 12px 16px;
+            background: #252526;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
         }
 
-        .canvas-header h3 {
-            font-size: 14px;
-            font-weight: 600;
+        .btn-copy {
+            background: transparent;
+            border: 1px solid #444;
+            color: #ccc;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 11px;
+            cursor: pointer;
         }
 
-        .item-controls {
-            display: flex;
-            gap: 8px;
+        .btn-copy:hover {
+            background: #333;
+            color: #fff;
         }
 
-        /* The actual flex container we manipulate */
-        .flex-container {
-            flex: 1;
-            border: 2px dashed var(--border-2);
-            border-radius: var(--r-md);
-            background: rgba(255, 255, 255, 0.01);
-            display: flex;
-            /* core functionality */
-            transition: all 0.3s var(--ease);
-        }
-
-        .flex-item {
-            background: var(--accent);
-            color: #000;
-            font-weight: 700;
-            font-size: 1.5rem;
-            border-radius: var(--r-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 60px;
-            min-height: 60px;
-            padding: 20px;
-            transition: all 0.2s;
-            box-shadow: var(--shadow-sm);
-        }
-
-        #css-output {
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-            border-radius: var(--r-md);
+        .code-block {
             padding: 16px;
-            margin-top: 24px;
-            font-family: 'Fira Code', monospace;
+            overflow-y: auto;
+            font-family: 'Fira Code', 'Courier New', monospace;
             font-size: 13px;
-            color: var(--green);
-            position: relative;
+            line-height: 1.5;
+            flex: 1;
         }
 
-        #css-output::before {
-            content: '.container {';
-            display: block;
-            color: var(--fg-2);
-            margin-bottom: 4px;
+        .code-block .sel {
+            color: #d7ba7d;
         }
 
-        #css-output::after {
-            content: '}';
-            display: block;
-            color: var(--fg-2);
-            margin-top: 4px;
+        .code-block .prop {
+            color: #9cdcfe;
         }
 
-        @media (max-width: 900px) {
-            .layout-builder {
-                grid-template-columns: 1fr;
-            }
-
-            .builder-controls {
-                position: static;
-            }
+        .code-block .val {
+            color: #ce9178;
         }
     </style>
 </head>
 
 <body>
-
-    <div class="header-ad">📢 Advertisement · Google AdSense Code Goes Here</div>
+    <!-- <div class="header-ad">📢 Advertisement · Google AdSense Code Goes Here</div> -->
 
     <header class="site-header">
         <nav class="nav-inner">
@@ -182,102 +490,61 @@
         </nav>
     </header>
 
-    <div class="tool-page-wrapper" style="max-width:1400px;grid-template-columns:1fr;">
-        <div class="breadcrumb"><a href="../index.html">Home</a> <span>›</span> <a href="../index.html#tools">Tools</a>
-            <span>›</span> <span>CSS Layout Generator</span></div>
+    <div class="layout-app">
+        <!-- View 1: Templates Setup -->
+        <div id="view-templates" class="template-view">
+            <h2>Select a Template</h2>
 
-        <div class="tool-page-header">
-            <h1>CSS Layout Generator</h1>
-            <p>Visually build Flexbox layouts, adjust alignments and gaps, and instantly copy the CSS code for your
-                project. Free frontend developer tool.</p>
-        </div>
-
-        <div class="layout-builder">
-            <!-- CONTROLS -->
-            <div class="builder-controls">
-                <div class="control-group">
-                    <label class="control-label">Flex Direction</label>
-                    <div class="radio-group">
-                        <div class="radio-btn"><input type="radio" name="direction" id="dir1" value="row" checked><label
-                                for="dir1">row</label></div>
-                        <div class="radio-btn"><input type="radio" name="direction" id="dir2" value="column"><label
-                                for="dir2">column</label></div>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label">Justify Content (Primary Axis)</label>
-                    <div class="radio-group">
-                        <div class="radio-btn"><input type="radio" name="justify" id="jc1" value="flex-start"
-                                checked><label for="jc1">flex-start</label></div>
-                        <div class="radio-btn"><input type="radio" name="justify" id="jc2" value="center"><label
-                                for="jc2">center</label></div>
-                        <div class="radio-btn"><input type="radio" name="justify" id="jc3" value="flex-end"><label
-                                for="jc3">flex-end</label></div>
-                        <div class="radio-btn"><input type="radio" name="justify" id="jc4" value="space-between"><label
-                                for="jc4">space-between</label></div>
-                        <div class="radio-btn"><input type="radio" name="justify" id="jc5" value="space-around"><label
-                                for="jc5">space-around</label></div>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label">Align Items (Cross Axis)</label>
-                    <div class="radio-group">
-                        <div class="radio-btn"><input type="radio" name="align" id="ai1" value="stretch" checked><label
-                                for="ai1">stretch</label></div>
-                        <div class="radio-btn"><input type="radio" name="align" id="ai2" value="flex-start"><label
-                                for="ai2">flex-start</label></div>
-                        <div class="radio-btn"><input type="radio" name="align" id="ai3" value="center"><label
-                                for="ai3">center</label></div>
-                        <div class="radio-btn"><input type="radio" name="align" id="ai4" value="flex-end"><label
-                                for="ai4">flex-end</label></div>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label">Flex Wrap</label>
-                    <div class="radio-group">
-                        <div class="radio-btn"><input type="radio" name="wrap" id="wr1" value="nowrap" checked><label
-                                for="wr1">nowrap</label></div>
-                        <div class="radio-btn"><input type="radio" name="wrap" id="wr2" value="wrap"><label
-                                for="wr2">wrap</label></div>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label">Gap (px) <span id="gap-val"
-                            style="color:var(--fg);float:right;">16px</span></label>
-                    <input type="range" id="gapRange" class="form-range" min="0" max="64" value="16">
-                </div>
+            <div class="category-title">Grid</div>
+            <div class="templates-grid" id="grid-templates">
+                <!-- Generated by JS -->
             </div>
 
-            <!-- CANVAS & OUTPUT -->
-            <div>
-                <div class="preview-canvas">
-                    <div class="canvas-header">
-                        <h3>Visual Preview</h3>
-                        <div class="item-controls">
-                            <button class="btn btn-secondary" onclick="addBox()">+ Add Item</button>
-                            <button class="btn btn-secondary" onclick="remBox()">- Remove Item</button>
-                        </div>
-                    </div>
-
-                    <div class="flex-container" id="container">
-                        <!-- JS will populate standard boxes here -->
-                    </div>
-                </div>
-
-                <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:24px;">
-                    <h3 style="font-size:14px;font-weight:600;">Generated CSS</h3>
-                    <button class="btn btn-primary" onclick="copyCSS()">📋 Copy code</button>
-                </div>
-                <div id="css-output"></div>
+            <div class="category-title">Flexbox</div>
+            <div class="templates-grid" id="flex-templates">
+                <!-- Generated by JS -->
             </div>
         </div>
-    </div>
 
-    <footer class="site-footer">
+        <!-- View 2: Editor -->
+        <div id="view-editor" class="editor-view">
+            <div class="editor-header">
+                <button class="btn-back" onclick="showTemplates()">← Back to Templates</button>
+                <div style="font-weight: 600;" id="editor-title">Layout Name</div>
+            </div>
+            <div class="editor-main">
+
+                <div class="editor-sidebar" id="sidebar-controls">
+                    <!-- Dynamic controls injected here -->
+                </div>
+
+                <div class="editor-canvas-container">
+                    <div class="canvas" id="canvas">
+                        <!-- Items injected here -->
+                    </div>
+                </div>
+
+                <div class="editor-code">
+                    <div class="code-header">
+                        <span>CSS</span>
+                        <button class="btn-copy" onclick="copyCSS()">Copy</button>
+                    </div>
+                    <div class="code-block" id="css-output"></div>
+
+                    <div style="height: 1px; background: #333;"></div>
+
+                    <div class="code-header">
+                        <span>HTML</span>
+                        <button class="btn-copy" onclick="copyHTML()">Copy</button>
+                    </div>
+                    <div class="code-block" id="html-output">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /layout-app -->
+
+    <footer class="site-footer" style="margin-top:auto;">
         <div class="footer-inner">
             <div class="footer-bottom"><span>© 2024 SmartToolsLab</span></div>
         </div>
@@ -285,75 +552,283 @@
 
     <script src="../js/main.js"></script>
     <script>
-        const container = document.getElementById('container');
-        const cssOutput = document.getElementById('css-output');
-        const gapRange = document.getElementById('gapRange');
-        const gapVal = document.getElementById('gap-val');
+        // --- Template Definitions ---
+        const templates = {
+            // GRID TEMPLATES
+            grid_12: {
+                id: 'grid_12', title: '12 Span Grid', type: 'grid',
+                iconHTML: `<div class="icon-grid-12"><div class="r1"></div><div class="r2"></div><div class="r3"></div><div class="r3"></div><div class="r2"></div></div>`,
+                config: { rows: 1, columns: 12, rowHeight: '1fr', columnWidth: '1fr', rowGap: 8, columnGap: 8 },
+                items: [{ span: 12 }, { span: 4 }, { span: 8 }, { span: 6 }, { span: 6 }]
+            },
+            grid_3x3: {
+                id: 'grid_3x3', title: '3 x 3', type: 'grid',
+                iconHTML: `<div class="icon-grid-3x3"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>`,
+                config: { rows: 3, columns: 3, rowHeight: '1fr', columnWidth: '1fr', rowGap: 8, columnGap: 8 },
+                items: Array(9).fill({})
+            },
+            holy_grail: {
+                id: 'holy_grail', title: 'Holy Grail', type: 'grid',
+                iconHTML: `<div class="icon-hg"><div class="h"></div><div></div><div></div><div></div><div class="f"></div></div>`,
+                config: {
+                    rows: 3, columns: 3, rowHeight: '1fr', columnWidth: '1fr', rowGap: 8, columnGap: 8,
+                    customGrid: `"sidebar body" 1fr / auto 1fr`, // Fallback 
+                    isCustom: true,
+                    cssLayout: `  grid:\n    "header header header" auto\n    "leftSide body rightSide" 1fr\n    "footer footer footer" auto\n    / auto 1fr auto;\n`
+                },
+                items: [
+                    { name: 'header', css: 'grid-area: header;' },
+                    { name: 'leftSide', css: 'grid-area: leftSide;' },
+                    { name: 'body', css: 'grid-area: body;' },
+                    { name: 'rightSide', css: 'grid-area: rightSide;' },
+                    { name: 'footer', css: 'grid-area: footer;' }
+                ]
+            },
+            sidebar: {
+                id: 'sidebar', title: 'Sidebar', type: 'grid',
+                iconHTML: `<div class="icon-sidebar"><div></div><div></div></div>`,
+                config: { isCustom: true, rowGap: 8, columnGap: 8, cssLayout: `  grid:\n    "sidebar body" 1fr\n    / auto 1fr;\n` },
+                items: [
+                    { name: 'sidebar', css: 'grid-area: sidebar;' },
+                    { name: 'body', css: 'grid-area: body;' }
+                ]
+            },
+            header_main_footer: {
+                id: 'hmf', title: 'Header Main Footer', type: 'grid',
+                iconHTML: `<div class="icon-hmf"><div></div><div></div><div></div></div>`,
+                config: { isCustom: true, rowGap: 8, columnGap: 8, cssLayout: `  grid:\n    "header" auto\n    "main" 1fr\n    "footer" auto\n    / 1fr;\n` },
+                items: [
+                    { name: 'header', css: 'grid-area: header;' },
+                    { name: 'main', css: 'grid-area: main;' },
+                    { name: 'footer', css: 'grid-area: footer;' }
+                ]
+            },
+            infinite_rows: {
+                id: 'inf_rows', title: 'Infinite Rows', type: 'grid',
+                iconHTML: `<div class="icon-inf"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>`,
+                config: { rows: 1, columns: 3, rowHeight: 'auto', columnWidth: '1fr', rowGap: 8, columnGap: 8 },
+                items: Array(12).fill({})
+            },
 
-        let boxCount = 3;
-
-        function renderBoxes() {
-            container.innerHTML = '';
-            for (let i = 1; i <= boxCount; i++) {
-                const box = document.createElement('div');
-                box.className = 'flex-item';
-                box.textContent = i;
-                container.appendChild(box);
+            // FLEXBOX TEMPLATES
+            flex_row: {
+                id: 'flex_row', title: 'Row', type: 'flex',
+                iconHTML: `<div class="icon-flex-row"><div></div><div></div><div></div></div>`,
+                config: { direction: 'row', justify: 'flex-start', align: 'stretch', wrap: 'nowrap', gap: 8 },
+                items: Array(3).fill({})
+            },
+            flex_wrap: {
+                id: 'flex_wrap', title: 'Row Wrap', type: 'flex',
+                iconHTML: `<div class="icon-flex-wrap"><div></div><div></div><div></div><div></div><div></div></div>`,
+                config: { direction: 'row', justify: 'flex-start', align: 'stretch', wrap: 'wrap', gap: 8 },
+                items: Array(7).fill({})
+            },
+            fill_space: {
+                id: 'fill_space', title: 'Fill Space', type: 'flex',
+                iconHTML: `<div class="icon-fill"><div></div><div></div><div></div></div>`,
+                config: { direction: 'row', justify: 'flex-start', align: 'stretch', wrap: 'nowrap', gap: 8 },
+                items: [{ css: 'flex: 1;' }, { css: 'flex: 1;' }, { css: 'flex: 1;' }]
+            },
+            separate: {
+                id: 'separate', title: 'Separate', type: 'flex',
+                iconHTML: `<div class="icon-separate"><div></div><div></div></div>`,
+                config: { direction: 'row', justify: 'space-between', align: 'center', wrap: 'nowrap', gap: 8 },
+                items: Array(2).fill({})
             }
-        }
+        };
 
-        function addBox() { if (boxCount < 12) { boxCount++; renderBoxes(); } }
-        function remBox() { if (boxCount > 1) { boxCount--; renderBoxes(); } }
+        let currentConfig = {};
+        let activeTemplate = null;
 
-        function getRadioValue(name) {
-            const el = document.querySelector(`input[name="${name}"]:checked`);
-            return el ? el.value : '';
-        }
+        // --- App Logic ---
+        function init() {
+            const gridContainer = document.getElementById('grid-templates');
+            const flexContainer = document.getElementById('flex-templates');
 
-        function updateLayout() {
-            const direction = getRadioValue('direction');
-            const justify = getRadioValue('justify');
-            const align = getRadioValue('align');
-            const wrap = getRadioValue('wrap');
-            const gap = gapRange.value + 'px';
-
-            gapVal.textContent = gap;
-
-            // Update container DOM
-            container.style.flexDirection = direction;
-            container.style.justifyContent = justify;
-            container.style.alignItems = align;
-            container.style.flexWrap = wrap;
-            container.style.gap = gap;
-
-            // Generate output code
-            let code = `  display: flex;\n`;
-            if (direction !== 'row') code += `  flex-direction: ${direction};\n`;
-            if (justify !== 'flex-start') code += `  justify-content: ${justify};\n`;
-            if (align !== 'stretch') code += `  align-items: ${align};\n`;
-            if (wrap !== 'nowrap') code += `  flex-wrap: ${wrap};\n`;
-            if (gap !== '0px') code += `  gap: ${gap};\n`;
-
-            cssOutput.innerHTML = code.trim().replace(/\n/g, '<br>');
-            cssOutput.dataset.raw = code; // store for copying easily
-        }
-
-        // Bind events
-        document.querySelectorAll('input[type=radio]').forEach(btn => {
-            btn.addEventListener('change', updateLayout);
-        });
-        gapRange.addEventListener('input', updateLayout);
-
-        function copyCSS() {
-            const raw = '.container {\n' + cssOutput.dataset.raw + '}';
-            navigator.clipboard.writeText(raw).then(() => {
-                showToast('CSS Copied completely!');
+            Object.values(templates).forEach(tpl => {
+                const card = document.createElement('div');
+                card.className = 'template-card';
+                card.onclick = () => loadTemplate(tpl.id);
+                card.innerHTML = `
+                    <div class="template-icon">${tpl.iconHTML}</div>
+                    <div class="template-name">${tpl.title}</div>
+                `;
+                if (tpl.type === 'grid') gridContainer.appendChild(card);
+                if (tpl.type === 'flex') flexContainer.appendChild(card);
             });
         }
 
-        // Init
-        renderBoxes();
-        updateLayout();
+        function showTemplates() {
+            document.getElementById('view-templates').style.display = 'block';
+            document.getElementById('view-editor').style.display = 'none';
+        }
+
+        function loadTemplate(id) {
+            activeTemplate = templates[id];
+            currentConfig = JSON.parse(JSON.stringify(activeTemplate.config)); // Deep clone config
+
+            document.getElementById('view-templates').style.display = 'none';
+            document.getElementById('view-editor').style.display = 'flex';
+            document.getElementById('editor-title').innerText = activeTemplate.title;
+
+            buildSidebar();
+            renderCanvas();
+        }
+
+        function buildSidebar() {
+            const sidebar = document.getElementById('sidebar-controls');
+            let html = '';
+
+            const createRadio = (name, label, options) => {
+                let radioHtml = `<div class="control-group"><label class="control-label">${label}</label><div class="radio-chips">`;
+                options.forEach(opt => {
+                    const checked = currentConfig[name] === opt ? 'checked' : '';
+                    radioHtml += `
+                        <input type="radio" id="${name}_${opt}" name="${name}" value="${opt}" onchange="updateConfig('${name}', this.value)" ${checked}>
+                        <label for="${name}_${opt}">${opt}</label>
+                    `;
+                });
+                radioHtml += `</div></div>`;
+                return radioHtml;
+            };
+
+            const createInput = (name, label, unit) => {
+                return `
+                <div class="control-group">
+                    <label class="control-label">${label}</label>
+                    <div class="number-input">
+                        <input type="number" value="${currentConfig[name]}" oninput="updateConfig('${name}', this.value)">
+                        <span>${unit}</span>
+                    </div>
+                </div>`;
+            };
+
+            if (activeTemplate.type === 'grid') {
+                if (!activeTemplate.config.isCustom) {
+                    html += createInput('rows', 'Rows', 'number');
+                    html += createInput('columns', 'Columns', 'number');
+                    // Simplified row height/width for this basic clone
+                }
+                html += createInput('rowGap', 'Row Gap', 'px');
+                html += createInput('columnGap', 'Column Gap', 'px');
+            } else {
+                html += createRadio('direction', 'Direction', ['row', 'column', 'row-reverse', 'column-reverse']);
+                html += createRadio('justify', 'Justify Content', ['flex-start', 'center', 'flex-end', 'space-between', 'space-around', 'space-evenly']);
+                html += createRadio('align', 'Align Items', ['stretch', 'flex-start', 'center', 'flex-end', 'baseline']);
+                html += createRadio('wrap', 'Flex Wrap', ['nowrap', 'wrap', 'wrap-reverse']);
+                html += createInput('gap', 'Gap', 'px');
+            }
+
+            sidebar.innerHTML = html;
+        }
+
+        function updateConfig(key, value) {
+            if (Number.isInteger(parseInt(value)) && !['row', 'column', 'row-reverse', 'column-reverse', 'flex-start', 'center', 'flex-end', 'space-between', 'space-around', 'space-evenly', 'stretch', 'baseline', 'nowrap', 'wrap', 'wrap-reverse'].includes(value)) {
+                currentConfig[key] = parseInt(value) || 0;
+            } else {
+                currentConfig[key] = value;
+            }
+            renderCanvas();
+        }
+
+        function renderCanvas() {
+            const canvas = document.getElementById('canvas');
+            canvas.innerHTML = '';
+
+            // Apply Layout properties to Canvas
+            let style = '';
+            let cssCode = `<span class="sel">.layout</span> {\n  <span class="prop">display:</span> <span class="val">${activeTemplate.type}</span>;\n`;
+
+            let htmlCode = `&lt;section class="layout"&gt;\n`;
+
+            if (activeTemplate.type === 'grid') {
+                canvas.style.display = 'grid';
+                if (currentConfig.isCustom) {
+                    canvas.style.cssText = `display: grid; width: 100%; height: 100%; gap: ${currentConfig.rowGap}px ${currentConfig.columnGap}px;`;
+                    // Parse the raw grid config just to apply to canvas if there's no cleaner way
+                    // For preview accuracy, injecting a temporary class is easiest
+                    const customId = "custom-grid-" + Date.now();
+                    canvas.className = "canvas " + customId;
+
+                    let injectedCode = currentConfig.cssLayout;
+                    cssCode += injectedCode.replace(/([^:\n]+):([^;\n]+);/g, '<span class="prop">$1:</span><span class="val">$2;</span>');
+                    cssCode += `  <span class="prop">gap:</span> <span class="val">${currentConfig.rowGap}px ${currentConfig.columnGap}px</span>;\n`;
+
+                    let styleEl = document.getElementById('dynamic-grid-style');
+                    if (!styleEl) { styleEl = document.createElement('style'); styleEl.id = 'dynamic-grid-style'; document.head.appendChild(styleEl); }
+                    styleEl.innerHTML = `.${customId} { ${currentConfig.cssLayout} gap: ${currentConfig.rowGap}px ${currentConfig.columnGap}px; }`;
+                } else {
+                    canvas.className = "canvas";
+                    canvas.style.gridTemplateRows = `repeat(${currentConfig.rows}, ${currentConfig.rowHeight})`;
+                    canvas.style.gridTemplateColumns = `repeat(${currentConfig.columns}, ${currentConfig.columnWidth})`;
+                    canvas.style.gap = `${currentConfig.rowGap}px ${currentConfig.columnGap}px`;
+
+                    cssCode += `  <span class="prop">grid-template-rows:</span> <span class="val">repeat(${currentConfig.rows}, ${currentConfig.rowHeight})</span>;\n`;
+                    cssCode += `  <span class="prop">grid-template-columns:</span> <span class="val">repeat(${currentConfig.columns}, ${currentConfig.columnWidth})</span>;\n`;
+                    cssCode += `  <span class="prop">gap:</span> <span class="val">${currentConfig.rowGap}px ${currentConfig.columnGap}px</span>;\n`;
+                }
+            } else {
+                // FLexbox
+                canvas.className = "canvas";
+                canvas.style.display = 'flex';
+                canvas.style.flexDirection = currentConfig.direction;
+                canvas.style.justifyContent = currentConfig.justify;
+                canvas.style.alignItems = currentConfig.align;
+                canvas.style.flexWrap = currentConfig.wrap;
+                canvas.style.gap = `${currentConfig.gap}px`;
+
+                cssCode += `  <span class="prop">flex-direction:</span> <span class="val">${currentConfig.direction}</span>;\n`;
+                if (currentConfig.justify !== 'flex-start') cssCode += `  <span class="prop">justify-content:</span> <span class="val">${currentConfig.justify}</span>;\n`;
+                if (currentConfig.align !== 'stretch') cssCode += `  <span class="prop">align-items:</span> <span class="val">${currentConfig.align}</span>;\n`;
+                if (currentConfig.wrap !== 'nowrap') cssCode += `  <span class="prop">flex-wrap:</span> <span class="val">${currentConfig.wrap}</span>;\n`;
+                if (currentConfig.gap !== 0) cssCode += `  <span class="prop">gap:</span> <span class="val">${currentConfig.gap}px</span>;\n`;
+            }
+
+            cssCode += `}\n\n`;
+
+            // Draw items
+            let itemCss = '';
+            activeTemplate.items.forEach((item, idx) => {
+                const el = document.createElement('div');
+                el.className = 'canvas-item';
+
+                let displayName = item.name || (idx + 1).toString();
+                el.innerHTML = `<span class="canvas-item-label">${displayName}</span>`;
+
+                let elClassStr = item.name ? `class="${item.name}"` : `class="item"`;
+                htmlCode += `  &lt;div ${elClassStr}&gt;${displayName}&lt;/div&gt;\n`;
+
+                if (item.span) {
+                    el.style.gridColumn = `span ${item.span}`;
+                    itemCss += `<span class="sel">.item:nth-child(${idx + 1})</span> { <span class="prop">grid-column:</span> <span class="val">span ${item.span}</span>; }\n`;
+                }
+                if (item.css) {
+                    el.style.cssText += item.css;
+                    let parsedPropVal = item.css.split(':');
+                    itemCss += `<span class="sel">.${item.name || 'item'}</span> { <span class="prop">${parsedPropVal[0].trim()}:</span> <span class="val">${parsedPropVal[1].replace(';', '').trim()}</span>; }\n`;
+                }
+
+                canvas.appendChild(el);
+            });
+
+            htmlCode += `&lt;/section&gt;`;
+            cssCode += itemCss;
+
+            document.getElementById('css-output').innerHTML = cssCode;
+            document.getElementById('html-output').innerHTML = htmlCode;
+        }
+
+        // Helpers
+        function copyCSS() {
+            const el = document.getElementById('css-output');
+            navigator.clipboard.writeText(el.innerText).then(() => alert('CSS copied!'));
+        }
+        function copyHTML() {
+            const el = document.getElementById('html-output');
+            navigator.clipboard.writeText(el.innerText).then(() => alert('HTML copied!'));
+        }
+
+        window.onload = init;
     </script>
 </body>
 

@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -224,16 +225,17 @@
                     <a href="pdf-merge.html">PDF Merge</a>
                 </div>
                 <div class="footer-col">
-        <h4>Legal & Contact</h4>
-        <a href="../privacy.html">Privacy Policy</a>
-        <a href="../terms.html">Terms of Use</a>
-        <a href="../contact.html">Contact Us</a>
-      </div></div>
+                    <h4>Legal & Contact</h4>
+                    <a href="../privacy.html">Privacy Policy</a>
+                    <a href="../terms.html">Terms of Use</a>
+                    <a href="../contact.html">Contact Us</a>
+                </div>
             </div>
-            <div class="footer-bottom">
-                <span>© 2024 SmartToolsLab</span>
-                <span>Free image compressor online — no signup, no limits</span>
-            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2024 SmartToolsLab</span>
+            <span>Free image compressor online — no signup, no limits</span>
+        </div>
         </div>
     </footer>
 
@@ -282,7 +284,7 @@
         }
 
         qualitySlider.addEventListener('input', () => { qualityVal.textContent = qualitySlider.value; });
-
+        qualitySlider.addEventListener('change', () => { if (originalFile) compressBtn.click(); });
         compressBtn.addEventListener('click', async () => {
             if (!originalFile) return;
             compressBtn.disabled = true;
