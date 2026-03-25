@@ -257,10 +257,20 @@
                         <textarea class="form-textarea" id="rSummary" rows="3"
                             placeholder="Brief professional summary…"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Theme / Highlight Color</label>
-                        <input type="color" id="rThemeColor" value="#6C63FF"
-                            style="height:44px;width:100%;border-radius:var(--radius-md);border:1px solid var(--border);background:transparent;cursor:pointer;" />
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div class="form-group">
+                            <label class="form-label">Theme Color</label>
+                            <input type="color" id="rThemeColor" value="#6C63FF"
+                                style="height:44px;width:100%;border-radius:var(--radius-md);border:1px solid var(--border);background:transparent;cursor:pointer;" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Font Family</label>
+                            <select class="form-input" id="rFontFamily">
+                                <option value="serif" selected>Serif (Classic)</option>
+                                <option value="sans-serif">Sans-Serif (Modern)</option>
+                                <option value="monospace">Monospace (Tech)</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -305,6 +315,16 @@
                     </div>
                     <div id="projEntries"></div>
                 </div>
+
+                <!-- Custom Sections -->
+                <div class="section-card">
+                    <div class="section-card-header">
+                        <h3>➕ Custom Sections</h3>
+                        <button class="btn btn-secondary" style="padding:6px 14px;font-size:0.8rem;"
+                            onclick="addEntry('cust')">+ Add</button>
+                    </div>
+                    <div id="custEntries"></div>
+                </div>
             </div>
 
             <!-- PREVIEW -->
@@ -338,6 +358,8 @@
                         <div class="preview-section-title">Projects</div>
                         <div id="pvProj"></div>
                     </div>
+
+                    <div id="pvCust"></div>
                 </div>
             </div>
         </div>
@@ -373,7 +395,7 @@
         const { jsPDF } = window.jspdf;
 
         // Entry counters
-        const entries = { exp: [], edu: [], proj: [] };
+        const entries = { exp: [], edu: [], proj: [], cust: [] };
 
         // Live update on any input change
         document.addEventListener('input', updatePreview);
@@ -382,14 +404,18 @@
 
         function updatePreview() {
             const themeColor = val('rThemeColor');
+            const fontFamily = val('rFontFamily');
+            const preview = document.getElementById('resumePreview');
+            preview.style.fontFamily = fontFamily;
+
             document.querySelectorAll('.preview-section-title').forEach(el => {
                 el.style.color = themeColor;
                 el.style.borderColor = themeColor;
             });
             document.querySelectorAll('.preview-skill-pill').forEach(el => {
                 el.style.color = themeColor;
-                el.style.background = themeColor + '1A'; // 10% opacity
-                el.style.borderColor = themeColor + '4D'; // 30% opacity
+                el.style.background = themeColor + '1A';
+                el.style.borderColor = themeColor + '4D';
             });
 
             const name = val('rName') || 'Your Name';
@@ -446,6 +472,20 @@
         <div class="preview-item-title">${e.title || ''} ${e.date ? `<span style="font-weight:400;color:#888;font-size:0.78rem;">${e.date}</span>` : ''}</div>
         <div class="preview-item-desc">${e.desc || ''}</div>
       </div>`);
+
+            // Custom Sections
+            const custEl = document.getElementById('pvCust');
+            const custItems = entries.cust.map(id => {
+                const title = val(`cust_title_${id}`);
+                const desc = val(`cust_desc_${id}`);
+                if (!title) return null;
+                return `
+          <div class="preview-section">
+            <div class="preview-section-title">${title}</div>
+            <div class="preview-item-desc">${desc}</div>
+          </div>`;
+            }).filter(Boolean);
+            custEl.innerHTML = custItems.join('');
         }
 
         function renderSection(type, sectionId, contentId, tplFn) {
@@ -467,21 +507,28 @@
       <div class="exp-entry" id="entry_${id}">
         <div class="exp-entry-grid">
           <div class="form-group" style="margin-bottom:8px;">
-            <label class="form-label">${type === 'edu' ? 'Degree' : type === 'proj' ? 'Project Name' : 'Job Title'}</label>
-            <input type="text" class="form-input" id="${type}_title_${id}" placeholder="${type === 'edu' ? 'B.Tech CSE' : type === 'proj' ? 'SmartToolsLab' : 'Software Engineer'}" />
+            <label class="form-label">${type === 'edu' ? 'Degree' : type === 'proj' ? 'Project Name' : type === 'cust' ? 'Section Title' : 'Job Title'}</label>
+            <input type="text" class="form-input" id="${type}_title_${id}" placeholder="${type === 'edu' ? 'B.Tech CSE' : type === 'proj' ? 'SmartToolsLab' : type === 'cust' ? 'Awards / Languages' : 'Software Engineer'}" />
           </div>
+          ${type !== 'cust' ? `
           <div class="form-group" style="margin-bottom:8px;">
             <label class="form-label">Duration</label>
             <input type="text" class="form-input" id="${type}_date_${id}" placeholder="2022 – Present" />
-          </div>
+          </div>` : ''}
         </div>
+        ${type !== 'proj' && type !== 'cust' ? `
         <div class="form-group" style="margin-bottom:8px;">
           <label class="form-label">${companyLabel}</label>
-          <input type="text" class="form-input" id="${type}_company_${id}" placeholder="${type === 'edu' ? 'JNTUH, Hyderabad' : type === 'proj' ? 'HTML, CSS, JS' : 'Google, Hyderabad'}" />
-        </div>
+          <input type="text" class="form-input" id="${type}_company_${id}" placeholder="${type === 'edu' ? 'JNTUH, Hyderabad' : 'Google, Hyderabad'}" />
+        </div>` : ''}
+        ${type === 'proj' ? `
+        <div class="form-group" style="margin-bottom:8px;">
+          <label class="form-label">${companyLabel}</label>
+          <input type="text" class="form-input" id="${type}_company_${id}" placeholder="HTML, CSS, JS" />
+        </div>` : ''}
         <div class="form-group" style="margin-bottom:0;">
-          <label class="form-label">Description</label>
-          <textarea class="form-textarea" id="${type}_desc_${id}" rows="2" placeholder="Brief description…"></textarea>
+          <label class="form-label">Description / Content</label>
+          <textarea class="form-textarea" id="${type}_desc_${id}" rows="${type === 'cust' ? 4 : 2}" placeholder="Details…"></textarea>
         </div>
         <button onclick="removeEntry('${type}',${id})" style="margin-top:8px;background:none;border:none;color:var(--error);cursor:pointer;font-size:0.8rem;">✕ Remove</button>
       </div>`;
@@ -496,6 +543,9 @@
 
         // Download PDF
         document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+            const fontChoice = val('rFontFamily');
+            const pdfFont = fontChoice === 'serif' ? 'times' : fontChoice === 'monospace' ? 'courier' : 'helvetica';
+
             const doc = new jsPDF({ unit: 'mm', format: 'a4' });
             const margin = 18, pageW = 210 - margin * 2;
             let y = 20;
@@ -504,9 +554,9 @@
             const title = val('rTitle');
 
             // Header
-            doc.setFont('helvetica', 'bold'); doc.setFontSize(20); doc.setTextColor(30, 30, 30);
+            doc.setFont(pdfFont, 'bold'); doc.setFontSize(20); doc.setTextColor(30, 30, 30);
             doc.text(name, margin, y); y += 8;
-            if (title) { doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor(100, 100, 100); doc.text(title, margin, y); y += 6; }
+            if (title) { doc.setFont(pdfFont, 'normal'); doc.setFontSize(11); doc.setTextColor(100, 100, 100); doc.text(title, margin, y); y += 6; }
 
             // Contact line
             const email = val('rEmail'), phone = val('rPhone'), loc = val('rLocation'), link = val('rLink');
@@ -533,11 +583,11 @@
 
             function addSection(title, content) {
                 if (!content) return;
-                if (y > 260) { doc.addPage(); y = 20; }
-                doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(r, g, b);
+                if (y > 270) { doc.addPage(); y = 20; }
+                doc.setFont(pdfFont, 'bold'); doc.setFontSize(9); doc.setTextColor(r, g, b);
                 doc.text(title.toUpperCase(), margin, y); y += 1;
                 doc.setDrawColor(r, g, b); doc.setLineWidth(0.3); doc.line(margin, y, 210 - margin, y); y += 5;
-                doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(50, 50, 50);
+                doc.setFont(pdfFont, 'normal'); doc.setFontSize(9.5); doc.setTextColor(50, 50, 50);
                 const lines = doc.splitTextToSize(content, pageW);
                 doc.text(lines, margin, y); y += lines.length * 4.5 + 5;
             }
@@ -565,6 +615,12 @@
                 return t ? `${t}${d ? ' (' + d + ')' : ''}\n${desc}` : null;
             }).filter(Boolean);
             if (projItems.length) addSection('Projects', projItems.join('\n\n'));
+
+            // Custom Sections
+            entries.cust.forEach(id => {
+                const t = val(`cust_title_${id}`), desc = val(`cust_desc_${id}`);
+                if (t && desc) addSection(t, desc);
+            });
 
             doc.save(`${name.replace(/\s+/g, '-')}-resume.pdf`);
             showToast('Resume downloaded!', 'success');

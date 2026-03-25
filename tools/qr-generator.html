@@ -243,7 +243,7 @@
 
         function getContent() {
             if (currentType === 'wifi') {
-                const ssid = document.getElementById('wifiSSID')?.value || '';
+                const ssid = document.getElementById('wifiSSID')?.value.trim() || '';
                 const pass = document.getElementById('wifiPass')?.value || '';
                 const sec = document.getElementById('wifiSec')?.value || '';
                 if (!ssid) return '';
@@ -251,9 +251,26 @@
             }
             const raw = document.getElementById('mainInput')?.value.trim() || '';
             if (!raw) return '';
+
+            // Validation
+            if (currentType === 'email') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(raw)) {
+                    showToast('Please enter a valid email address', 'error');
+                    return 'INVALID';
+                }
+            }
+            if (currentType === 'phone') {
+                const phoneRegex = /^\+?[0-9\s\-()]{7,20}$/;
+                if (!phoneRegex.test(raw)) {
+                    showToast('Please enter a valid phone number', 'error');
+                    return 'INVALID';
+                }
+            }
+
             const cfg = typeConfigs[currentType];
             if (currentType === 'url' && raw && !raw.startsWith('http')) {
-                if (!raw.includes('.')) return ''; // Very basic URL validation
+                if (!raw.includes('.')) return '';
                 return 'https://' + raw;
             }
             return cfg.prefix + raw;
@@ -262,6 +279,7 @@
         function generate() {
             const content = getContent();
             if (!content) { showToast('Please enter some content first', 'error'); return; }
+            if (content === 'INVALID') return;
 
             const size = parseInt(document.getElementById('qrSize').value);
             const dark = "#000000";
@@ -281,7 +299,21 @@
             document.getElementById('qrResult').style.display = '';
             showToast('QR Code generated!', 'success');
             document.getElementById('qrResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            // Disable button
+            document.getElementById('generateBtn').disabled = true;
+            document.getElementById('generateBtn').textContent = '✅ Generated';
         }
+
+        // Re-enable button on input change
+        document.body.addEventListener('input', (e) => {
+            const ids = ['mainInput', 'wifiSSID', 'wifiPass', 'wifiSec', 'qrSize'];
+            if (ids.includes(e.target.id)) {
+                const btn = document.getElementById('generateBtn');
+                btn.disabled = false;
+                btn.textContent = '🔲 Generate QR Code';
+            }
+        });
 
         document.getElementById('downloadQrBtn').addEventListener('click', () => {
             const canvas = document.getElementById('qrCanvas').querySelector('canvas');
@@ -308,6 +340,9 @@
             document.getElementById('qrResult').style.display = 'none';
             const mainInput = document.getElementById('mainInput');
             if (mainInput) mainInput.value = '';
+            const btn = document.getElementById('generateBtn');
+            btn.disabled = false;
+            btn.textContent = '🔲 Generate QR Code';
         });
     </script>
 </body>

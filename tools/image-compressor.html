@@ -59,8 +59,8 @@
             <div class="tool-box">
                 <h2>Step 1 — Upload Image</h2>
 
+                <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" style="display:none;" />
                 <div class="upload-zone" id="uploadZone">
-                    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" style="display:none;" />
                     <div class="upload-zone-icon">🖼️</div>
                     <h3>Drop your image here</h3>
                     <p>Supports JPG, PNG, WebP · Click to browse or drag & drop</p>
@@ -307,10 +307,8 @@
             if (file && file.type.startsWith('image/')) handleFile(file);
             else showToast('Please drop an image file', 'error');
         });
-        uploadZone.addEventListener('click', (e) => {
-            if (e.target.closest('button') || e.target === uploadZone || e.target.closest('h3') || e.target.closest('p') || e.target.closest('.upload-zone-icon')) {
-                fileInput.click();
-            }
+        uploadZone.addEventListener('click', () => {
+            fileInput.click();
         });
 
         function setMode(mode) {
@@ -373,11 +371,13 @@
                         : `ℹ️ Compressed image is similar size — try lowering quality`;
 
                     document.getElementById('alertBox').textContent = `🎉 Processing complete! ${formatSize(originalFile.size)} → ${formatSize(blob.size)}`;
-                    resultSection.style.display = '';
-                    URL.revokeObjectURL(url);
+                    resultSection.style.display = 'block';
+                    setTimeout(() => {
+                        resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 50);
 
-                    compressBtn.disabled = false;
-                    compressBtn.textContent = '⚡ Process Image';
+                    URL.revokeObjectURL(url);
+                    compressBtn.textContent = '✅ Processed';
 
                     downloadBtn.onclick = () => {
                         const a = document.createElement('a');

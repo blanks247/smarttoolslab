@@ -55,13 +55,12 @@
 
             <div class="tool-box" id="step1Box">
                 <h2>Step 1 — Upload PDF Files</h2>
+                <input type="file" id="pdfInput" accept=".pdf" multiple style="display:none;" />
                 <div class="upload-zone" id="pdfUploadZone">
-                    <input type="file" id="pdfInput" accept=".pdf" multiple style="display:none;" />
                     <div class="upload-zone-icon">📄</div>
                     <h3>Drop your PDF files here</h3>
                     <p>Select 2 or more PDF files · Click to browse</p>
-                    <button class="btn btn-primary" style="margin-top:16px;"
-                        onclick="document.getElementById('pdfInput').click()">
+                    <button class="btn btn-primary" style="margin-top:16px;">
                         📁 Choose PDFs
                     </button>
                 </div>
@@ -266,7 +265,10 @@
         window.removeFile = (i) => {
             uploadedFiles.splice(i, 1);
             renderFileList();
-            if (!uploadedFiles.length) fileListBox.style.display = 'none';
+            if (!uploadedFiles.length) {
+                fileListBox.style.display = 'none';
+                document.getElementById('step1Box').style.display = 'block';
+            }
         };
 
         clearAllBtn.addEventListener('click', () => {

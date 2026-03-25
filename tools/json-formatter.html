@@ -199,129 +199,133 @@
         </div>
         </div>
     </footer>
+    <script src="../js/main.js"></script>
+    <script>
+        function renderTree(obj, container) {
+            container.innerHTML = '';
+            container.appendChild(createTreeItem('root', obj, true));
+        }
 
-    function renderTree(obj, container) {
-    container.innerHTML = '';
-    container.appendChild(createTreeItem('root', obj, true));
-    }
+        function createTreeItem(key, val, isLast) {
+            const wrap = document.createElement('div');
+            wrap.className = 'tree-node';
 
-    function createTreeItem(key, val, isLast) {
-    const wrap = document.createElement('div');
-    wrap.className = 'tree-node';
+            const isObject = typeof val === 'object' && val !== null;
+            const type = Array.isArray(val) ? 'array' : typeof val;
 
-    const isObject = typeof val === 'object' && val !== null;
-    const type = Array.isArray(val) ? 'array' : typeof val;
+            const header = document.createElement('div');
+            header.style.display = 'flex';
+            header.style.alignItems = 'center';
 
-    let header = document.createElement('div');
-    header.style.display = 'flex';
-    header.style.alignItems = 'center';
+            if (isObject) {
+                const toggle = document.createElement('span');
+                toggle.className = 'tree-toggle';
+                toggle.textContent = '▼';
+                toggle.onclick = () => {
+                    wrap.classList.toggle('tree-collapsed');
+                    toggle.textContent = wrap.classList.contains('tree-collapsed') ? '▶' : '▼';
+                };
+                header.appendChild(toggle);
+            }
 
-    if (isObject) {
-    const toggle = document.createElement('span');
-    toggle.className = 'tree-toggle';
-    toggle.textContent = '▼';
-    toggle.onclick = () => {
-    wrap.classList.toggle('tree-collapsed');
-    toggle.textContent = wrap.classList.contains('tree-collapsed') ? '▶' : '▼';
-    };
-    header.appendChild(toggle);
-    }
+            const keySpan = document.createElement('span');
+            keySpan.className = 'tree-key';
+            keySpan.textContent = key + ': ';
+            header.appendChild(keySpan);
 
-    const keySpan = document.createElement('span');
-    keySpan.className = 'tree-key';
-    keySpan.textContent = key + ': ';
-    header.appendChild(keySpan);
+            if (!isObject) {
+                const valSpan = document.createElement('span');
+                valSpan.className = `tree-val-${type}`;
+                valSpan.textContent = JSON.stringify(val);
+                header.appendChild(valSpan);
+            } else {
+                const meta = document.createElement('span');
+                meta.style.fontSize = '0.75rem';
+                meta.style.color = 'var(--text-muted)';
+                meta.textContent = Array.isArray(val) ? ` [${val.length}]` : ` {${Object.keys(val).length}}`;
+                header.appendChild(meta);
+            }
 
-    if (!isObject) {
-    const valSpan = document.createElement('span');
-    valSpan.className = `tree-val-${type}`;
-    valSpan.textContent = JSON.stringify(val);
-    header.appendChild(valSpan);
-    } else {
-    const meta = document.createElement('span');
-    meta.style.fontSize = '0.75rem';
-    meta.style.color = 'var(--text-muted)';
-    meta.textContent = Array.isArray(val) ? ` [${val.length}]` : ` {${Object.keys(val).length}}`;
-    header.appendChild(meta);
-    }
+            wrap.appendChild(header);
 
-    wrap.appendChild(header);
+            if (isObject) {
+                const body = document.createElement('div');
+                body.className = 'tree-item';
+                for (const k in val) {
+                    body.appendChild(createTreeItem(k, val[k], false));
+                }
+                wrap.appendChild(body);
+            }
+            return wrap;
+        }
 
-    if (isObject) {
-    const body = document.createElement('div');
-    body.className = 'tree-item';
-    for (const k in val) {
-    body.appendChild(createTreeItem(k, val[k], false));
-    }
-    wrap.appendChild(body);
-    }
+        function syntaxHighlight(json) {
+            if (!json) return "";
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+                match => {
+                    let cls = 'json-number';
+                    if (/^"/.test(match)) {
+                        cls = /:$/.test(match) ? 'json-key' : 'json-string';
+                    } else if (/true|false/.test(match)) {
+                        cls = 'json-bool';
+                    } else if (/null/.test(match)) {
+                        cls = 'json-null';
+                    }
+                    return `<span class="${cls}">${match}</span>`;
+                });
+        }
 
-    return wrap;
-    }
+        function process(mode) {
+            const raw = document.getElementById('jsonInput').value.trim();
+            const statusBox = document.getElementById('statusBox');
+            const outputBox = document.getElementById('outputBox');
+            const output = document.getElementById('jsonOutput');
 
-    function syntaxHighlight(json) {
-    return
-    json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
-    match => {
-    let cls = 'json-number';
-    if (/^"/.test(match)) {
-    cls = /:$/.test(match) ? 'json-key' : 'json-string';
-    } else if (/true|false/.test(match)) {
-    cls = 'json-bool';
-    } else if (/null/.test(match)) {
-    cls = 'json-null';
-    }
-    return `<span class="${cls}">${match}</span>`;
-    });
-    }
+            if (!raw) {
+                showToast('Please paste some JSON first', 'error');
+                return;
+            }
 
-    function process(mode) {
-    const raw = document.getElementById('jsonInput').value.trim();
-    const statusBox = document.getElementById('statusBox');
-    const outputBox = document.getElementById('outputBox');
-    const output = document.getElementById('jsonOutput');
+            try {
+                const parsed = JSON.parse(raw);
+                let result;
+                if (mode === 'format') result = JSON.stringify(parsed, null, 2);
+                else result = JSON.stringify(parsed);
 
-    if (!raw) { showToast('Please paste some JSON first', 'error'); return; }
+                output.innerHTML = syntaxHighlight(escapeHtml(result));
+                renderTree(parsed, document.getElementById('jsonTree'));
 
-    try {
-    const parsed = JSON.parse(raw);
-    let result;
-    if (mode === 'format') result = JSON.stringify(parsed, null, 2);
-    else result = JSON.stringify(parsed);
+                statusBox.className = 'alert alert-success';
+                statusBox.style.display = '';
+                statusBox.textContent = '✅ Valid JSON! ' + (mode === 'format' ? 'Formatted successfully.' : 'Minified successfully.');
+                outputBox.style.display = '';
 
-    output.innerHTML = syntaxHighlight(escapeHtml(result));
-    renderTree(parsed, document.getElementById('jsonTree'));
+                document.getElementById('copyBtn').onclick = () => copyToClipboard(result, document.getElementById('copyBtn'));
+                document.getElementById('toggleView').onclick = () => {
+                    const isTree = document.getElementById('treeView').style.display === 'none';
+                    document.getElementById('treeView').style.display = isTree ? 'block' : 'none';
+                    document.getElementById('codeView').style.display = isTree ? 'none' : 'block';
+                    document.getElementById('toggleView').textContent = isTree ? '💻 Code View' : '🌳 Tree View';
+                };
+            } catch (e) {
+                statusBox.className = 'alert alert-error';
+                statusBox.style.display = '';
+                statusBox.textContent = '❌ Invalid JSON: ' + e.message;
+                outputBox.style.display = 'none';
+            }
+        }
 
-    statusBox.className = 'alert alert-success'; statusBox.style.display = '';
-    statusBox.textContent = '✅ Valid JSON! ' + (mode === 'format' ? 'Formatted successfully.' : 'Minified
-    successfully.');
-    outputBox.style.display = '';
+        function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
 
-    document.getElementById('copyBtn').onclick = () => copyToClipboard(result, document.getElementById('copyBtn'));
-    document.getElementById('toggleView').onclick = () => {
-    const isTree = document.getElementById('treeView').style.display === 'none';
-    document.getElementById('treeView').style.display = isTree ? 'block' : 'none';
-    document.getElementById('codeView').style.display = isTree ? 'none' : 'block';
-    document.getElementById('toggleView').textContent = isTree ? '💻 Code View' : '🌳 Tree View';
-    };
-    } catch (e) {
-    statusBox.className = 'alert alert-error'; statusBox.style.display = '';
-    statusBox.textContent = '❌ Invalid JSON: ' + e.message;
-    outputBox.style.display = 'none';
-    }
-    }
-
-    function escapeHtml(str) {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;' ).replace( />/g, '&gt;');
-    }
-
-    document.getElementById('formatBtn').addEventListener('click', () => process('format'));
-    document.getElementById('minifyBtn').addEventListener('click', () => process('minify'));
-    document.getElementById('clearBtn').addEventListener('click', () => {
-    document.getElementById('jsonInput').value = '';
-    document.getElementById('statusBox').style.display = 'none';
-    document.getElementById('outputBox').style.display = 'none';
-    });
+        document.getElementById('formatBtn').addEventListener('click', () => process('format'));
+        document.getElementById('minifyBtn').addEventListener('click', () => process('minify'));
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            document.getElementById('jsonInput').value = '';
+            document.getElementById('statusBox').style.display = 'none';
+            document.getElementById('outputBox').style.display = 'none';
+        });
     </script>
 </body>
 

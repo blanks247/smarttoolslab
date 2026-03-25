@@ -272,31 +272,44 @@ console.log('App started');"></textarea>
         }
 
         function validateHTML(html) {
-            const doc = document.createElement('div');
-            doc.innerHTML = html;
             const info = document.getElementById('validation-info');
+            const whitelist = [
+                'div', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', 'a', 'img', 'ul', 'ol', 'li',
+                'table', 'tr', 'td', 'th', 'thead', 'tbody', 'tfoot', 'section', 'article', 'aside',
+                'header', 'footer', 'main', 'nav', 'details', 'summary', 'figure', 'figcaption',
+                'blockquote', 'q', 'cite', 'b', 'strong', 'i', 'em', 'u', 's', 'del', 'ins', 'mark',
+                'sub', 'sup', 'small', 'code', 'pre', 'kbd', 'samp', 'var', 'hr', 'br', 'input',
+                'button', 'select', 'option', 'textarea', 'label', 'form', 'fieldset', 'legend',
+                'datalist', 'output', 'progress', 'meter', 'canvas', 'svg', 'path', 'circle', 'rect',
+                'line', 'polyline', 'polygon', 'ellipse', 'g', 'text', 'tspan', 'defs', 'lineargradient',
+                'stop', 'clipPath', 'use', 'script', 'style', 'iframe', 'video', 'audio', 'picture', 'source'
+            ];
 
-            // Simple check for unclosed tags or structural issues
-            // This is basic but provides immediate feedback without blocks
             const isSelfClosing = tag => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'].includes(tag.toLowerCase());
 
             const tags = [];
-            const tagRegex = /<\/?([a-zA-Z0-9]+)[^>]*>/g;
+            const tagRegex = /<\/?([a-zA-Z0-9\-]+)[^>]*>/g;
             let match;
             let error = null;
+            let warning = null;
 
             while ((match = tagRegex.exec(html)) !== null) {
-                const tag = match[1];
+                const tag = match[1].toLowerCase();
                 const isClosing = match[0].startsWith('</');
                 const isFullSelfClosing = match[0].endsWith('/>');
 
+                // Whitelist check
+                if (!whitelist.includes(tag) && !tag.includes('-')) {
+                    warning = `Unknown tag <${tag}>`;
+                }
+
                 if (isClosing) {
-                    if (tags.length === 0 || tags.pop() !== tag.toLowerCase()) {
+                    if (tags.length === 0 || tags.pop() !== tag) {
                         error = `Unexpected closing tag </${tag}>`;
                         break;
                     }
                 } else if (!isSelfClosing(tag) && !isFullSelfClosing) {
-                    tags.push(tag.toLowerCase());
+                    tags.push(tag);
                 }
             }
 
@@ -307,9 +320,14 @@ console.log('App started');"></textarea>
             if (error) {
                 info.textContent = error;
                 info.className = 'status-error';
+            } else if (warning) {
+                info.textContent = '⚠️ ' + warning;
+                info.className = '';
+                info.style.color = '#f59e0b'; // Amber
             } else {
                 info.textContent = 'Valid HTML Structure';
                 info.className = '';
+                info.style.color = '';
             }
         }
 
