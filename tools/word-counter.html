@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Free Word Counter Online — Count Words, Characters & Reading Time | SmartToolsLab</title>
+    <title>Free Word Counter Online — Count Words & Characters | SmartToolsLab</title>
     <meta name="description"
         content="Free online word counter. Count words, characters, sentences, paragraphs, and estimate reading time. Perfect for essays, articles, and social media posts." />
     <meta name="keywords"
@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -41,8 +42,7 @@
                     <span>Word Counter</span>
                 </div>
                 <h1>Free Word Counter Online</h1>
-                <p>Count words, characters, sentences, paragraphs and calculate reading time instantly. Perfect for
-                    essays, blog posts, SEO content, and social media captions.</p>
+                <p>Count words and characters instantly. Perfect for essays, blog posts, and text analysis.</p>
             </div>
 
             <div class="ad-zone banner"
@@ -53,19 +53,10 @@
             <!-- LIVE STATS BAR -->
             <div
                 style="background:linear-gradient(135deg,rgba(108,99,255,0.12),rgba(0,212,255,0.08));border:1px solid rgba(108,99,255,0.25);border-radius:var(--radius-xl);padding:24px 28px;margin-bottom:20px;">
-                <div
-                    style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:20px;text-align:center;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;text-align:center;">
                     <div class="stat-item"><span class="val" id="wordCount">0</span><span class="lbl">Words</span></div>
                     <div class="stat-item"><span class="val" id="charCount">0</span><span class="lbl">Characters</span>
                     </div>
-                    <div class="stat-item"><span class="val" id="charNoSpace">0</span><span class="lbl">Chars (no
-                            spaces)</span></div>
-                    <div class="stat-item"><span class="val" id="sentCount">0</span><span class="lbl">Sentences</span>
-                    </div>
-                    <div class="stat-item"><span class="val" id="paraCount">0</span><span class="lbl">Paragraphs</span>
-                    </div>
-                    <div class="stat-item"><span class="val" id="readTime">0 sec</span><span class="lbl">Reading
-                            Time</span></div>
                 </div>
             </div>
 
@@ -84,55 +75,6 @@
                     placeholder="Start typing or paste your text here… word count updates live as you type."></textarea>
             </div>
 
-            <!-- Keyword Density -->
-            <div class="tool-box" id="keywordBox" style="display:none;">
-                <h2>Top Keywords</h2>
-                <div id="keywordList" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
-            </div>
-
-            <!-- Limits Info -->
-            <div class="tool-box">
-                <h2>Social Media Character Limits</h2>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
-                    <div id="twLimit"
-                        style="padding:14px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--border);">
-                        <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:4px;">Twitter / X</div>
-                        <div id="twBar" class="progress-bar-wrap">
-                            <div class="progress-bar-fill" id="twFill"></div>
-                        </div>
-                        <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:6px;"><span
-                                id="twUsed">0</span> / 280</div>
-                    </div>
-                    <div
-                        style="padding:14px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--border);">
-                        <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:4px;">Instagram Caption
-                        </div>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar-fill" id="igFill"></div>
-                        </div>
-                        <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:6px;"><span
-                                id="igUsed">0</span> / 2200</div>
-                    </div>
-                    <div
-                        style="padding:14px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--border);">
-                        <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:4px;">LinkedIn Post</div>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar-fill" id="lieFill"></div>
-                        </div>
-                        <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:6px;"><span
-                                id="lieUsed">0</span> / 3000</div>
-                    </div>
-                    <div
-                        style="padding:14px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--border);">
-                        <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:4px;">Meta Description</div>
-                        <div class="progress-bar-wrap">
-                            <div class="progress-bar-fill" id="metaFill"></div>
-                        </div>
-                        <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:6px;"><span
-                                id="metaUsed">0</span> / 160</div>
-                    </div>
-                </div>
-            </div>
         </main>
 
         <!-- SIDEBAR -->
@@ -177,16 +119,17 @@
                     <a href="pdf-merge.html">PDF Merge</a>
                 </div>
                 <div class="footer-col">
-        <h4>Legal & Contact</h4>
-        <a href="../privacy.html">Privacy Policy</a>
-        <a href="../terms.html">Terms of Use</a>
-        <a href="../contact.html">Contact Us</a>
-      </div></div>
+                    <h4>Legal & Contact</h4>
+                    <a href="../privacy.html">Privacy Policy</a>
+                    <a href="../terms.html">Terms of Use</a>
+                    <a href="../contact.html">Contact Us</a>
+                </div>
             </div>
-            <div class="footer-bottom">
-                <span>© 2024 SmartToolsLab</span>
-                <span>Free word counter and character counter online</span>
-            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2024 SmartToolsLab</span>
+            <span>Free word counter and character counter online</span>
+        </div>
         </div>
     </footer>
 
@@ -204,53 +147,9 @@
             const text = textInput.value;
             const words = countWords(text);
             const chars = text.length;
-            const charsNoSp = text.replace(/\s/g, '').length;
-            const sentences = text.split(/[.!?]+\s*/).filter(s => s.trim().length > 0).length;
-            const paras = text.split(/\n\s*\n/).filter(p => p.trim().length > 0).length;
-
-            const readSec = Math.ceil((words / WPM) * 60);
-            let readStr = readSec < 60 ? readSec + ' sec' : Math.ceil(words / WPM) + ' min';
 
             document.getElementById('wordCount').textContent = words.toLocaleString();
             document.getElementById('charCount').textContent = chars.toLocaleString();
-            document.getElementById('charNoSpace').textContent = charsNoSp.toLocaleString();
-            document.getElementById('sentCount').textContent = sentences.toLocaleString();
-            document.getElementById('paraCount').textContent = paras.toLocaleString();
-            document.getElementById('readTime').textContent = readStr;
-
-            // Social limits
-            function setLimit(fillId, usedId, limit) {
-                const pct = Math.min((chars / limit) * 100, 100);
-                document.getElementById(fillId).style.width = pct + '%';
-                document.getElementById(fillId).style.background = pct > 100 ? 'var(--error)' : '';
-                document.getElementById(usedId).textContent = chars.toLocaleString();
-            }
-            setLimit('twFill', 'twUsed', 280);
-            setLimit('igFill', 'igUsed', 2200);
-            setLimit('lieFill', 'lieUsed', 3000);
-            setLimit('metaFill', 'metaUsed', 160);
-
-            // Keywords
-            if (words > 0) {
-                const freq = {};
-                text.toLowerCase().match(/\b[a-z]{4,}\b/g)?.forEach(w => {
-                    const stop = ['this', 'that', 'with', 'have', 'from', 'they', 'will', 'your', 'what', 'when', 'where', 'which', 'been', 'were', 'their', 'about', 'more', 'into'];
-                    if (!stop.includes(w)) freq[w] = (freq[w] || 0) + 1;
-                });
-                const top = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 10);
-                const kwBox = document.getElementById('keywordBox');
-                const kwList = document.getElementById('keywordList');
-                if (top.length > 0) {
-                    kwList.innerHTML = top.map(([w, c]) =>
-                        `<span style="padding:6px 14px;background:rgba(108,99,255,0.1);border:1px solid rgba(108,99,255,0.2);border-radius:999px;font-size:0.8rem;color:var(--accent-light)">${w} <strong>${c}</strong></span>`
-                    ).join('');
-                    kwBox.style.display = '';
-                } else {
-                    kwBox.style.display = 'none';
-                }
-            } else {
-                document.getElementById('keywordBox').style.display = 'none';
-            }
         }
 
         textInput.addEventListener('input', update);

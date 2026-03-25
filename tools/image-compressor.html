@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Free Image Compressor Online — Compress JPG, PNG, WebP | SmartToolsLab</title>
+    <title>Free Image Compressor & Enhancer — Compress JPG, PNG, WebP | SmartToolsLab</title>
     <meta name="description"
         content="Compress images online for free. Reduce JPG, PNG, and WebP file size without losing quality. Perfect for SSC forms, websites, WhatsApp. No signup required." />
     <meta name="keywords"
@@ -44,7 +44,7 @@
                     <a href="../index.html">Home</a> <span>›</span>
                     <span>Image Compressor</span>
                 </div>
-                <h1>Free Image Compressor Online</h1>
+                <h1>Free Image Compressor & Enhancer</h1>
                 <p>Compress JPG, PNG, and WebP images in seconds — no upload to servers, 100% private, 100% free. Great
                     for SSC forms, websites, and social media posts.</p>
             </div>
@@ -60,12 +60,11 @@
                 <h2>Step 1 — Upload Image</h2>
 
                 <div class="upload-zone" id="uploadZone">
-                    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" />
+                    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" style="display:none;" />
                     <div class="upload-zone-icon">🖼️</div>
                     <h3>Drop your image here</h3>
                     <p>Supports JPG, PNG, WebP · Click to browse or drag & drop</p>
-                    <button class="btn btn-primary" style="margin-top:16px;"
-                        onclick="document.getElementById('fileInput').click()">
+                    <button class="btn btn-primary" style="margin-top:16px;">
                         📁 Choose Image
                     </button>
                 </div>
@@ -76,13 +75,58 @@
                 <h2>Step 2 — Adjust Settings</h2>
 
                 <div class="form-group">
-                    <label class="form-label">Compression Quality: <span id="qualityVal">75</span>%</label>
-                    <input type="range" class="form-range" id="qualitySlider" min="10" max="99" value="75" />
-                    <div class="flex justify-between mt-1" style="font-size:0.75rem;color:var(--text-muted);">
-                        <span>Smallest file</span>
-                        <span>Best quality</span>
+                    <label class="form-label">What would you like to do?</label>
+                    <div class="option-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div class="option-card active" id="optDecrease" onclick="setMode('decrease')">
+                            <div class="option-icon">📉</div>
+                            <div class="option-label">Decrease Size</div>
+                            <div class="option-sub">Higher compression, smaller file</div>
+                        </div>
+                        <div class="option-card" id="optIncrease" onclick="setMode('increase')">
+                            <div class="option-icon">📈</div>
+                            <div class="option-label">Increase Quality</div>
+                            <div class="option-sub">Lower compression, better clarity</div>
+                        </div>
                     </div>
+                    <input type="hidden" id="compressionMode" value="decrease" />
                 </div>
+
+                <style>
+                    .option-card {
+                        border: 2px solid var(--border-color);
+                        padding: 16px;
+                        border-radius: 12px;
+                        text-align: center;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                    }
+
+                    .option-card:hover {
+                        border-color: var(--accent-light);
+                        background: rgba(108, 99, 255, 0.04);
+                    }
+
+                    .option-card.active {
+                        border-color: var(--accent);
+                        background: rgba(108, 99, 255, 0.08);
+                    }
+
+                    .option-icon {
+                        font-size: 24px;
+                        margin-bottom: 8px;
+                    }
+
+                    .option-label {
+                        font-weight: 600;
+                        color: var(--text-primary);
+                    }
+
+                    .option-sub {
+                        font-size: 0.75rem;
+                        color: var(--text-muted);
+                        margin-top: 4px;
+                    }
+                </style>
 
                 <div class="form-group">
                     <label class="form-label">Max Width (optional)</label>
@@ -112,8 +156,8 @@
                             <span class="size-badge original" id="originalSize">—</span>
                         </div>
                         <div class="image-panel">
-                            <h4>Compressed</h4>
-                            <img id="compressedPreview" src="" alt="Compressed image" />
+                            <h4>Processed</h4>
+                            <img id="compressedPreview" src="" alt="Processed image" />
                             <span class="size-badge compressed" id="compressedSize">—</span>
                         </div>
                     </div>
@@ -124,7 +168,7 @@
                     <p style="font-size:0.8rem;color:var(--text-muted);margin-top:6px;" id="savingText"></p>
 
                     <button class="btn btn-success" id="downloadBtn" style="margin-top:20px;">
-                        ⬇️ Download Compressed Image
+                        ⬇️ Download Processed Image
                     </button>
                 </div>
             </div>
@@ -134,8 +178,8 @@
                 <h2>How to Compress an Image Online (3 Easy Steps)</h2>
                 <ol style="padding-left:20px;color:var(--text-secondary);line-height:2;">
                     <li>Upload your JPG, PNG, or WebP image using the file picker or drag & drop.</li>
-                    <li>Adjust the quality slider (lower = smaller file size, higher = better quality).</li>
-                    <li>Click "Compress Image" and download your reduced image instantly.</li>
+                    <li>Select "Decrease Size" for better compression or "Increase Quality" for better clarity.</li>
+                    <li>Click "Process Image" and download your result instantly.</li>
                 </ol>
             </div>
 
@@ -218,7 +262,7 @@
                 </div>
                 <div class="footer-col">
                     <h4>Tools</h4>
-                    <a href="image-compressor.html">Image Compressor</a>
+                    <a href="image-compressor.html">Image Compressor & Enhancer</a>
                     <a href="json-formatter.html">JSON Formatter</a>
                     <a href="word-counter.html">Word Counter</a>
                     <a href="qr-generator.html">QR Generator</a>
@@ -234,7 +278,7 @@
         </div>
         <div class="footer-bottom">
             <span>© 2024 SmartToolsLab</span>
-            <span>Free image compressor online — no signup, no limits</span>
+            <span>Free image compressor & enhancer online — no signup, no limits</span>
         </div>
         </div>
     </footer>
@@ -248,8 +292,7 @@
         const fileInput = document.getElementById('fileInput');
         const settingsBox = document.getElementById('settingsBox');
         const resultSection = document.getElementById('resultSection');
-        const qualitySlider = document.getElementById('qualitySlider');
-        const qualityVal = document.getElementById('qualityVal');
+        const compressionMode = document.getElementById('compressionMode');
         const compressBtn = document.getElementById('compressBtn');
         const resetBtn = document.getElementById('resetBtn');
         const downloadBtn = document.getElementById('downloadBtn');
@@ -264,11 +307,18 @@
             if (file && file.type.startsWith('image/')) handleFile(file);
             else showToast('Please drop an image file', 'error');
         });
-        uploadZone.addEventListener('click', () => fileInput.click());
-
-        fileInput.addEventListener('change', () => {
-            if (fileInput.files[0]) handleFile(fileInput.files[0]);
+        uploadZone.addEventListener('click', (e) => {
+            if (e.target.closest('button') || e.target === uploadZone || e.target.closest('h3') || e.target.closest('p') || e.target.closest('.upload-zone-icon')) {
+                fileInput.click();
+            }
         });
+
+        function setMode(mode) {
+            compressionMode.value = mode;
+            document.getElementById('optDecrease').classList.toggle('active', mode === 'decrease');
+            document.getElementById('optIncrease').classList.toggle('active', mode === 'increase');
+            if (originalFile) compressBtn.click();
+        }
 
         function handleFile(file) {
             originalFile = file;
@@ -283,15 +333,19 @@
             uploadZone.innerHTML = `<div class="upload-zone-icon">✅</div><h3>${file.name}</h3><p>${formatSize(file.size)} · Click to change</p>`;
         }
 
-        qualitySlider.addEventListener('input', () => { qualityVal.textContent = qualitySlider.value; });
-        qualitySlider.addEventListener('change', () => { if (originalFile) compressBtn.click(); });
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files[0]) handleFile(fileInput.files[0]);
+            fileInput.value = '';
+        });
+
         compressBtn.addEventListener('click', async () => {
             if (!originalFile) return;
             compressBtn.disabled = true;
-            compressBtn.textContent = '⏳ Compressing…';
+            compressBtn.textContent = '⏳ Processing…';
 
-            const quality = parseInt(qualitySlider.value) / 100;
-            const maxW = parseInt(document.getElementById('maxWidth').value) || 99999;
+            const mode = compressionMode.value;
+            const quality = mode === 'decrease' ? 0.4 : 0.9;
+            const maxW = parseInt(document.getElementById('maxWidth').value) || (mode === 'decrease' ? 1200 : 99999);
 
             const img = new Image();
             const url = URL.createObjectURL(originalFile);
@@ -318,17 +372,17 @@
                         ? `✅ Reduced by ${saving}% (saved ${formatSize(originalFile.size - blob.size)})`
                         : `ℹ️ Compressed image is similar size — try lowering quality`;
 
-                    document.getElementById('alertBox').textContent = `🎉 Compression complete! ${formatSize(originalFile.size)} → ${formatSize(blob.size)}`;
+                    document.getElementById('alertBox').textContent = `🎉 Processing complete! ${formatSize(originalFile.size)} → ${formatSize(blob.size)}`;
                     resultSection.style.display = '';
                     URL.revokeObjectURL(url);
 
                     compressBtn.disabled = false;
-                    compressBtn.textContent = '⚡ Compress Image';
+                    compressBtn.textContent = '⚡ Process Image';
 
                     downloadBtn.onclick = () => {
                         const a = document.createElement('a');
                         a.href = compressedUrl;
-                        a.download = 'compressed_' + originalFile.name.replace(/\.[^.]+$/, '') + (mimeType === 'image/png' ? '.png' : '.jpg');
+                        a.download = 'processed_' + originalFile.name.replace(/\.[^.]+$/, '') + (mimeType === 'image/png' ? '.png' : '.jpg');
                         a.click();
                     };
                 }, mimeType, quality);
@@ -342,10 +396,10 @@
             resultSection.style.display = 'none';
             fileInput.value = '';
             uploadZone.innerHTML = `
-      <div class="upload-zone-icon">🖼️</div>
-      <h3>Drop your image here</h3>
-      <p>Supports JPG, PNG, WebP · Click to browse or drag & drop</p>
-      <button class="btn btn-primary" style="margin-top:16px;" onclick="document.getElementById('fileInput').click()">📁 Choose Image</button>`;
+                <div class="upload-zone-icon">🖼️</div>
+                <h3>Drop your image here</h3>
+                <p>Supports JPG, PNG, WebP · Click to browse or drag & drop</p>
+                <button class="btn btn-primary" style="margin-top:16px;">📁 Choose Image</button>`;
         });
     </script>
 </body>

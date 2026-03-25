@@ -556,10 +556,16 @@
         const templates = {
             // GRID TEMPLATES
             grid_12: {
-                id: 'grid_12', title: '12 Span Grid', type: 'grid',
+                id: 'grid_12', title: '12 Column Grid', type: 'grid',
                 iconHTML: `<div class="icon-grid-12"><div class="r1"></div><div class="r2"></div><div class="r3"></div><div class="r3"></div><div class="r2"></div></div>`,
-                config: { rows: 1, columns: 12, rowHeight: '1fr', columnWidth: '1fr', rowGap: 8, columnGap: 8 },
-                items: [{ span: 12 }, { span: 4 }, { span: 8 }, { span: 6 }, { span: 6 }]
+                config: { isCustom: true, rowGap: 16, columnGap: 16, cssLayout: `  display: grid;\n  grid-template-columns: repeat(12, 1fr);\n  grid-auto-rows: minmax(100px, auto);\n` },
+                items: [
+                    { name: 'full', css: 'grid-column: span 12;' },
+                    { name: 'sidebar', css: 'grid-column: span 4;' },
+                    { name: 'main', css: 'grid-column: span 8;' },
+                    { name: 'half-1', css: 'grid-column: span 6;' },
+                    { name: 'half-2', css: 'grid-column: span 6;' }
+                ]
             },
             grid_3x3: {
                 id: 'grid_3x3', title: '3 x 3', type: 'grid',
@@ -606,8 +612,19 @@
             infinite_rows: {
                 id: 'inf_rows', title: 'Infinite Rows', type: 'grid',
                 iconHTML: `<div class="icon-inf"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>`,
-                config: { rows: 1, columns: 3, rowHeight: 'auto', columnWidth: '1fr', rowGap: 8, columnGap: 8 },
-                items: Array(12).fill({})
+                config: { rows: 3, columns: 3, rowHeight: '100px', columnWidth: '1fr', rowGap: 8, columnGap: 8 },
+                items: Array(9).fill({})
+            },
+            dashboard: {
+                id: 'dashboard', title: 'Dashboard', type: 'grid',
+                iconHTML: `<div class="icon-grid-3x3"><div></div><div></div><div></div><div></div><div></div><div></div></div>`,
+                config: { isCustom: true, rowGap: 16, columnGap: 16, cssLayout: `  grid:\n    "nav header" auto\n    "nav stats" auto\n    "nav chart" 1fr\n    / 240px 1fr;\n` },
+                items: [
+                    { name: 'nav', css: 'grid-area: nav;' },
+                    { name: 'header', css: 'grid-area: header;' },
+                    { name: 'stats', css: 'grid-area: stats;' },
+                    { name: 'chart', css: 'grid-area: chart;' }
+                ]
             },
 
             // FLEXBOX TEMPLATES

@@ -113,6 +113,20 @@
             flex-shrink: 0;
         }
 
+        .status-bar {
+            padding: 4px 16px;
+            font-size: 11px;
+            color: var(--fg-4);
+            background: var(--bg-2);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .status-error {
+            color: #ef4444;
+        }
+
         .preview-title {
             font-size: 11px;
             font-weight: 700;
@@ -202,6 +216,10 @@ p {
                 <textarea id="code-js" class="code-area" spellcheck="false" placeholder="// Write JavaScript here
 console.log('App started');"></textarea>
             </div>
+            <div class="status-bar" id="editor-status">
+                <span id="validation-info">Valid HTML</span>
+                <span id="cursor-info">Line 1, Col 1</span>
+            </div>
         </div>
 
         <!-- RIGHT PANE: PREVIEW -->
@@ -253,13 +271,59 @@ console.log('App started');"></textarea>
             iframe.srcdoc = source;
         }
 
+        function validateHTML(html) {
+            const doc = document.createElement('div');
+            doc.innerHTML = html;
+            const info = document.getElementById('validation-info');
+
+            // Simple check for unclosed tags or structural issues
+            // This is basic but provides immediate feedback without blocks
+            const isSelfClosing = tag => ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'].includes(tag.toLowerCase());
+
+            const tags = [];
+            const tagRegex = /<\/?([a-zA-Z0-9]+)[^>]*>/g;
+            let match;
+            let error = null;
+
+            while ((match = tagRegex.exec(html)) !== null) {
+                const tag = match[1];
+                const isClosing = match[0].startsWith('</');
+                const isFullSelfClosing = match[0].endsWith('/>');
+
+                if (isClosing) {
+                    if (tags.length === 0 || tags.pop() !== tag.toLowerCase()) {
+                        error = `Unexpected closing tag </${tag}>`;
+                        break;
+                    }
+                } else if (!isSelfClosing(tag) && !isFullSelfClosing) {
+                    tags.push(tag.toLowerCase());
+                }
+            }
+
+            if (!error && tags.length > 0) {
+                error = `Unclosed tag <${tags[tags.length - 1]}>`;
+            }
+
+            if (error) {
+                info.textContent = error;
+                info.className = 'status-error';
+            } else {
+                info.textContent = 'Valid HTML Structure';
+                info.className = '';
+            }
+        }
+
         // Update on input
-        htmlInput.addEventListener('input', updatePreview);
+        htmlInput.addEventListener('input', () => {
+            updatePreview();
+            validateHTML(htmlInput.value);
+        });
         cssInput.addEventListener('input', updatePreview);
         jsInput.addEventListener('input', updatePreview);
 
         // Initial render
         updatePreview();
+        validateHTML(htmlInput.value);
 
         // Tab switching logic
         const tabs = document.querySelectorAll('.editor-tab');

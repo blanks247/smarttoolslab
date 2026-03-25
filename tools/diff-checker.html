@@ -132,7 +132,8 @@
             }
         }
     </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -181,7 +182,6 @@
                 </div>
                 <div class="flex gap-3 flex-wrap mt-4">
                     <button class="btn btn-primary" id="compareBtn">🔍 Compare</button>
-                    <button class="btn btn-secondary" id="loadSampleBtn">📋 Load Sample</button>
                     <button class="btn btn-secondary" id="swapBtn">🔄 Swap</button>
                     <button class="btn btn-secondary" id="clearBtn">🗑️ Clear</button>
                 </div>
@@ -243,34 +243,20 @@
                         Builder</a>
                 </div>
                 <div class="footer-col">
-        <h4>Legal & Contact</h4>
-        <a href="../privacy.html">Privacy Policy</a>
-        <a href="../terms.html">Terms of Use</a>
-        <a href="../contact.html">Contact Us</a>
-      </div></div>
+                    <h4>Legal & Contact</h4>
+                    <a href="../privacy.html">Privacy Policy</a>
+                    <a href="../terms.html">Terms of Use</a>
+                    <a href="../contact.html">Contact Us</a>
+                </div>
             </div>
-            <div class="footer-bottom"><span>© 2024 SmartToolsLab</span><span>Free diff checker online — compare text
-                    instantly</span></div>
+        </div>
+        <div class="footer-bottom"><span>© 2024 SmartToolsLab</span><span>Free diff checker online — compare text
+                instantly</span></div>
         </div>
     </footer>
 
     <script src="../js/main.js"></script>
     <script>
-        const SAMPLE_A = `function greet(name) {
-  console.log("Hello " + name);
-  return name;
-}
-
-const user = "Abhishek";
-greet(user);`;
-
-        const SAMPLE_B = `function greet(name, greeting = "Hello") {
-  console.log(greeting + ", " + name + "!");
-  return name.toUpperCase();
-}
-
-const user = "Abhishek Gajula";
-greet(user, "Welcome");`;
 
         // Simple line-based diff
         function computeDiff(a, b) {
@@ -337,11 +323,6 @@ greet(user, "Welcome");`;
             showToast('Diff complete!', 'success');
         });
 
-        document.getElementById('loadSampleBtn').addEventListener('click', () => {
-            document.getElementById('textA').value = SAMPLE_A;
-            document.getElementById('textB').value = SAMPLE_B;
-            showToast('Sample loaded!', 'success');
-        });
 
         document.getElementById('swapBtn').addEventListener('click', () => {
             const a = document.getElementById('textA').value;

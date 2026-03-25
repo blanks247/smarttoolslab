@@ -90,7 +90,8 @@
             color: var(--accent-light);
         }
     </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -123,11 +124,11 @@
                 <span>📢 Advertisement · 728×90 AdSense Banner</span>
             </div>
 
-            <!-- Upload -->
-            <div class="tool-box">
+            <div class="tool-box" id="step1Box">
                 <h2>Step 1 — Upload Images</h2>
                 <div class="upload-zone" id="imgUploadZone">
-                    <input type="file" id="imgInput" accept="image/jpeg,image/png,image/webp" multiple />
+                    <input type="file" id="imgInput" accept="image/jpeg,image/png,image/webp" multiple
+                        style="display:none;" />
                     <div class="upload-zone-icon">🖼️</div>
                     <h3>Drop images here</h3>
                     <p>JPG, PNG, WebP supported · Multiple files allowed</p>
@@ -239,14 +240,15 @@
                         Merge</a><a href="image-to-pdf.html">Image to PDF</a>
                 </div>
                 <div class="footer-col">
-        <h4>Legal & Contact</h4>
-        <a href="../privacy.html">Privacy Policy</a>
-        <a href="../terms.html">Terms of Use</a>
-        <a href="../contact.html">Contact Us</a>
-      </div></div>
+                    <h4>Legal & Contact</h4>
+                    <a href="../privacy.html">Privacy Policy</a>
+                    <a href="../terms.html">Terms of Use</a>
+                    <a href="../contact.html">Contact Us</a>
+                </div>
             </div>
-            <div class="footer-bottom"><span>© 2024 SmartToolsLab</span><span>Free image to PDF converter online</span>
-            </div>
+        </div>
+        <div class="footer-bottom"><span>© 2024 SmartToolsLab</span><span>Free image to PDF converter online</span>
+        </div>
         </div>
     </footer>
 
@@ -283,6 +285,7 @@
             });
             arrangeBox.style.display = '';
             settingsBox.style.display = '';
+            document.getElementById('step1Box').style.display = 'none';
             resultBox.style.display = 'none';
         }
 
@@ -300,7 +303,15 @@
         }
 
         window.moveImg = (i, d) => { [images[i], images[i + d]] = [images[i + d], images[i]]; renderGrid(); };
-        window.removeImg = (i) => { images.splice(i, 1); renderGrid(); if (!images.length) { arrangeBox.style.display = 'none'; settingsBox.style.display = 'none'; } };
+        window.removeImg = (i) => {
+            images.splice(i, 1);
+            renderGrid();
+            if (!images.length) {
+                arrangeBox.style.display = 'none';
+                settingsBox.style.display = 'none';
+                document.getElementById('step1Box').style.display = '';
+            }
+        };
 
         // Page size buttons
         document.querySelectorAll('.page-size-btn').forEach(btn => {
@@ -376,6 +387,7 @@
         document.getElementById('convertAgainBtn').addEventListener('click', () => {
             images = []; pdfBlob = null;
             arrangeBox.style.display = settingsBox.style.display = resultBox.style.display = 'none';
+            document.getElementById('step1Box').style.display = '';
             document.getElementById('imageGrid').innerHTML = '';
         });
     </script>

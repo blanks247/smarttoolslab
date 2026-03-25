@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
     <style>
         .editor-toolbar {
             display: flex;
@@ -122,7 +123,8 @@
             color: var(--text-muted);
         }
     </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -146,8 +148,22 @@
             <div class="tool-page-header">
                 <div class="breadcrumb"><a href="../index.html">Home</a> <span>›</span> <span>Word Editor</span></div>
                 <h1>Free Online Word Editor</h1>
-                <p>A powerful, distraction-free rich text editor in your browser. Format text, add headings, lists,
-                    colors — then download as HTML or plain text. No signup, no cloud.</p>
+                <p>Edit your Word documents (.docx) or start from scratch. A powerful, distraction-free rich text editor
+                    in your browser. No signup, no cloud.</p>
+            </div>
+
+            <!-- Import -->
+            <div class="tool-box" id="importBox">
+                <div class="flex justify-between items-center" style="margin-bottom:12px;">
+                    <h2 style="margin:0;">Import Document</h2>
+                </div>
+                <div class="upload-zone" id="wordUploadZone" style="padding:20px;min-height:auto;">
+                    <input type="file" id="wordInput" accept=".docx,.doc" style="display:none;" />
+                    <div style="font-size:1.2rem;margin-bottom:4px;">📄</div>
+                    <p style="font-size:0.85rem;margin-bottom:12px;">Select a .docx or .doc file to edit</p>
+                    <button class="btn btn-secondary" onclick="document.getElementById('wordInput').click()">📁 Open
+                        File</button>
+                </div>
             </div>
 
             <div class="ad-zone banner"
@@ -212,8 +228,7 @@
                 </div>
 
                 <div class="editor-body" id="editorBody" contenteditable="true" spellcheck="true">
-                    <p><strong>Welcome to SmartToolsLab Word Editor!</strong></p>
-                    <p>Start typing here… Use the toolbar above to format your text.</p>
+                    <p><br></p>
                 </div>
 
                 <div class="editor-footer">
@@ -288,20 +303,52 @@
                         Counter</a><a href="resume-builder.html">Resume Builder</a>
                 </div>
                 <div class="footer-col">
-        <h4>Legal & Contact</h4>
-        <a href="../privacy.html">Privacy Policy</a>
-        <a href="../terms.html">Terms of Use</a>
-        <a href="../contact.html">Contact Us</a>
-      </div></div>
+                    <h4>Legal & Contact</h4>
+                    <a href="../privacy.html">Privacy Policy</a>
+                    <a href="../terms.html">Terms of Use</a>
+                    <a href="../contact.html">Contact Us</a>
+                </div>
             </div>
-            <div class="footer-bottom"><span>© 2024 SmartToolsLab</span><span>Free online word editor — no signup</span>
-            </div>
+        </div>
+        <div class="footer-bottom"><span>© 2024 SmartToolsLab</span><span>Free online word editor — no signup</span>
+        </div>
         </div>
     </footer>
 
     <script src="../js/main.js"></script>
     <script>
         const body = document.getElementById('editorBody');
+        const wordInput = document.getElementById('wordInput');
+
+        wordInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (file.name.toLowerCase().endsWith('.docx')) {
+                const reader = new FileReader();
+                reader.onload = function (loadEvent) {
+                    const arrayBuffer = loadEvent.target.result;
+                    mammoth.convertToHtml({ arrayBuffer: arrayBuffer })
+                        .then(displayResult)
+                        .catch(handleError);
+                };
+                reader.readAsArrayBuffer(file);
+            } else {
+                showToast('Currently only .docx files are supported for import', 'warning');
+            }
+        });
+
+        function displayResult(result) {
+            body.innerHTML = result.value;
+            updateStats();
+            document.getElementById('importBox').style.display = 'none';
+            showToast('Document imported successfully!', 'success');
+        }
+
+        function handleError(err) {
+            console.error(err);
+            showToast('Error importing document', 'error');
+        }
 
         // Exec command helper
         function exec(cmd, value = null) {
@@ -356,11 +403,25 @@
 
         // Download HTML
         document.getElementById('dlHtmlBtn').addEventListener('click', () => {
-            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Document</title><style>body{font-family:Inter,sans-serif;max-width:800px;margin:40px auto;padding:0 24px;line-height:1.7;color:#111;}h1,h2{margin:24px 0 8px;}p{margin:0 0 12px;}</style>  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1284080005532972" crossorigin="anonymous"></script>
-</head><body>${body.innerHTML}</body></html>`;
+            const htmlContent = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body { font-family: Inter, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 24px; line-height: 1.7; color: #111; }
+        h1, h2 { margin: 24px 0 8px; }
+        p { margin: 0 0 12px; }
+    </style>
+</head>
+<body>
+    ${body.innerHTML}
+</body>
+</html>`;
             const a = document.createElement('a');
-            a.href = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
-            a.download = 'document-smarttoolslab.html'; a.click();
+            a.href = URL.createObjectURL(new Blob([htmlContent], { type: 'text/html' }));
+            a.download = 'document-smarttoolslab.html';
+            a.click();
         });
 
         // Download TXT
