@@ -137,8 +137,8 @@
                 </div>
 
                 <div class="flex gap-3 flex-wrap">
-                    <button class="btn btn-primary" id="compressBtn">⚡ Compress Image</button>
-                    <button class="btn btn-secondary" id="resetBtn">🔄 Reset</button>
+                    <button class="btn btn-primary" id="compressBtn">⚡ Process Image</button>
+                    <button class="btn btn-secondary" onclick="location.reload()">🔄 Start Over</button>
                 </div>
             </div>
 
@@ -320,8 +320,20 @@
 
         function handleFile(file) {
             originalFile = file;
-            settingsBox.style.display = '';
+            compressedBlob = null;
+            
+            // Reset UI for new file
+            settingsBox.style.display = 'block';
             resultSection.style.display = 'none';
+            compressBtn.disabled = false;
+            compressBtn.textContent = '⚡ Compress Image';
+            
+            // Clear previous results
+            document.getElementById('compressedPreview').src = '';
+            document.getElementById('alertBox').textContent = '';
+            document.getElementById('savingBar').style.width = '0%';
+            document.getElementById('savingText').textContent = '';
+
             const reader = new FileReader();
             reader.onload = (e) => {
                 document.getElementById('originalPreview').src = e.target.result;
