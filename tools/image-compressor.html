@@ -315,7 +315,6 @@
             compressionMode.value = mode;
             document.getElementById('optDecrease').classList.toggle('active', mode === 'decrease');
             document.getElementById('optIncrease').classList.toggle('active', mode === 'increase');
-            if (originalFile) compressBtn.click();
         }
 
         function handleFile(file) {
