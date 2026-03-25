@@ -287,7 +287,18 @@
             }
 
             try {
-                const parsed = JSON.parse(raw);
+                let parsed;
+                try {
+                    parsed = JSON.parse(raw);
+                } catch (e) {
+                    // Pre-process for "Loose" JSON (trailing commas, comments)
+                    // 1. Remove comments
+                    let cleaned = raw.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m);
+                    // 2. Remove trailing commas
+                    cleaned = cleaned.replace(/,(\s*[}\]])/g, '$1');
+                    parsed = JSON.parse(cleaned);
+                }
+
                 let result;
                 if (mode === 'format') result = JSON.stringify(parsed, null, 2);
                 else result = JSON.stringify(parsed);
