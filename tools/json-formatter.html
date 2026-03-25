@@ -113,15 +113,21 @@
                     .tree-val-bool { color: var(--purple); }
                     .tree-val-null { color: var(--text-muted); }
 
-                    .tree-brace {
+                    .tree-toggle {
                         cursor: pointer;
+                        font-size: 0.7rem;
+                        color: var(--text-muted);
+                        margin-right: 6px;
+                        width: 12px;
+                        display: inline-block;
+                        user-select: none;
+                    }
+
+                    .tree-brace {
                         color: var(--text-primary);
                         font-weight: 700;
                         margin-right: 4px;
-                        transition: opacity 0.2s;
                     }
-
-                    .tree-brace:hover { opacity: 0.7; }
 
                     .tree-collapsed-indicator {
                         display: none;
@@ -235,6 +241,22 @@
             header.style.display = 'flex';
             header.style.alignItems = 'center';
 
+            if (isObject) {
+                const toggle = document.createElement('span');
+                toggle.className = 'tree-toggle';
+                toggle.textContent = '▼';
+                const toggleAction = () => {
+                    wrap.classList.toggle('tree-collapsed');
+                    toggle.textContent = wrap.classList.contains('tree-collapsed') ? '▶' : '▼';
+                };
+                toggle.onclick = toggleAction;
+                header.appendChild(toggle);
+            } else {
+                const spacer = document.createElement('span');
+                spacer.className = 'tree-toggle'; // Use same class for alignment
+                header.appendChild(spacer);
+            }
+
             if (key !== 'root') {
                 const keySpan = document.createElement('span');
                 keySpan.className = 'tree-key';
@@ -251,18 +273,22 @@
                 const openBrace = document.createElement('span');
                 openBrace.className = 'tree-brace';
                 openBrace.textContent = isArray ? '[' : '{';
-                openBrace.onclick = () => wrap.classList.toggle('tree-collapsed');
+                openBrace.onclick = () => {
+                   wrap.classList.toggle('tree-collapsed');
+                   const toggleBtn = header.querySelector('.tree-toggle');
+                   if (toggleBtn) toggleBtn.textContent = wrap.classList.contains('tree-collapsed') ? '▶' : '▼';
+                };
                 header.appendChild(openBrace);
 
                 const indicator = document.createElement('span');
                 indicator.className = 'tree-collapsed-indicator';
                 indicator.textContent = ' ... ';
-                indicator.onclick = () => wrap.classList.toggle('tree-collapsed');
+                indicator.onclick = () => {
+                   wrap.classList.toggle('tree-collapsed');
+                   const toggleBtn = header.querySelector('.tree-toggle');
+                   if (toggleBtn) toggleBtn.textContent = wrap.classList.contains('tree-collapsed') ? '▶' : '▼';
+                };
                 header.appendChild(indicator);
-
-                if (wrap.classList.contains('tree-collapsed')) {
-                   // Initial state if needed
-                }
             }
 
             wrap.appendChild(header);
@@ -270,14 +296,14 @@
             if (isObject) {
                 const body = document.createElement('div');
                 body.className = 'tree-item';
-                const keys = Object.keys(val);
-                keys.forEach((k, i) => {
+                Object.keys(val).forEach(k => {
                     body.appendChild(createTreeItem(k, val[k], false));
                 });
                 wrap.appendChild(body);
 
                 const closer = document.createElement('div');
                 closer.className = 'tree-closer';
+                closer.style.paddingLeft = '18px'; // Align with arrow
                 closer.textContent = isArray ? ']' : '}';
                 wrap.appendChild(closer);
             }
