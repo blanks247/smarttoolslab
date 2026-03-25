@@ -98,38 +98,54 @@
                     }
 
                     .tree-item {
-                        margin-left: 20px;
-                        border-left: 1px solid var(--border-color);
+                        margin-left: 14px;
+                        border-left: 1px dashed var(--border-color);
                         padding-left: 10px;
                     }
 
                     .tree-key {
                         color: var(--accent);
-                        font-weight: 600;
+                        font-weight: 500;
+                    }
+
+                    .tree-val-string { color: var(--green); }
+                    .tree-val-number { color: var(--orange); }
+                    .tree-val-bool { color: var(--purple); }
+                    .tree-val-null { color: var(--text-muted); }
+
+                    .tree-brace {
                         cursor: pointer;
+                        color: var(--text-primary);
+                        font-weight: 700;
+                        margin-right: 4px;
+                        transition: opacity 0.2s;
                     }
 
-                    .tree-val-string {
-                        color: var(--green);
-                    }
+                    .tree-brace:hover { opacity: 0.7; }
 
-                    .tree-val-number {
-                        color: var(--orange);
-                    }
-
-                    .tree-val-bool {
-                        color: var(--purple);
-                    }
-
-                    .tree-toggle {
-                        cursor: pointer;
-                        user-select: none;
-                        margin-right: 5px;
-                        color: var(--text-muted);
-                    }
-
-                    .tree-collapsed>.tree-item {
+                    .tree-collapsed-indicator {
                         display: none;
+                        font-size: 0.8rem;
+                        color: var(--text-muted);
+                        background: rgba(108, 99, 255, 0.05);
+                        padding: 0 4px;
+                        border-radius: 4px;
+                        margin: 0 4px;
+                    }
+
+                    .tree-collapsed > .tree-item, 
+                    .tree-collapsed > .tree-closer {
+                        display: none;
+                    }
+
+                    .tree-collapsed > .header .tree-collapsed-indicator {
+                        display: inline;
+                    }
+
+                    .tree-node {
+                        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+                        font-size: 0.85rem;
+                        line-height: 1.5;
                     }
                 </style>
             </div>
@@ -206,32 +222,25 @@
             container.appendChild(createTreeItem('root', obj, true));
         }
 
-        function createTreeItem(key, val, isLast) {
+        function createTreeItem(key, val, isRoot = false) {
             const wrap = document.createElement('div');
             wrap.className = 'tree-node';
 
             const isObject = typeof val === 'object' && val !== null;
-            const type = Array.isArray(val) ? 'array' : typeof val;
+            const isArray = Array.isArray(val);
+            const type = isArray ? 'array' : typeof val;
 
             const header = document.createElement('div');
+            header.className = 'header';
             header.style.display = 'flex';
             header.style.alignItems = 'center';
 
-            if (isObject) {
-                const toggle = document.createElement('span');
-                toggle.className = 'tree-toggle';
-                toggle.textContent = '▼';
-                toggle.onclick = () => {
-                    wrap.classList.toggle('tree-collapsed');
-                    toggle.textContent = wrap.classList.contains('tree-collapsed') ? '▶' : '▼';
-                };
-                header.appendChild(toggle);
+            if (key !== 'root') {
+                const keySpan = document.createElement('span');
+                keySpan.className = 'tree-key';
+                keySpan.textContent = `"${key}": `;
+                header.appendChild(keySpan);
             }
-
-            const keySpan = document.createElement('span');
-            keySpan.className = 'tree-key';
-            keySpan.textContent = key + ': ';
-            header.appendChild(keySpan);
 
             if (!isObject) {
                 const valSpan = document.createElement('span');
@@ -239,11 +248,21 @@
                 valSpan.textContent = JSON.stringify(val);
                 header.appendChild(valSpan);
             } else {
-                const meta = document.createElement('span');
-                meta.style.fontSize = '0.75rem';
-                meta.style.color = 'var(--text-muted)';
-                meta.textContent = Array.isArray(val) ? ` [${val.length}]` : ` {${Object.keys(val).length}}`;
-                header.appendChild(meta);
+                const openBrace = document.createElement('span');
+                openBrace.className = 'tree-brace';
+                openBrace.textContent = isArray ? '[' : '{';
+                openBrace.onclick = () => wrap.classList.toggle('tree-collapsed');
+                header.appendChild(openBrace);
+
+                const indicator = document.createElement('span');
+                indicator.className = 'tree-collapsed-indicator';
+                indicator.textContent = ' ... ';
+                indicator.onclick = () => wrap.classList.toggle('tree-collapsed');
+                header.appendChild(indicator);
+
+                if (wrap.classList.contains('tree-collapsed')) {
+                   // Initial state if needed
+                }
             }
 
             wrap.appendChild(header);
@@ -251,11 +270,18 @@
             if (isObject) {
                 const body = document.createElement('div');
                 body.className = 'tree-item';
-                for (const k in val) {
+                const keys = Object.keys(val);
+                keys.forEach((k, i) => {
                     body.appendChild(createTreeItem(k, val[k], false));
-                }
+                });
                 wrap.appendChild(body);
+
+                const closer = document.createElement('div');
+                closer.className = 'tree-closer';
+                closer.textContent = isArray ? ']' : '}';
+                wrap.appendChild(closer);
             }
+
             return wrap;
         }
 
