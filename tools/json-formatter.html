@@ -136,13 +136,29 @@
                         font-size: 1.1rem;
                     }
 
+                    .tree-brace {
+                        color: var(--text-primary);
+                        font-weight: bold;
+                        margin-left: 6px;
+                    }
+
+                    .tree-closer {
+                        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+                        font-size: 0.95rem;
+                        line-height: 1.8;
+                        color: var(--text-primary);
+                        font-weight: bold;
+                        padding-left: 24px; /* Align with toggle area */
+                    }
+
                     .tree-key { color: var(--accent); font-weight: 500; }
                     .tree-val-string { color: var(--green); }
                     .tree-val-number { color: var(--orange); }
                     .tree-val-bool { color: var(--purple); }
                     .tree-val-null { color: var(--text-muted); }
 
-                    .tree-collapsed > .tree-item { display: none; }
+                    .tree-collapsed > .tree-item,
+                    .tree-collapsed > .tree-closer { display: none; }
                 </style>
             </div>
 
@@ -257,7 +273,7 @@
             keySpan.textContent = key;
             header.appendChild(keySpan);
 
-            // Value preview (for primitives)
+            // Value preview (for primitives) or Brace (for objects)
             if (!isObject) {
                 const sep = document.createElement('span');
                 sep.textContent = ' : ';
@@ -268,14 +284,31 @@
                 valSpan.textContent = JSON.stringify(val);
                 header.appendChild(valSpan);
             } else {
+                const brace = document.createElement('span');
+                brace.className = 'tree-brace';
+                brace.textContent = isArray ? '[' : '{';
+                header.appendChild(brace);
+
                 // Show items count for objects/arrays when collapsed
                 const count = Object.keys(val).length;
                 const info = document.createElement('span');
+                info.className = 'collapsed-info';
                 info.style.color = 'var(--text-muted)';
                 info.style.fontSize = '0.8rem';
                 info.style.marginLeft = '8px';
-                info.textContent = isArray ? `[${count} items]` : `{${count} keys}`;
+                info.textContent = isArray ? ` ... ${count} items ]` : ` ... ${count} keys }`;
                 header.appendChild(info);
+
+                // CSS trick to only show .collapsed-info when .tree-collapsed is active
+                const style = document.createElement('style');
+                if (!document.getElementById('tree-info-style')) {
+                    style.id = 'tree-info-style';
+                    style.innerHTML = `
+                        .tree-node:not(.tree-collapsed) .collapsed-info { display: none; }
+                        .tree-node.tree-collapsed .tree-closer { display: none; }
+                    `;
+                    document.head.appendChild(style);
+                }
             }
 
             header.onclick = (e) => {
@@ -294,6 +327,11 @@
                     body.appendChild(createTreeItem(k, val[k], false));
                 });
                 wrap.appendChild(body);
+
+                const closer = document.createElement('div');
+                closer.className = 'tree-closer';
+                closer.textContent = isArray ? ']' : '}';
+                wrap.appendChild(closer);
             }
 
             return wrap;
