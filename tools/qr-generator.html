@@ -229,7 +229,7 @@
                                    class="form-input" 
                                    id="mainInput" 
                                    placeholder="${cfg.placeholder}" 
-                                   ${currentType === 'phone' ? 'inputmode="numeric" maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, \'\')"' : ''} />
+                                   ${currentType === 'phone' ? 'inputmode="numeric" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, \'\')"' : ''} />
                         </div>
                     `;
                 }
@@ -265,9 +265,9 @@
                 }
             }
             if (currentType === 'phone') {
-                const phoneRegex = /^[0-9]{7,15}$/;
+                const phoneRegex = /^[0-9]{10}$/;
                 if (!phoneRegex.test(raw)) {
-                    showToast('Please enter a valid phone number (7-15 digits)', 'error');
+                    showToast('Please enter a valid 10-digit phone number', 'error');
                     return 'INVALID';
                 }
             }
