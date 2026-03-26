@@ -188,7 +188,7 @@
             url: { label: 'Website URL', placeholder: 'https://example.com', prefix: '' },
             text: { label: 'Text Content', placeholder: 'Type any text here…', prefix: '' },
             email: { label: 'Email Address', placeholder: 'example@gmail.com', prefix: 'mailto:' },
-            phone: { label: 'Phone Number', placeholder: '+91 98765 43210', prefix: 'tel:' },
+            phone: { label: 'Phone Number', placeholder: '9876543210', prefix: 'tel:' },
             wifi: { label: 'WiFi Network Name', placeholder: 'MyWiFiNetwork', prefix: '' },
         };
 
@@ -225,7 +225,11 @@
                     inputArea.innerHTML = `
                         <div class="form-group">
                             <label class="form-label" id="mainLabel">${cfg.label}</label>
-                            <input type="text" class="form-input" id="mainInput" placeholder="${cfg.placeholder}" />
+                            <input type="${currentType === 'phone' ? 'tel' : 'text'}" 
+                                   class="form-input" 
+                                   id="mainInput" 
+                                   placeholder="${cfg.placeholder}" 
+                                   ${currentType === 'phone' ? 'inputmode="numeric" maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, \'\')"' : ''} />
                         </div>
                     `;
                 }
@@ -261,9 +265,9 @@
                 }
             }
             if (currentType === 'phone') {
-                const phoneRegex = /^\+?[0-9\s\-()]{7,20}$/;
+                const phoneRegex = /^[0-9]{7,15}$/;
                 if (!phoneRegex.test(raw)) {
-                    showToast('Please enter a valid phone number', 'error');
+                    showToast('Please enter a valid phone number (7-15 digits)', 'error');
                     return 'INVALID';
                 }
             }
