@@ -83,76 +83,66 @@
                 </div>
 
                 <div id="treeView" style="display:none;">
-                    <div class="json-tree-container" id="jsonTree"></div>
+                    <div class="json-viewer-simple" id="jsonTree"></div>
                 </div>
 
                 <style>
-                    .json-tree-container {
+                    .json-viewer-simple {
                         background: var(--bg-secondary);
-                        border-radius: 8px;
-                        padding: 16px;
-                        font-family: inherit;
-                        font-size: 0.9rem;
-                        overflow-x: auto;
                         border: 1px solid var(--border-color);
+                        border-radius: 12px;
+                        padding: 24px;
+                        min-height: 200px;
+                        max-height: 700px;
+                        overflow: auto;
+                    }
+
+                    .tree-node {
+                        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+                        font-size: 0.95rem;
+                        line-height: 1.8;
+                        white-space: nowrap;
                     }
 
                     .tree-item {
-                        margin-left: 14px;
-                        border-left: 1px dashed var(--border-color);
-                        padding-left: 10px;
+                        margin-left: 20px;
+                        border-left: 1px solid rgba(0,0,0,0.08);
+                        padding-left: 12px;
                     }
 
-                    .tree-key {
-                        color: var(--accent);
-                        font-weight: 500;
+                    .header {
+                        display: flex;
+                        align-items: center;
+                        cursor: pointer;
+                        padding: 2px 4px;
+                        border-radius: 4px;
+                        width: fit-content;
                     }
 
+                    .header:hover { background: rgba(0, 0, 0, 0.03); }
+
+                    .tree-toggle {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 16px;
+                        height: 16px;
+                        color: var(--text-muted);
+                        font-weight: bold;
+                        margin-right: 8px;
+                        cursor: pointer;
+                        user-select: none;
+                        flex-shrink: 0;
+                        font-size: 1.1rem;
+                    }
+
+                    .tree-key { color: var(--accent); font-weight: 500; }
                     .tree-val-string { color: var(--green); }
                     .tree-val-number { color: var(--orange); }
                     .tree-val-bool { color: var(--purple); }
                     .tree-val-null { color: var(--text-muted); }
 
-                    .tree-toggle {
-                        cursor: pointer;
-                        font-size: 0.7rem;
-                        color: var(--text-muted);
-                        margin-right: 6px;
-                        width: 12px;
-                        display: inline-block;
-                        user-select: none;
-                    }
-
-                    .tree-brace {
-                        color: var(--text-primary);
-                        font-weight: 700;
-                        margin-right: 4px;
-                    }
-
-                    .tree-collapsed-indicator {
-                        display: none;
-                        font-size: 0.8rem;
-                        color: var(--text-muted);
-                        background: rgba(108, 99, 255, 0.05);
-                        padding: 0 4px;
-                        border-radius: 4px;
-                        margin: 0 4px;
-                    }
-
-                    .tree-collapsed > .tree-item, 
-                    .tree-collapsed > .tree-closer {
-                        display: none;
-                    }
-
-                    .tree-collapsed > .header .tree-collapsed-indicator {
-                        display: inline;
-                    }
-
-                    .tree-node {
-                        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-                        font-size: 0.85rem;
-                        line-height: 1.5;
-                    }
+                    .tree-collapsed > .tree-item { display: none; }
                 </style>
             </div>
 
@@ -225,71 +215,75 @@
     <script>
         function renderTree(obj, container) {
             container.innerHTML = '';
-            container.appendChild(createTreeItem('root', obj, true));
+            // Render top level items directly
+            if (typeof obj === 'object' && obj !== null) {
+                Object.keys(obj).forEach(k => {
+                    container.appendChild(createTreeItem(k, obj[k], false));
+                });
+            } else {
+                container.appendChild(createTreeItem('JSON', obj, true));
+            }
         }
 
         function createTreeItem(key, val, isRoot = false) {
             const wrap = document.createElement('div');
             wrap.className = 'tree-node';
+            
+            // Start collapsed by default
+            wrap.classList.add('tree-collapsed');
 
             const isObject = typeof val === 'object' && val !== null;
             const isArray = Array.isArray(val);
-            const type = isArray ? 'array' : typeof val;
+            const type = isArray ? 'array' : (val === null ? 'null' : typeof val);
 
             const header = document.createElement('div');
             header.className = 'header';
-            header.style.display = 'flex';
-            header.style.alignItems = 'center';
 
+            // Toggle Icon + or -
             if (isObject) {
                 const toggle = document.createElement('span');
                 toggle.className = 'tree-toggle';
-                toggle.textContent = '▼';
-                const toggleAction = () => {
-                    wrap.classList.toggle('tree-collapsed');
-                    toggle.textContent = wrap.classList.contains('tree-collapsed') ? '▶' : '▼';
-                };
-                toggle.onclick = toggleAction;
+                toggle.textContent = '+';
                 header.appendChild(toggle);
             } else {
                 const spacer = document.createElement('span');
-                spacer.className = 'tree-toggle'; // Use same class for alignment
+                spacer.style.width = '24px'; 
                 header.appendChild(spacer);
             }
 
-            if (key !== 'root') {
-                const keySpan = document.createElement('span');
-                keySpan.className = 'tree-key';
-                keySpan.textContent = `"${key}": `;
-                header.appendChild(keySpan);
-            }
+            // Key
+            const keySpan = document.createElement('span');
+            keySpan.className = 'tree-key';
+            keySpan.textContent = key;
+            header.appendChild(keySpan);
 
+            // Value preview (for primitives)
             if (!isObject) {
+                const sep = document.createElement('span');
+                sep.textContent = ' : ';
+                header.appendChild(sep);
+
                 const valSpan = document.createElement('span');
                 valSpan.className = `tree-val-${type}`;
                 valSpan.textContent = JSON.stringify(val);
                 header.appendChild(valSpan);
             } else {
-                const openBrace = document.createElement('span');
-                openBrace.className = 'tree-brace';
-                openBrace.textContent = isArray ? '[' : '{';
-                openBrace.onclick = () => {
-                   wrap.classList.toggle('tree-collapsed');
-                   const toggleBtn = header.querySelector('.tree-toggle');
-                   if (toggleBtn) toggleBtn.textContent = wrap.classList.contains('tree-collapsed') ? '▶' : '▼';
-                };
-                header.appendChild(openBrace);
-
-                const indicator = document.createElement('span');
-                indicator.className = 'tree-collapsed-indicator';
-                indicator.textContent = ' ... ';
-                indicator.onclick = () => {
-                   wrap.classList.toggle('tree-collapsed');
-                   const toggleBtn = header.querySelector('.tree-toggle');
-                   if (toggleBtn) toggleBtn.textContent = wrap.classList.contains('tree-collapsed') ? '▶' : '▼';
-                };
-                header.appendChild(indicator);
+                // Show items count for objects/arrays when collapsed
+                const count = Object.keys(val).length;
+                const info = document.createElement('span');
+                info.style.color = 'var(--text-muted)';
+                info.style.fontSize = '0.8rem';
+                info.style.marginLeft = '8px';
+                info.textContent = isArray ? `[${count} items]` : `{${count} keys}`;
+                header.appendChild(info);
             }
+
+            header.onclick = (e) => {
+                if (!isObject) return;
+                wrap.classList.toggle('tree-collapsed');
+                const t = header.querySelector('.tree-toggle');
+                if (t) t.textContent = wrap.classList.contains('tree-collapsed') ? '+' : '−';
+            };
 
             wrap.appendChild(header);
 
@@ -300,12 +294,6 @@
                     body.appendChild(createTreeItem(k, val[k], false));
                 });
                 wrap.appendChild(body);
-
-                const closer = document.createElement('div');
-                closer.className = 'tree-closer';
-                closer.style.paddingLeft = '18px'; // Align with arrow
-                closer.textContent = isArray ? ']' : '}';
-                wrap.appendChild(closer);
             }
 
             return wrap;
@@ -368,7 +356,7 @@
                     const isTree = document.getElementById('treeView').style.display === 'none';
                     document.getElementById('treeView').style.display = isTree ? 'block' : 'none';
                     document.getElementById('codeView').style.display = isTree ? 'none' : 'block';
-                    document.getElementById('toggleView').textContent = isTree ? '💻 Code View' : '🌳 Tree View';
+                    document.getElementById('toggleView').textContent = isTree ? '💻 Code View' : '🔍 Viewer';
                 };
             } catch (e) {
                 statusBox.className = 'alert alert-error';
