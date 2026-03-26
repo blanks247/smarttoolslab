@@ -88,77 +88,75 @@
 
                 <style>
                     .json-viewer-simple {
-                        background: var(--bg-secondary);
+                        background: #1e1e1e; /* Dark theme like Postman */
+                        color: #d4d4d4;
                         border: 1px solid var(--border-color);
                         border-radius: 12px;
                         padding: 24px;
                         min-height: 200px;
                         max-height: 700px;
                         overflow: auto;
+                        font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+                        font-size: 14px;
                     }
 
                     .tree-node {
-                        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-                        font-size: 0.95rem;
-                        line-height: 1.8;
+                        line-height: 1.6;
                         white-space: nowrap;
+                        position: relative;
                     }
 
                     .tree-item {
                         margin-left: 20px;
-                        border-left: 1px solid rgba(0,0,0,0.08);
-                        padding-left: 12px;
+                        border-left: 1px solid rgba(255, 255, 255, 0.1);
+                        padding-left: 16px;
                     }
 
                     .header {
                         display: flex;
                         align-items: center;
                         cursor: pointer;
-                        padding: 2px 4px;
-                        border-radius: 4px;
+                        padding: 1px 4px;
+                        border-radius: 2px;
                         width: fit-content;
                     }
 
-                    .header:hover { background: rgba(0, 0, 0, 0.03); }
+                    .header:hover { background: rgba(255, 255, 255, 0.05); }
 
                     .tree-toggle {
                         display: inline-flex;
                         align-items: center;
                         justify-content: center;
-                        width: 16px;
-                        height: 16px;
-                        color: var(--text-muted);
-                        font-weight: bold;
-                        margin-right: 8px;
+                        width: 14px;
+                        height: 14px;
+                        color: #888;
+                        margin-right: 6px;
                         cursor: pointer;
                         user-select: none;
-                        flex-shrink: 0;
-                        font-size: 1.1rem;
+                        font-size: 10px;
+                        transition: transform 0.1s;
                     }
 
-                    .tree-brace {
-                        color: var(--text-primary);
-                        font-weight: bold;
-                        margin-left: 6px;
-                    }
+                    .tree-key { color: #9cdcfe; } /* Light blue for keys */
+                    .tree-val-string { color: #ce9178; } /* Warm orange for strings */
+                    .tree-val-number { color: #b5cea8; }
+                    .tree-val-bool { color: #ce9178; }
+                    .tree-val-null { color: #569cd6; }
 
-                    .tree-closer {
-                        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-                        font-size: 0.95rem;
-                        line-height: 1.8;
-                        color: var(--text-primary);
-                        font-weight: bold;
-                        padding-left: 24px; /* Align with toggle area */
-                    }
-
-                    .tree-key { color: var(--accent); font-weight: 500; }
-                    .tree-val-string { color: var(--green); }
-                    .tree-val-number { color: var(--orange); }
-                    .tree-val-bool { color: var(--purple); }
-                    .tree-val-null { color: var(--text-muted); }
-
+                    .tree-brace { color: #d4d4d4; }
+                    
                     .tree-collapsed > .tree-item,
                     .tree-collapsed > .tree-closer { display: none; }
+                    
+                    .collapsed-preview {
+                        color: #888;
+                        font-style: italic;
+                        margin: 0 4px;
+                        display: none;
+                    }
+
+                    .tree-collapsed .collapsed-preview { display: inline; }
+                    .tree-collapsed .tree-toggle { transform: rotate(-90deg); }
                 </style>
             </div>
 
@@ -231,21 +229,18 @@
     <script>
         function renderTree(obj, container) {
             container.innerHTML = '';
-            // Render top level items directly
-            if (typeof obj === 'object' && obj !== null) {
-                Object.keys(obj).forEach(k => {
-                    container.appendChild(createTreeItem(k, obj[k], false));
-                });
-            } else {
-                container.appendChild(createTreeItem('JSON', obj, true));
-            }
+            // Always wrap in a root object/array viewer to get the braces at the top/bottom
+            const root = createTreeItem(null, obj, true);
+            container.appendChild(root);
+            // Open root by default
+            root.classList.remove('tree-collapsed');
+            const t = root.querySelector('.tree-toggle');
+            if (t) t.textContent = '▾';
         }
 
         function createTreeItem(key, val, isRoot = false) {
             const wrap = document.createElement('div');
             wrap.className = 'tree-node';
-            
-            // Start collapsed by default
             wrap.classList.add('tree-collapsed');
 
             const isObject = typeof val === 'object' && val !== null;
@@ -255,33 +250,29 @@
             const header = document.createElement('div');
             header.className = 'header';
 
-            // Toggle Icon + or -
-            if (isObject) {
-                const toggle = document.createElement('span');
-                toggle.className = 'tree-toggle';
-                toggle.textContent = '+';
-                header.appendChild(toggle);
-            } else {
-                const spacer = document.createElement('span');
-                spacer.style.width = '24px'; 
-                header.appendChild(spacer);
+            // Toggle Icon
+            const toggle = document.createElement('span');
+            toggle.className = 'tree-toggle';
+            toggle.textContent = isObject ? '▾' : '';
+            header.appendChild(toggle);
+
+            // Key (if not root)
+            if (key !== null) {
+                const keySpan = document.createElement('span');
+                keySpan.className = 'tree-key';
+                keySpan.textContent = `"${key}"`;
+                header.appendChild(keySpan);
+
+                const sep = document.createElement('span');
+                sep.textContent = ': ';
+                header.appendChild(sep);
             }
 
-            // Key
-            const keySpan = document.createElement('span');
-            keySpan.className = 'tree-key';
-            keySpan.textContent = key;
-            header.appendChild(keySpan);
-
-            // Value preview (for primitives) or Brace (for objects)
+            // Value or Opening Brace
             if (!isObject) {
-                const sep = document.createElement('span');
-                sep.textContent = ' : ';
-                header.appendChild(sep);
-
                 const valSpan = document.createElement('span');
                 valSpan.className = `tree-val-${type}`;
-                valSpan.textContent = JSON.stringify(val);
+                valSpan.textContent = type === 'string' ? `"${val}"` : String(val);
                 header.appendChild(valSpan);
             } else {
                 const brace = document.createElement('span');
@@ -289,25 +280,16 @@
                 brace.textContent = isArray ? '[' : '{';
                 header.appendChild(brace);
 
-                // Show items count for objects/arrays when collapsed
-                const count = Object.keys(val).length;
-                const info = document.createElement('span');
-                info.className = 'collapsed-info';
-                info.style.color = 'var(--text-muted)';
-                info.style.fontSize = '0.8rem';
-                info.style.marginLeft = '8px';
-                info.textContent = isArray ? ` ... ${count} items ]` : ` ... ${count} keys }`;
-                header.appendChild(info);
+                const preview = document.createElement('span');
+                preview.className = 'collapsed-preview';
+                preview.textContent = ' ... ';
+                header.appendChild(preview);
 
-                // CSS trick to only show .collapsed-info when .tree-collapsed is active
-                const style = document.createElement('style');
-                if (!document.getElementById('tree-info-style')) {
-                    style.id = 'tree-info-style';
-                    style.innerHTML = `
-                        .tree-node:not(.tree-collapsed) .collapsed-info { display: none; }
-                        .tree-node.tree-collapsed .tree-closer { display: none; }
-                    `;
-                    document.head.appendChild(style);
+                if (isObject) {
+                    const cBrace = document.createElement('span');
+                    cBrace.className = 'tree-brace collapsed-preview';
+                    cBrace.textContent = isArray ? ' ]' : ' }';
+                    header.appendChild(cBrace);
                 }
             }
 
@@ -315,7 +297,8 @@
                 if (!isObject) return;
                 wrap.classList.toggle('tree-collapsed');
                 const t = header.querySelector('.tree-toggle');
-                if (t) t.textContent = wrap.classList.contains('tree-collapsed') ? '+' : '−';
+                if (t) t.textContent = wrap.classList.contains('tree-collapsed') ? '▾' : '▾'; 
+                // Using CSS rotate for collapsed state now
             };
 
             wrap.appendChild(header);
@@ -329,8 +312,12 @@
                 wrap.appendChild(body);
 
                 const closer = document.createElement('div');
-                closer.className = 'tree-closer';
-                closer.textContent = isArray ? ']' : '}';
+                closer.className = 'tree-node';
+                closer.style.paddingLeft = '20px'; // Align with toggle
+                const cBrace = document.createElement('span');
+                cBrace.className = 'tree-brace';
+                cBrace.textContent = isArray ? ']' : '}';
+                closer.appendChild(cBrace);
                 wrap.appendChild(closer);
             }
 
