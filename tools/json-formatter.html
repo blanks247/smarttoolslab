@@ -88,7 +88,7 @@
 
                 <style>
                     .json-viewer-simple {
-                        background: #1e1e1e; /* Dark theme like Postman */
+                        background: #1e1e1e;
                         color: #d4d4d4;
                         border: 1px solid var(--border-color);
                         border-radius: 12px;
@@ -107,9 +107,9 @@
                     }
 
                     .tree-item {
-                        margin-left: 20px;
+                        margin-left: 22px;
                         border-left: 1px solid rgba(255, 255, 255, 0.1);
-                        padding-left: 16px;
+                        padding-left: 18px;
                     }
 
                     .header {
@@ -127,18 +127,19 @@
                         display: inline-flex;
                         align-items: center;
                         justify-content: center;
-                        width: 14px;
-                        height: 14px;
-                        color: #888;
-                        margin-right: 6px;
+                        width: 20px; /* Increased from 14px */
+                        height: 20px;
+                        color: #ccc; /* Slightly brighter */
+                        margin-right: 4px;
                         cursor: pointer;
                         user-select: none;
-                        font-size: 10px;
+                        font-size: 13px; /* Increased from 10px */
                         transition: transform 0.1s;
+                        flex-shrink: 0;
                     }
 
-                    .tree-key { color: #9cdcfe; } /* Light blue for keys */
-                    .tree-val-string { color: #ce9178; } /* Warm orange for strings */
+                    .tree-key { color: #9cdcfe; }
+                    .tree-val-string { color: #ce9178; }
                     .tree-val-number { color: #b5cea8; }
                     .tree-val-bool { color: #ce9178; }
                     .tree-val-null { color: #569cd6; }
