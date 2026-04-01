@@ -103,9 +103,10 @@
             <a href="../index.html" class="logo">
                 <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
             </a>
-            <div class="nav-links">
+            <div class="nav-center">
                 <a href="../index.html#tools">All Tools</a>
-                <a href="../index.html#tools" class="nav-cta">🚀 More Tools</a>
+                <a href="../about.html">About</a>
+                <a href="../blog/index.html">Blog</a>
             </div>
         </nav>
     </header>
@@ -203,12 +204,54 @@
             </div>
 
             <div class="tool-box">
-                <h2>How to Convert Images to PDF (3 Easy Steps)</h2>
-                <ol style="padding-left:20px;color:var(--text-secondary);line-height:2.2;">
-                    <li>Upload one or more JPG, PNG, or WebP image files.</li>
-                    <li>Arrange the images in the order you want them in the PDF.</li>
-                    <li>Choose page size, click Convert, and download your PDF instantly.</li>
-                </ol>
+                <h2>Why Convert Images to PDF?</h2>
+                <p style="color:var(--text-secondary); margin-bottom:16px;">PDF is the universal standard for document sharing. Converting your images into a single PDF file makes them easier to print, email, and store while ensuring the layout remains consistent across all devices. Our tool is designed for speed and privacy, allowing you to combine multiple photos into a professional document instantly.</p>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-top:10px;">
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">🔄 Batch Processing</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Upload dozens of images at once and merge them into a single, organized PDF file.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">📐 Layout Control</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Choose from standard page sizes like A4, A3, and Letter, or fit the page to your image dimensions.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">🛡️ Privacy First</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Your images are never uploaded to a server. Everything happens in your browser for 100% security.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">🖼️ Modern Formats</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Full support for JPG, PNG, and next-gen WebP images with high-quality PDF output.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-box">
+                <h2>Common Use Cases for Image to PDF</h2>
+                <ul style="padding-left:20px; color:var(--text-secondary); line-height:1.8; list-style-type: disc;">
+                    <li><strong>Document Scanning:</strong> Convert photos of physical documents or receipts into a clean PDF for expense reports.</li>
+                    <li><strong>Portfolio Creation:</strong> Merging multiple design screenshots or photography samples into a single presentation file.</li>
+                    <li><strong>Academic Submissions:</strong> Combine multiple photos of handwritten notes or homework into a single document for upload.</li>
+                    <li><strong>eBook Drafting:</strong> Quickly assemble illustrated pages or comic strips into a readable digital format.</li>
+                </ul>
+            </div>
+
+            <div class="tool-box">
+                <h2>Frequently Asked Questions</h2>
+                <div style="display:flex;flex-direction:column;gap:20px;">
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">How many images can I upload?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">There is no hard limit! However, for best performance, we recommend uploading up to 50 images at a time.</p>
+                    </div>
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Will my image quality decrease?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">No. Our converter maintains the original resolution of your images within the PDF document.</p>
+                    </div>
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Is my data safe?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Yes! SmartToolsLab uses client-side processing. Your images stay on your computer and are never sent to our servers.</p>
+                    </div>
+                </div>
             </div>
         </main>
 
@@ -229,15 +272,12 @@
     </div>
 
     <footer class="site-footer">
-        <div class="footer-inner">
+        <div class="footer-inner" style="max-width:1200px; padding: 40px 24px;">
             <div class="footer-top">
-                <div class="footer-brand"><a href="../index.html" class="logo" style="margin-bottom:12px;">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo" style="margin-bottom:12px;">
                         <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
                     </a>
-                    <p>Free, fast, private online tools for everyone.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Tools</h4><a href="image-compressor.html">Image Compressor</a><a href="pdf-merge.html">PDF
                         Merge</a><a href="image-to-pdf.html">Image to PDF</a>
                 </div>
                 <div class="footer-col">
@@ -396,6 +436,42 @@
             document.getElementById('imageGrid').innerHTML = '';
         });
     </script>
+    <footer class="site-footer">
+        <div class="footer-inner" style="max-width:1200px; padding: 40px 24px;">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo" style="margin-bottom:12px;">
+                        <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
+                    </a>
+                    <p>Free, fast, and private online tools for everyone.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>About & Blog</h4>
+                    <a href="../about.html">About Us</a>
+                    <a href="../blog/index.html">Blog</a>
+                    <a href="../index.html#tools">All Tools</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Featured Tools</h4>
+                    <a href="image-compressor.html">Image Compressor</a>
+                    <a href="json-formatter.html">JSON Formatter</a>
+                    <a href="word-counter.html">Word Counter</a>
+                    <a href="pdf-merge.html">PDF Merge</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal & Contact</h4>
+                    <a href="../privacy.html">Privacy Policy</a>
+                    <a href="../terms.html">Terms of Use</a>
+                    <a href="../contact.html">Contact Us</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2024 SmartToolsLab</span>
+            <span>Premium Document Conversion Suite</span>
+        </div>
+    </footer>
 </body>
+</html>
 
 </html>

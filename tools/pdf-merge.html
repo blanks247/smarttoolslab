@@ -28,9 +28,10 @@
                 <div class="logo-icon">⚡</div>
                 Smart<span>Tools</span>Lab
             </a>
-            <div class="nav-links">
+            <div class="nav-center">
                 <a href="../index.html#tools">All Tools</a>
-                <a href="../index.html#tools" class="nav-cta">🚀 More Tools</a>
+                <a href="../about.html">About</a>
+                <a href="../blog/index.html">Blog</a>
             </div>
         </nav>
     </header>
@@ -109,27 +110,74 @@
                 </ol>
             </div>
 
+            <!-- Value Add Sections -->
+            <div class="tool-box">
+                <h2>Why Use SmartToolsLab for PDF Merging?</h2>
+                <p style="color:var(--text-secondary); margin-bottom:16px;">Merging PDF files shouldn't be complicated or risky. While many online tools require you to upload your sensitive documents to their servers, SmartToolsLab processes everything locally in your browser. This means your data never leaves your computer, providing the ultimate level of security and privacy.</p>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-top:10px;">
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">🔒 Privacy First</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Your documents are never uploaded to any server. We use client-side technology to join your files.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">⚡ Unlimited & Free</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">No daily limits, no file size restrictions, and no hidden costs. Join as many PDFs as you need.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">🛠️ Easy Reordering</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Simple drag-and-drop interface allows you to arrange your PDF pages exactly how you want them.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">🚀 Lightning Fast</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Processing happens instantly on your device, making it much faster than server-side alternatives.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-box">
+                <h2>Common Use Cases for PDF Merging</h2>
+                <ul style="padding-left:20px; color:var(--text-secondary); line-height:1.8; list-style-type: disc;">
+                    <li><strong>Academic Submissions:</strong> Combine multiple research papers, assignments, or certificates into a single portfolio for submission.</li>
+                    <li><strong>Business Reports:</strong> Merge monthly financial statements, project updates, and meeting notes into one comprehensive report.</li>
+                    <li><strong>Legal Documentation:</strong> Organize multiple legal contracts, addendums, and supporting evidence into a single, easy-to-manage file.</li>
+                    <li><strong>Real Estate:</strong> Combine property photos, inspection reports, and lease agreements into one package for clients.</li>
+                    <li><strong>eBooks and Guides:</strong> Assemble individual chapters or sections into a complete digital book or manual.</li>
+                </ul>
+            </div>
+
+            <div class="tool-box">
+                <h2>Technical Overview: How it Works</h2>
+                <p style="color:var(--text-secondary); font-size:0.9rem;">
+                    SmartToolsLab utilizes the powerful <a href="https://pdf-lib.js.org/" target="_blank" style="color:var(--accent); text-decoration:underline;">PDF-lib</a> library. When you select your files, our application reads them as binary data within your browser's memory. The merging process involves creating a new PDF document and copying each page from your source files into the new one. This approach ensures that your original files remain untouched and your private information is never transmitted over the internet.
+                </p>
+                <p style="color:var(--text-secondary); font-size:0.9rem; margin-top:12px;">
+                    This method is not only more secure but also significantly more efficient for large files, as there is no network overhead for uploading and downloading.
+                </p>
+            </div>
+
             <!-- FAQ -->
             <div class="tool-box">
                 <h2>Frequently Asked Questions</h2>
                 <div style="display:flex;flex-direction:column;gap:20px;">
                     <div>
-                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Is this PDF merge tool
-                            free?</p>
-                        <p style="color:var(--text-secondary);font-size:0.9rem;">Yes! 100% free, no signup, no
-                            watermarks, and no file size limits (within your browser's memory).</p>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Is this PDF merge tool free?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Yes! SmartToolsLab is 100% free. We don't require any registration, there are no hidden fees, and we never add watermarks to your merged documents.</p>
                     </div>
                     <div>
-                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Are my PDF files safe?
-                        </p>
-                        <p style="color:var(--text-secondary);font-size:0.9rem;">Absolutely. All processing happens in
-                            your browser using PDF-lib. Your files never leave your device.</p>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Are my PDF files safe?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Absolutely. Your safety is our priority. Since all processing happens in your browser, your files never leave your device. We don't have access to your data, and we don't store any copies on our servers.</p>
                     </div>
                     <div>
-                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">How many PDFs can I
-                            merge at once?</p>
-                        <p style="color:var(--text-secondary);font-size:0.9rem;">There's no set limit — you can merge as
-                            many PDFs as your browser memory allows.</p>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">How many PDFs can I merge at once?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Currently, we support merging two or more PDFs simultaneously. There is no hard-coded limit on the number of files, though very large numbers of files may be limited by your browser's available memory.</p>
+                    </div>
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Can I merge password-protected PDFs?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">At this time, we recommend removing passwords from your PDF files before merging. Our in-browser merging engine works best with standard, unprotected PDF documents.</p>
+                    </div>
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Does merging PDFs affect the quality?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">No, the quality remains exactly the same. Our tool copies the original pages directly, so there is no re-compression or loss of resolution in images or text.</p>
                     </div>
                 </div>
             </div>
@@ -162,16 +210,22 @@
     </div>
 
     <footer class="site-footer">
-        <div class="footer-inner">
+        <div class="footer-inner" style="max-width:1200px; padding: 40px 24px;">
             <div class="footer-top">
                 <div class="footer-brand">
                     <a href="../index.html" class="logo" style="margin-bottom:12px;">
                         <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
                     </a>
-                    <p>Free, fast, private online tools for everyone.</p>
+                    <p>Free, fast, and private online tools for everyone.</p>
                 </div>
                 <div class="footer-col">
-                    <h4>Tools</h4>
+                    <h4>About & Blog</h4>
+                    <a href="../about.html">About Us</a>
+                    <a href="../blog/index.html">Blog</a>
+                    <a href="../index.html#tools">All Tools</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Featured Tools</h4>
                     <a href="image-compressor.html">Image Compressor</a>
                     <a href="json-formatter.html">JSON Formatter</a>
                     <a href="word-counter.html">Word Counter</a>

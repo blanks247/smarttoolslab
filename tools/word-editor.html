@@ -136,9 +136,10 @@
             <a href="../index.html" class="logo">
                 <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
             </a>
-            <div class="nav-links">
+            <div class="nav-center">
                 <a href="../index.html#tools">All Tools</a>
-                <a href="../index.html#tools" class="nav-cta">🚀 More Tools</a>
+                <a href="../about.html">About</a>
+                <a href="../blog/index.html">Blog</a>
             </div>
         </nav>
     </header>
@@ -250,26 +251,53 @@
             </div>
 
             <div class="tool-box">
-                <h2>Keyboard Shortcuts</h2>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">
-                    <div style="font-size:0.85rem;color:var(--text-secondary);"><kbd
-                            style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+B</kbd>
-                        Bold</div>
-                    <div style="font-size:0.85rem;color:var(--text-secondary);"><kbd
-                            style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+I</kbd>
-                        Italic</div>
-                    <div style="font-size:0.85rem;color:var(--text-secondary);"><kbd
-                            style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+U</kbd>
-                        Underline</div>
-                    <div style="font-size:0.85rem;color:var(--text-secondary);"><kbd
-                            style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+Z</kbd>
-                        Undo</div>
-                    <div style="font-size:0.85rem;color:var(--text-secondary);"><kbd
-                            style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+Y</kbd>
-                        Redo</div>
-                    <div style="font-size:0.85rem;color:var(--text-secondary);"><kbd
-                            style="background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;">Ctrl+A</kbd>
-                        Select All</div>
+                <h2>Why Use Our Online Word Editor?</h2>
+                <p style="color:var(--text-secondary); margin-bottom:16px;">Sometimes you just need to make a quick edit to a document or draft a formal letter without opening heavy desktop software. Our online word editor provides a lightweight, browser-based environment with all the essential formatting tools you need to create professional-looking documents instantly.</p>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-top:10px;">
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">📄 .DOCX Support</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Import your existing Microsoft Word files directly into the editor for seamless web-based editing.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">🎨 Rich Formatting</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Full support for headings, lists, text alignments, colors, and font styles to make your text stand out.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">🛡️ Privacy Centric</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Your documents are never uploaded to a cloud. All editing happens locally on your machine for complete security.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">💾 Local Auto-Save</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Never lose your work! The editor automatically saves your progress to your browser's local storage.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-box">
+                <h2>Common Use Cases for Online Word Editing</h2>
+                <ul style="padding-left:20px; color:var(--text-secondary); line-height:1.8; list-style-type: disc;">
+                    <li><strong>Quick Letter Drafting:</strong> Write and format formal letters or memos without waiting for Word to load.</li>
+                    <li><strong>Content Writing:</strong> A distraction-free space for bloggers and copywriters to draft their next great piece.</li>
+                    <li><strong>Formatting Cleanup:</strong> Paste messy text from the web and use our 'Clear Format' tool to start fresh.</li>
+                    <li><strong>Cross-Platform Editing:</strong> Access a full-featured editor on Chromebooks, tablets, or any device with a browser.</li>
+                </ul>
+            </div>
+
+            <div class="tool-box">
+                <h2>Frequently Asked Questions</h2>
+                <div style="display:flex;flex-direction:column;gap:20px;">
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Can I open my Word files here?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Yes! Use the 'Import Document' section to load .docx files. We use Mammoth.js for high-fidelity conversion.</p>
+                    </div>
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Is my work saved automatically?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Yes, we use your browser's local storage to auto-save. If you refresh the page, your content will still be there.</p>
+                    </div>
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">What formats can I download?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">You can download your work as clean HTML or as a plain text (.txt) file for maximum compatibility.</p>
+                    </div>
                 </div>
             </div>
         </main>
@@ -291,16 +319,26 @@
     </div>
 
     <footer class="site-footer">
-        <div class="footer-inner">
+        <div class="footer-inner" style="max-width:1200px; padding: 40px 24px;">
             <div class="footer-top">
-                <div class="footer-brand"><a href="../index.html" class="logo" style="margin-bottom:12px;">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo" style="margin-bottom:12px;">
                         <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
                     </a>
-                    <p>Free, fast, private online tools.</p>
+                    <p>Free, fast, and private online tools for everyone.</p>
                 </div>
                 <div class="footer-col">
-                    <h4>Tools</h4><a href="word-editor.html">Word Editor</a><a href="word-counter.html">Word
-                        Counter</a><a href="resume-builder.html">Resume Builder</a>
+                    <h4>About & Blog</h4>
+                    <a href="../about.html">About Us</a>
+                    <a href="../blog/index.html">Blog</a>
+                    <a href="../index.html#tools">All Tools</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Featured Tools</h4>
+                    <a href="image-compressor.html">Image Compressor</a>
+                    <a href="json-formatter.html">JSON Formatter</a>
+                    <a href="word-counter.html">Word Counter</a>
+                    <a href="pdf-merge.html">PDF Merge</a>
                 </div>
                 <div class="footer-col">
                     <h4>Legal & Contact</h4>
@@ -310,8 +348,9 @@
                 </div>
             </div>
         </div>
-        <div class="footer-bottom"><span>© 2024 SmartToolsLab</span><span>Free online word editor — no signup</span>
-        </div>
+        <div class="footer-bottom">
+            <span>© 2024 SmartToolsLab</span>
+            <span>Premium Word Processing Suite</span>
         </div>
     </footer>
 

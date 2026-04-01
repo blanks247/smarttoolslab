@@ -145,9 +145,10 @@
             <a href="../index.html" class="logo">
                 <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
             </a>
-            <div class="nav-links">
+            <div class="nav-center">
                 <a href="../index.html#tools">All Tools</a>
-                <a href="../index.html#tools" class="nav-cta">🚀 More Tools</a>
+                <a href="../about.html">About</a>
+                <a href="../blog/index.html">Blog</a>
             </div>
         </nav>
     </header>
@@ -204,12 +205,55 @@
                 </div>
             </div>
 
-            <div class="tool-box" style="margin-top:20px;">
-                <h2>What is a Diff Checker?</h2>
-                <p style="color:var(--text-secondary);line-height:1.8;font-size:0.9rem;">A diff checker compares two
-                    versions of a text and highlights exactly what changed — which lines were added, removed, or
-                    modified. Developers use it to review code changes, writers use it to track document edits, and
-                    students use it to compare essay versions.</p>
+            <div class="tool-box">
+                <h2>Why Use Our Diff Checker?</h2>
+                <p style="color:var(--text-secondary); margin-bottom:16px;">Comparing code or long documents manually is prone to error and incredibly time-consuming. Our online diff checker automates this process by using advanced algorithms to identify exactly what has changed between two versions of text.</p>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-top:10px;">
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">🟢 Visual Highlighting</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Clear green and red accents make additions and deletions immediately obvious at a glance.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">↔️ Side-by-Side View</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">The split-screen layout helps you maintain context while reviewing specific changes.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">🛡️ Data Privacy</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Your sensitive code or documents never leave your browser. All processing is 100% client-side.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">⌨️ Developer Friendly</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Optimized for code snippets, JSON files, and technical documentation with support for large texts.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-box">
+                <h2>Common Use Cases for Diff Checking</h2>
+                <ul style="padding-left:20px; color:var(--text-secondary); line-height:1.8; list-style-type: disc;">
+                    <li><strong>Code Reviews:</strong> Quickly compare local changes before submitting a pull request.</li>
+                    <li><strong>Content Editing:</strong> Compare different versions of a blog post or essay to track revisions.</li>
+                    <li><strong>Config File Analysis:</strong> Find differences between local and production configuration files like <code>.env</code> or <code>nginx.conf</code>.</li>
+                    <li><strong>Contract Review:</strong> Identify subtle changes made to legal documents or terms of service.</li>
+                </ul>
+            </div>
+
+            <div class="tool-box">
+                <h2>Frequently Asked Questions</h2>
+                <div style="display:flex;flex-direction:column;gap:20px;">
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Is this diff checker free?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Yes, SmartToolsLab Diff Checker is 100% free with no registration required.</p>
+                    </div>
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">How large can the text be?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Our tool is optimized for efficiency. However, for extremely large files (above 5MB), your browser's memory will be the limit.</p>
+                    </div>
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Do you store my code?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">No. We value your privacy. All comparisons happen locally in your browser; your data is never uploaded to any server.</p>
+                    </div>
+                </div>
             </div>
         </main>
 
@@ -230,15 +274,12 @@
     </div>
 
     <footer class="site-footer">
-        <div class="footer-inner">
+        <div class="footer-inner" style="max-width:1200px; padding: 40px 24px;">
             <div class="footer-top">
-                <div class="footer-brand"><a href="../index.html" class="logo" style="margin-bottom:12px;">
+                <div class="footer-brand">
+                    <a href="../index.html" class="logo" style="margin-bottom:12px;">
                         <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
                     </a>
-                    <p>Free, fast, private online tools for everyone.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Tools</h4><a href="diff-checker.html">Diff Checker</a><a href="image-to-pdf.html">Image to
                         PDF</a><a href="word-editor.html">Word Editor</a><a href="resume-builder.html">Resume
                         Builder</a>
                 </div>
@@ -250,8 +291,9 @@
                 </div>
             </div>
         </div>
-        <div class="footer-bottom"><span>© 2024 SmartToolsLab</span><span>Free diff checker online — compare text
-                instantly</span></div>
+        <div class="footer-bottom">
+            <span>© 2024 SmartToolsLab</span>
+            <span>Premium Code Analysis Suite</span>
         </div>
     </footer>
 

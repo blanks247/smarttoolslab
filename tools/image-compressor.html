@@ -26,9 +26,13 @@
                 <div class="logo-icon">⚡</div>
                 Smart<span>Tools</span>Lab
             </a>
-            <div class="nav-links">
+            <div class="nav-center">
                 <a href="../index.html#tools">All Tools</a>
-                <a href="../index.html#tools" class="nav-cta">🚀 More Tools</a>
+                <a href="../about.html">About</a>
+                <a href="../blog/index.html">Blog</a>
+            </div>
+            <div class="nav-right">
+                <a href="../index.html#tools" class="nav-cta">🚀 Try Free</a>
             </div>
         </nav>
     </header>
@@ -183,27 +187,66 @@
                 </ol>
             </div>
 
+            <!-- Value Add Sections -->
+            <div class="tool-box">
+                <h2>Why Compress Your Images?</h2>
+                <p style="color:var(--text-secondary); margin-bottom:16px;">Large image files can significantly slow down your website, consume excessive storage, and make sharing difficult over email or messaging apps. SmartToolsLab provides a professional-grade image compression tool that balances file size and visual quality, ensuring your images look great while staying lightweight.</p>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-top:10px;">
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">🚀 Faster Loading</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Optimized images improve page load speed, which is crucial for better SEO and user experience.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">📱 Better Compatibility</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Easily meet the strict file size requirements of government forms (SSC, UPSC), job portals, and social media.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">💾 Save Storage</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Reduce the space your photo library takes up on your phone or cloud storage without losing precious details.</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size:14px; color:var(--fg); margin-bottom:8px;">🛡️ 100% Secure</h3>
+                        <p style="font-size:0.85rem; color:var(--text-secondary);">Your photos are never uploaded to any server. All compression happens right in your browser's memory.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-box">
+                <h2>Understanding Image Compression: Lossy vs Lossless</h2>
+                <p style="color:var(--text-secondary); font-size:0.9rem;">
+                    There are two main types of image compression: <strong>Lossy</strong> and <strong>Lossless</strong>. Our tool primarily uses lossy compression for JPG and WebP files, which intelligently removes data that the human eye can't easily perceive. This allows for massive reductions in file size (often up to 90%) with minimal impact on quality. For PNG files, we focus on optimizing the color palette and removing unnecessary metadata to maintain transparency while reducing weight.
+                </p>
+                <p style="color:var(--text-secondary); font-size:0.9rem; margin-top:12px;">
+                    By using the "Increase Quality" mode, you can minimize data loss for professional photos, while "Decrease Size" is optimized for web performance and form submissions.
+                </p>
+            </div>
+
+            <div class="tool-box">
+                <h2>Technical Insight: In-Browser Processing</h2>
+                <p style="color:var(--text-secondary); font-size:0.9rem;">
+                    SmartToolsLab leverages the <strong>Canvas API</strong> and the browser's native image rendering engine. When you upload an image, we draw it onto a hidden canvas element. Then, we use the <code>toBlob()</code> method with specific quality parameters to re-encode the image. This method is incredibly fast and ensures that your private photos never leave your device, making it one of the most secure ways to compress images online.
+                </p>
+            </div>
+
             <!-- FAQ / SEO Content -->
             <div class="tool-box">
                 <h2>Frequently Asked Questions</h2>
                 <div style="display:flex;flex-direction:column;gap:20px;">
                     <div>
-                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">How to compress image to
-                            50KB for SSC form?</p>
-                        <p style="color:var(--text-secondary);font-size:0.9rem;">Upload your photo, drag the quality
-                            slider to around 30–50%, and keep compressing until the file size badge shows below 50KB.
-                        </p>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">How to compress image to 50KB for SSC form?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Upload your photo, select "Decrease Size", and set the Max Width to around 800px. This usually brings most photos under the 50KB or 20KB limits required for government applications.</p>
                     </div>
                     <div>
-                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Is this image compressor
-                            free?</p>
-                        <p style="color:var(--text-secondary);font-size:0.9rem;">Yes, 100% free with no signup, no
-                            watermarks, and no file limits. All processing happens in your browser.</p>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Does this tool support bulk compression?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Currently, we focus on providing the highest quality per-image optimization. You can process images one by one very quickly. Bulk support is coming soon!</p>
                     </div>
                     <div>
                         <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">Are my images safe?</p>
-                        <p style="color:var(--text-secondary);font-size:0.9rem;">Absolutely. Your images never leave
-                            your device — everything is processed locally using the Canvas API.</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">Absolutely. Your safety is our priority. Since all processing happens locally in your browser, your files never leave your device. We don't store or see your images.</p>
+                    </div>
+                    <div>
+                        <p style="font-weight:700;color:var(--text-primary);margin-bottom:4px;">What image formats are supported?</p>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;">We support all major web formats, including JPG, JPEG, PNG, and WebP. You can even convert between formats by choosing your desired output settings.</p>
                     </div>
                 </div>
             </div>
@@ -251,21 +294,25 @@
 
     <!-- FOOTER -->
     <footer class="site-footer">
-        <div class="footer-inner">
+        <div class="footer-inner" style="max-width:1200px; padding: 40px 24px;">
             <div class="footer-top">
                 <div class="footer-brand">
                     <a href="../index.html" class="logo" style="margin-bottom:12px;">
-                        <div class="logo-icon">⚡</div>
-                        Smart<span>Tools</span>Lab
+                        <div class="logo-icon">⚡</div>Smart<span>Tools</span>Lab
                     </a>
                     <p>Free, fast, and private online tools for everyone.</p>
                 </div>
                 <div class="footer-col">
-                    <h4>Tools</h4>
-                    <a href="image-compressor.html">Image Compressor & Enhancer</a>
+                    <h4>About & Blog</h4>
+                    <a href="../about.html">About Us</a>
+                    <a href="../blog/index.html">Blog</a>
+                    <a href="../index.html#tools">All Tools</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Featured Tools</h4>
+                    <a href="image-compressor.html">Image Compressor</a>
                     <a href="json-formatter.html">JSON Formatter</a>
                     <a href="word-counter.html">Word Counter</a>
-                    <a href="qr-generator.html">QR Generator</a>
                     <a href="pdf-merge.html">PDF Merge</a>
                 </div>
                 <div class="footer-col">
@@ -278,8 +325,7 @@
         </div>
         <div class="footer-bottom">
             <span>© 2024 SmartToolsLab</span>
-            <span>Free image compressor & enhancer online — no signup, no limits</span>
-        </div>
+            <span>Premium Image Optimization Suite</span>
         </div>
     </footer>
 
